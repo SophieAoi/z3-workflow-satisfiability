@@ -83,7 +83,7 @@ For higher marks the group needs **three or more solution approaches** and **at 
 | # | Phase | Output | Status |
 |---|---|---|---|
 | 0 | **Foundations**: parser, `Instance` model, independent `check_plan` verifier, tests against all 160 instances and 122 reference plans | `wsp_solver.py`, `tests/` | ✅ done |
-| 1 | **Baseline: OR-Tools CP-SAT, Boolean encoding**. Variables $x_{s,u}$; `AddExactlyOne` per step; authorisation as fixed false variables; SoD $x_{a,u}+x_{b,u}\le1$; BoD $x_{a,u}=x_{b,u}$; at-most-k via $y_{T,u} \ge x_{s,u}$, $\sum_u y_{T,u}\le k$; one-team via team selectors $z_{c,i}$ with `AddExactlyOne`. Fill in `Solver()`. | sat/unsat plus a plan for examples 1–19 | ⬜ |
+| 1 | **Baseline: OR-Tools CP-SAT, Boolean encoding** (`CpSatBooleanModel`). Variables $x_{s,u}$ exist only for authorised pairs; `AddExactlyOne` per step; SoD $x_{a,u}+x_{b,u}\le1$; BoD $x_{a,u}=x_{b,u}$; one-team via team selectors $z_i$ with `AddExactlyOne`. At-most-k uses pairwise "same user" variables $m_{s,t}$ (see below). Every plan is re-checked with `check_plan` before it is returned. | all 179 instances solved correctly, max 5.5 s | ✅ done |
 | 2 | **Uniqueness check**: add a blocking clause $\bigvee_s \neg x_{s,\pi(s)}$ and solve again. If the result is SAT, other solutions exist. | correct `mul_sol` on examples 3, 5 and 7 (unique) | ⬜ |
 | 3 | **Approach 2: z3, integer encoding**. One `Int` variable $\pi_s \in [0,n)$ per step; SoD/BoD as `!=`/`==`; at-most-k via used-user Booleans; one-team via `Or` over teams. | second solver, selected through `kwargs` | ⬜ |
 | 4 | **Approach 3: z3, Boolean / pseudo-Boolean encoding** (`PbEq`, `AtMost`) and/or a CNF encoding (propositional logic, clausal form) | third solver | ⬜ |
@@ -91,6 +91,12 @@ For higher marks the group needs **three or more solution approaches** and **at 
 | 6 | **Extra constraint types** (extra marks): e.g. at-least-k, super-user/assignment-dependent, Wang–Li style. Extend the parser, all encodings and `check_plan`. Write our own test instances for them. | ≥ 6 constraint types, new instances | ⬜ |
 | 7 | **Benchmark harness**: run every approach on every instance, verify each plan with `check_plan`, record times to CSV, plot results | `results/`, report figures | ⬜ |
 | 8 | **Report** sections a–h; final single-file check; submit | PDF + `.py` | ⬜ |
+
+### Phase 1 finding: at-most-k encoding matters (report material)
+
+The first version encoded at-most-k with one indicator variable per user per constraint: $x_{s,u} \Rightarrow y_u$ and $\sum_u y_u \le k$. With 500 users this relaxes poorly. Examples 17 and 19 and most of `4-constraint-hard` hit a 20 s limit without an answer, and example16 took 17 s.
+
+The second version counts distinct users over **pairs of steps**. $m_{s,t} \Rightarrow \pi(s)=\pi(t)$. For $T = (t_1..t_m)$, $f_i \lor \bigvee_{j<i} m_{t_j,t_i}$ marks the steps that start a new user group, and $\sum f_i \le k$. Transitivity clauses are added within $T$. With this version every instance solves in 0.3–5.5 s. Running both encodings together was slower than the pairwise one alone. Both versions are worth keeping as alternative formulations in the report.
 
 ### Open questions for the convenor
 

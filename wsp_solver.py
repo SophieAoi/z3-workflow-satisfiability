@@ -14,10 +14,13 @@ converted back to 1-indexed names only when producing output.
 """
 from __future__ import annotations
 
+import itertools
 import re
 import sys
 from dataclasses import dataclass, field
 from time import time as currenttime
+
+from ortools.sat.python import cp_model
 
 # --------------------------------------------------------------------------- #
 # Instance model
@@ -161,21 +164,163 @@ def check_plan(inst: Instance, plan: list[int]) -> list[str]:
 # --------------------------------------------------------------------------- #
 
 
+class CpSatBooleanModel:
+    """Approach 1: OR-Tools CP-SAT with a Boolean (one-hot) encoding.
+
+    Decision variables: x[s, u] <=> pi(s) = u. A variable is only created for
+    authorised pairs, so the Authorisations constraint is enforced by omission
+    (unauthorised pairs are implicitly fixed to false).
+
+      Assignment   forall s:            ExactlyOne_u x[s,u]
+      SoD (a, b)   forall u:            x[a,u] + x[b,u] <= 1
+      BoD (a, b)   forall u:            x[a,u] == x[b,u]
+      At-most-k    pairwise "same user" vars m[s,t] over T; count the steps
+                   that start a new user group; that count <= k
+                   (see _add_at_most_k)
+      One-team     ExactlyOne_i z[i];   forall s in T, u in U_i: x[s,u] -> z[i]
+                   forall s in T, u in no team: x[s,u] = 0
+    """
+
+    def __init__(self, inst: Instance):
+        self.inst = inst
+        self.model = cp_model.CpModel()
+        m = self.model
+        self.x: dict[tuple[int, int], cp_model.IntVar] = {
+            (s, u): m.NewBoolVar(f"x_s{s+1}_u{u+1}")
+            for s in range(inst.n_steps)
+            for u in range(inst.n_users)
+            if inst.authorised(u, s)
+        }
+        # Users eligible for each step; an empty list makes ExactlyOne
+        # infeasible, which correctly reports unsat.
+        self.users_of: list[list[int]] = [[] for _ in range(inst.n_steps)]
+        for s, u in self.x:
+            self.users_of[s].append(u)
+        self.same: dict[tuple[int, int], cp_model.IntVar] = {}
+
+        for s in range(inst.n_steps):
+            m.AddExactlyOne(self.x[s, u] for u in self.users_of[s])
+        for a, b in inst.separation_of_duty:
+            self._add_sod(a, b)
+        for a, b in inst.binding_of_duty:
+            self._add_bod(a, b)
+        for i, (k, scope) in enumerate(inst.at_most_k):
+            self._add_at_most_k(i, k, scope)
+        for i, (scope, teams) in enumerate(inst.one_team):
+            self._add_one_team(i, scope, teams)
+
+    def _add_sod(self, a: int, b: int) -> None:
+        for u in set(self.users_of[a]) & set(self.users_of[b]):
+            self.model.AddAtMostOne(self.x[a, u], self.x[b, u])
+
+    def _add_bod(self, a: int, b: int) -> None:
+        ua, ub = set(self.users_of[a]), set(self.users_of[b])
+        for u in ua & ub:
+            self.model.Add(self.x[a, u] == self.x[b, u])
+        # A user eligible for only one of the two steps can never be chosen.
+        for s, u in [(a, u) for u in ua - ub] + [(b, u) for u in ub - ua]:
+            self.model.Add(self.x[s, u] == 0)
+
+    def _same_user(self, a: int, b: int) -> cp_model.IntVar:
+        """Boolean m[a,b] with  m[a,b] -> pi(a) = pi(b)  (created once per pair).
+
+        Encoded as  m & x[a,u] -> x[b,u]  in both directions. Only this
+        direction is needed for soundness: the solver is free to set m true
+        whenever the steps really do share a user, and setting it false only
+        over-counts distinct users, which can never admit an invalid plan.
+        """
+        a, b = min(a, b), max(a, b)
+        if (a, b) not in self.same:
+            m = self.model.NewBoolVar(f"same_s{a+1}_s{b+1}")
+            self.same[a, b] = m
+            for s, t in ((a, b), (b, a)):
+                eligible_t = set(self.users_of[t])
+                for u in self.users_of[s]:
+                    if u in eligible_t:
+                        self.model.AddBoolOr([m.Not(), self.x[s, u].Not(), self.x[t, u]])
+                    else:
+                        self.model.AddBoolOr([m.Not(), self.x[s, u].Not()])
+        return self.same[a, b]
+
+    def _add_at_most_k(self, idx: int, k: int, scope: tuple[int, ...]) -> None:
+        """Count distinct users in T via step pairs, not via users.
+
+        Order T as t_1..t_m. Let f_i mean "t_i starts a new user group", i.e.
+        no earlier t_j shares its user:   f_i  or  OR_{j<i} m[t_j, t_i].
+        Then  sum_i f_i <= k. Transitivity clauses on m within T tighten
+        propagation. With |T| = 5 this is O(|T|^2 * |U|) clauses instead of
+        one indicator per user, and it is far stronger in practice: the
+        user-indicator version timed out (>20s) on example17/19 and the
+        4-constraint-hard family, while this one solves them in ~1-2s.
+        """
+        scope = sorted(set(scope))
+        f = []
+        for i, t in enumerate(scope):
+            fi = self.model.NewBoolVar(f"amk{idx}_new_s{t+1}")
+            self.model.AddBoolOr([fi] + [self._same_user(scope[j], t) for j in range(i)])
+            f.append(fi)
+        for a, b, c in itertools.combinations(scope, 3):
+            ab, bc, ac = self._same_user(a, b), self._same_user(b, c), self._same_user(a, c)
+            for p, q, r in ((ab, bc, ac), (ab, ac, bc), (ac, bc, ab)):
+                self.model.AddBoolOr([p.Not(), q.Not(), r])
+        self.model.Add(sum(f) <= k)
+
+    def _add_one_team(self, idx, scope, teams) -> None:
+        z = [self.model.NewBoolVar(f"team{idx}_{i}") for i in range(len(teams))]
+        self.model.AddExactlyOne(z)
+        team_of = {u: i for i, team in enumerate(teams) for u in team}
+        for s in scope:
+            for u in self.users_of[s]:
+                if u in team_of:
+                    self.model.AddImplication(self.x[s, u], z[team_of[u]])
+                else:
+                    self.model.Add(self.x[s, u] == 0)
+
+    def extract_plan(self, solver: cp_model.CpSolver) -> list[int]:
+        return [
+            next(u for u in self.users_of[s] if solver.Value(self.x[s, u]))
+            for s in range(self.inst.n_steps)
+        ]
+
+
 def Solver(filename, **kwargs):
     """Solve the WSP instance in ``filename``.
+
+    Optional kwargs:
+      time_limit  seconds before CP-SAT gives up (default: none)
+      workers     CP-SAT search workers (default: 8)
 
     Returns a dict with keys (template contract):
       sat      'sat' | 'unsat'
       sol      list of 's<i>: u<j>' strings ('' when unsat)
       mul_sol  'other solutions exist' | 'this is the only solution' ('' when unsat)
-      exe_time '<n>ms'
+      exe_time '<n>ms'  (parse + build + solve)
     """
-    inst = read_instance(filename)
     starttime = int(currenttime() * 1000)
+    inst = read_instance(filename)
+    enc = CpSatBooleanModel(inst)
 
-    # TODO Phase 2+: build the model, solve, then re-solve with a blocking
-    # clause to decide uniqueness. Must return plan as list[int] (0-based).
-    raise NotImplementedError("Encoding not implemented yet - see README phases")
+    solver = cp_model.CpSolver()
+    solver.parameters.num_search_workers = kwargs.get("workers", 8)
+    if "time_limit" in kwargs:
+        solver.parameters.max_time_in_seconds = kwargs["time_limit"]
+    status = solver.Solve(enc.model)
+
+    d = dict(sat="unsat", sol="", mul_sol="", plan=None)
+    if status in (cp_model.OPTIMAL, cp_model.FEASIBLE):
+        plan = enc.extract_plan(solver)
+        # Defensive: never output a plan the independent checker rejects.
+        violations = check_plan(inst, plan)
+        assert not violations, f"encoding bug: {violations}"
+        d["sat"] = "sat"
+        d["plan"] = plan
+        d["sol"] = [f"s{s+1}: u{u+1}" for s, u in enumerate(plan)]
+        # TODO Phase 2: re-solve with a blocking clause to fill mul_sol.
+    elif status != cp_model.INFEASIBLE:
+        d["sat"] = "unknown"  # time limit hit before a verdict
+
+    d["exe_time"] = f"{int(currenttime() * 1000) - starttime}ms"
+    return d
 
 
 # Copied verbatim from the module's helper.py (CW2 Helper.ipynb).
