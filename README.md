@@ -6,111 +6,121 @@ COMP3070 Symbolic Artificial Intelligence, Coursework 2 (group, 30% of the modul
 
 ## The problem
 
-The **Workflow Satisfiability Problem (WSP)** comes from access control. An organisation runs a workflow made of **steps**, and each step must be done by a **user**. The task is to assign every step to a user so that:
+The **Workflow Satisfiability Problem (WSP)** comes from access control. You are given a set $U$ of users and a set $S$ of workflow steps. The task is to find a plan $\pi : S \to U$ that satisfies every constraint.
 
-- each user only does steps they are **authorised** for, and
-- every security **constraint** on the workflow holds.
+- Every step gets **exactly one** user.
+- A user may do several steps, or none.
 
-The solver either returns a valid assignment or reports that none exists (UNSAT).
+The solver reports **sat** with a plan, or **unsat**. For a sat instance it must also say whether the plan is **the only solution**.
 
-### Formal definition
+### Constraint types (Appendix 1)
 
-A WSP instance is a tuple $(S, U, A, C)$:
+| Constraint | File syntax | Requirement |
+|---|---|---|
+| **Authorisations** $(u, A)$ | `Authorisations u1 s1 s2` | $\pi(s) = u \Rightarrow s \in A$. A user with **no** Authorisations line may do **any** step. An empty list (`Authorisations u1`) means the user may do **no** steps. |
+| **Separation of duty** $(s', s'')$ | `Separation-of-duty s1 s2` | $\pi(s') \neq \pi(s'')$ |
+| **Binding of duty** $(s', s'')$ | `Binding-of-duty s1 s3` | $\pi(s') = \pi(s'')$ |
+| **At-most-k** $(k, T)$ | `At-most-k 2 s1 s2 s3` | $\lvert\{\pi(s) : s \in T\}\rvert \le k$ |
+| **One-team** $(T, U_1..U_r)$ | `One-team s1 s2 s4 (u1 u2) (u5 u7 u8) (u3)` | $\{\pi(s) : s \in T\} \subseteq U_i$ for some $i$. The teams are pairwise disjoint. |
 
-| Symbol | Meaning |
-|---|---|
-| $S = \{s_1,\dots,s_k\}$ | the workflow steps |
-| $U = \{u_1,\dots,u_n\}$ | the users |
-| $A \subseteq U \times S$ | authorisations: $(u, s) \in A$ means user $u$ may do step $s$ |
-| $C$ | the constraints |
+### Input format
 
-A **plan** is a function $\pi : S \to U$. It is **valid** if $(\pi(s), s) \in A$ for every step $s$ and $\pi$ satisfies every constraint in $C$.
+```
+#Steps: 3
+#Users: 4
+#Constraints: 6
+Authorisations u1 s1 s2
+...
+```
 
-### Common constraint types
+- Keywords are case-insensitive, and extra whitespace is ignored.
+- Steps and users are numbered from 1.
+- The provided files use CRLF line endings.
 
-These are the standard constraint types from the WSP literature and the labs. Check the instance format on Moodle for the exact syntax.
+### Output format
 
-| Constraint | Meaning |
-|---|---|
-| **Separation of duty** $(s_1, s_2)$ | $\pi(s_1) \neq \pi(s_2)$: different users must do the two steps |
-| **Binding of duty** $(s_1, s_2)$ | $\pi(s_1) = \pi(s_2)$: the same user must do both steps |
-| **At-most-k** $(k, T)$ | the steps in scope $T$ use at most $k$ distinct users |
-| **One-team** $(T, \{t_1,\dots,t_m\})$ | every step in $T$ goes to members of one team $t_i$ |
+The output must match the module's template and helper (`transform_output`):
 
-The coursework asks for **at least six constraint types** in the formulation. The four above cover the standard ones, so we still need extra ones such as at-least-k, super-user or wang-li style constraints, or our own.
+```
+sat
+s1: u3
+s2: u1
+s3: u3
+this is the only solution      # or: other solutions exist
+12ms
+```
+
+## Instance data (`instances/`)
+
+| Folder | Count | Notes |
+|---|---|---|
+| `examples/` | 19 | Appendix 1 examples, with no solution files. Expected sat/unique results are in `expected.csv`. Examples 1–8 are small (for debugging), 9–15 are medium (for testing) and 16–19 are large (for performance). |
+| `1-constraint-small`, `3-constraint-small`, `4-constraint-small`, `5-constraint-small` | 20 each | Tiny instances |
+| `3-constraint`, `4-constraint`, `5-constraint` | 20 each | Families with shared properties, suited to empirical analysis |
+| `4-constraint-hard` | 20 | 60 steps, 500 users: the stress tests |
+
+Every family folder holds `N.txt` with a matching `N-solution.txt`. A solution file is **one** valid plan, not necessarily the only one: two Moodle downloads gave different plans for the same instance. Tests must therefore **verify** our plan with `check_plan`, not compare it line by line with the solution file.
+
+> **Note:** the constraint-type ticks in the Appendix 1 table are not accurate. For example, example7 has no BoD or at-most-k constraints. `expected.csv` takes the type columns from the files themselves and the sat/unique columns from the appendix.
 
 ## What we hand in
 
-1. **Solver code in Python.** This is compulsory. z3, OR-Tools and similar libraries are allowed. Put everything in a **single `.py` file** if possible; otherwise zip the files.
-2. **Group report as a PDF.**
+1. **Solver**: `wsp_solver.py`, a **single file** that exposes `Solver(filename, **kwargs) -> dict`. It will also be run on **unseen** instances.
+2. **Group report** as a PDF, with sections a–h in order (see the marking table below). Write the group letter on it.
 
-Our solver will also be run on **unseen instances**, not just the examples we were given. It must finish with a solution whenever one exists.
-
-## How it is marked
+### Marking
 
 | Part | Weight | What counts |
 |---|---|---|
-| 1. Completeness and correctness | 30% | Solves instances correctly, including unseen ones; ≥ 6 constraint types; extra marks for further methods, alternative formulations and constraints |
-| 2. Quality and elegance | 20% | Clear, maintainable, documented, tested and efficient code; a compact, elegant mathematical formulation |
-| 3. Group report | 50% | Sections listed below, in that order |
+| 1. Completeness and correctness | 30% | Correct on unseen instances; terminates with a solution whenever one exists; "at least SIX constraint instances" (wording unclear, see open questions); extra marks for further methods, alternative formulations and constraints |
+| 2. Quality and elegance | 20% | Clear, documented, tested, efficient code; a compact mathematical formulation |
+| 3. Report | 50% | a) contents/novelty, b) formulations, c) alternative formulations and solutions, d) implementation (including **how uniqueness is detected**), e) evaluation with timings, f) discussion comparing approaches, g) conclusion, h) APA references |
 
-For extra marks the group should present **three or more solution approaches** and **at least two alternative formulations**, all fully worked out.
+For higher marks the group needs **three or more solution approaches** and **at least two alternative formulations**, all fully worked out.
 
-### Report structure (sections must appear in this order)
+## Implementation phases
 
-- **a) Report contents.** Introduce the solver and language. Cover functionality that doesn't always work, earlier research on the WSP, and what is new or extra in our work.
-- **b) Formulations and alternative formulations.** Give a full formulation for each constraint type in first-order logic, propositional logic, clausal form, or another suitable notation. Define any new notation. Explain why each formulation is correct and why we chose each API function.
-- **c) Alternative formulations and alternative solutions.**
-- **d) Implementation.** Explain how to run the solver and how it works, including **how it detects whether there are multiple solutions**. List known bugs.
-- **e) Evaluation.** Say whether each sample instance is solved correctly. Include timing and performance analysis.
-- **f) Discussion.** Analyse and compare the solutions and alternative solutions in detail. This section is mandatory.
-- **g) Conclusion.** Summarise what worked, the limitations, and what we would do with more time.
-- **h) References.** Use APA style.
+| # | Phase | Output | Status |
+|---|---|---|---|
+| 0 | **Foundations**: parser, `Instance` model, independent `check_plan` verifier, tests against all 160 instances and 122 reference plans | `wsp_solver.py`, `tests/` | ✅ done |
+| 1 | **Baseline: OR-Tools CP-SAT, Boolean encoding**. Variables $x_{s,u}$; `AddExactlyOne` per step; authorisation as fixed false variables; SoD $x_{a,u}+x_{b,u}\le1$; BoD $x_{a,u}=x_{b,u}$; at-most-k via $y_{T,u} \ge x_{s,u}$, $\sum_u y_{T,u}\le k$; one-team via team selectors $z_{c,i}$ with `AddExactlyOne`. Fill in `Solver()`. | sat/unsat plus a plan for examples 1–19 | ⬜ |
+| 2 | **Uniqueness check**: add a blocking clause $\bigvee_s \neg x_{s,\pi(s)}$ and solve again. If the result is SAT, other solutions exist. | correct `mul_sol` on examples 3, 5 and 7 (unique) | ⬜ |
+| 3 | **Approach 2: z3, integer encoding**. One `Int` variable $\pi_s \in [0,n)$ per step; SoD/BoD as `!=`/`==`; at-most-k via used-user Booleans; one-team via `Or` over teams. | second solver, selected through `kwargs` | ⬜ |
+| 4 | **Approach 3: z3, Boolean / pseudo-Boolean encoding** (`PbEq`, `AtMost`) and/or a CNF encoding (propositional logic, clausal form) | third solver | ⬜ |
+| 5 | **Efficiency**: drop users with no authorisations; merge users with identical authorisations when constraints are user-independent; symmetry breaking; solver parameters (workers, time limit) | faster runs on `4-constraint-hard` and examples 16–19 | ⬜ |
+| 6 | **Extra constraint types** (extra marks): e.g. at-least-k, super-user/assignment-dependent, Wang–Li style. Extend the parser, all encodings and `check_plan`. Write our own test instances for them. | ≥ 6 constraint types, new instances | ⬜ |
+| 7 | **Benchmark harness**: run every approach on every instance, verify each plan with `check_plan`, record times to CSV, plot results | `results/`, report figures | ⬜ |
+| 8 | **Report** sections a–h; final single-file check; submit | PDF + `.py` | ⬜ |
 
-Write the **group letter** (e.g. "Group B") on the report. Each member submits a Peer Assessment Factor form.
+### Open questions for the convenor
 
-## Candidate solution approaches
-
-These are possible routes to the three or more approaches and two or more alternative formulations:
-
-| Approach | Encoding idea |
-|---|---|
-| z3 SMT, integer encoding | one `Int` variable per step holding a user index; SoD/BoD written as `!=` / `==` |
-| z3 SAT, Boolean encoding | $x_{s,u}$ is true when step $s$ goes to user $u$; exactly-one per step via `PbEq`/`AtMost`; at-most-k via auxiliary "user used" variables |
-| z3 pseudo-Boolean / `Optimize` | same Boolean model with cardinality constraints; can also minimise the number of users |
-| OR-Tools CP-SAT | Boolean or integer model with `AddExactlyOne`, `AddAllDifferent` and similar |
-| User-independent / pattern-based | for UI constraints, search over partitions of the steps (Cohen et al., Karapetyan et al.) |
-
-**Multiple solutions:** after finding a model, add a blocking clause $\neg \bigwedge_s (\pi(s) = \text{model}(s))$ and solve again. If the result is SAT, the instance has more than one solution.
+- Does "Set at least SIX constraint instances" mean six constraint *types* (the appendix defines five, so we would need at least one extra) or six of our own test instance files? Doing both is the safe choice.
+- How is `Solver` called on unseen instances? We currently assume `Solver(path)` and the template dict format.
 
 ## Project layout
 
 ```
 .
-├── README.md
-├── requirements.txt   # z3-solver, ortools, pytest
-├── instances/         # sample and custom WSP instance files
+├── wsp_solver.py      # the single-file submission (parser, checker, solvers, output)
 ├── tests/             # pytest tests
-└── docs/              # report drafts, figures, timing results
+├── instances/         # all instance families plus examples/expected.csv
+├── docs/              # report drafts, figures
+├── requirements.txt
+└── pytest.ini
 ```
 
-## Setup
-
-You need Python 3.10 or later; we develop on 3.11.
+## Setup and usage
 
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
+
+pytest                                               # run tests
+python wsp_solver.py instances/examples/example3.txt # solve one instance (after Phase 1)
 ```
 
-Check that the install worked:
-
-```bash
-python -c "import z3, ortools; print('z3', z3.get_version_string(), '| ortools', ortools.__version__)"
-```
-
-## Useful references
+## References
 
 - Wang, Q., & Li, N. (2010). Satisfiability and resiliency in workflow authorization systems. *ACM Transactions on Information and System Security, 13*(4).
 - Cohen, D., Crampton, J., Gagarin, A., Gutin, G., & Jones, M. (2014). Iterative plan construction for the workflow satisfiability problem. *Journal of Artificial Intelligence Research, 51*, 555–577.
