@@ -85,7 +85,7 @@ For higher marks the group needs **three or more solution approaches** and **at 
 | 0 | **Foundations**: parser, `Instance` model, independent `check_plan` verifier, tests against all 160 instances and 122 reference plans | `wsp_solver.py`, `tests/` | ✅ done |
 | 1 | **Baseline: OR-Tools CP-SAT, Boolean encoding** (`CpSatBooleanModel`). Variables $x_{s,u}$ exist only for authorised pairs; `AddExactlyOne` per step; SoD $x_{a,u}+x_{b,u}\le1$; BoD $x_{a,u}=x_{b,u}$; one-team via team selectors $z_i$ with `AddExactlyOne`. At-most-k uses pairwise "same user" variables $m_{s,t}$ (see below). Every plan is re-checked with `check_plan` before it is returned. | all 179 instances solved correctly, max 5.5 s | ✅ done |
 | 2 | **Uniqueness check**: add a blocking clause $\bigvee_s \neg x_{s,\pi(s)}$ to the same model and solve again. SAT means other solutions exist (the second plan is also checked); UNSAT proves the plan is unique. Only the $x$ variables are blocked; auxiliary variables are not. Tested against the appendix (examples 3, 5 and 7 unique) and against brute-force solution counts on all 88 small instances. | 6 unique / 88 multiple, all correct | ✅ done |
-| 3 | **Approach 2: z3, integer encoding**. One `Int` variable $\pi_s \in [0,n)$ per step; SoD/BoD as `!=`/`==`; at-most-k via used-user Booleans; one-team via `Or` over teams. | second solver, selected through `kwargs` | ⬜ |
+| 3 | **Approach 2: z3, integer encoding** (`Z3IntegerModel`, `method="z3-int"`). One `Int` variable $\pi_s \in [0,n)$ per step. Authorisation is $\bigvee_{u \in A^{-1}(s)} \pi_s = u$; SoD and BoD are `!=` and `==`; at-most-k is $\sum_i [\bigwedge_{j<i} \pi_{t_j} \ne \pi_{t_i}] \le k$; one-team is $\bigvee_i \bigwedge_{s\in T} \pi_s \in U_i$. Uniqueness is blocked with $\bigvee_s \pi_s \ne \pi^*(s)$. | correct everywhere it finishes; too slow on example17/19 and `4-constraint-hard` | ✅ done |
 | 4 | **Approach 3: z3, Boolean / pseudo-Boolean encoding** (`PbEq`, `AtMost`) and/or a CNF encoding (propositional logic, clausal form) | third solver | ⬜ |
 | 5 | **Efficiency**: drop users with no authorisations; merge users with identical authorisations when constraints are user-independent; symmetry breaking; solver parameters (workers, time limit) | faster runs on `4-constraint-hard` and examples 16–19 | ⬜ |
 | 6 | **Extra constraint types** (extra marks): e.g. at-least-k, super-user/assignment-dependent, Wang–Li style. Extend the parser, all encodings and `check_plan`. Write our own test instances for them. | ≥ 6 constraint types, new instances | ⬜ |
@@ -97,6 +97,20 @@ For higher marks the group needs **three or more solution approaches** and **at 
 The first version encoded at-most-k with one indicator variable per user per constraint: $x_{s,u} \Rightarrow y_u$ and $\sum_u y_u \le k$. With 500 users this relaxes poorly. Examples 17 and 19 and most of `4-constraint-hard` hit a 20 s limit without an answer, and example16 took 17 s.
 
 The second version counts distinct users over **pairs of steps**. $m_{s,t} \Rightarrow \pi(s)=\pi(t)$. For $T = (t_1..t_m)$, $f_i \lor \bigvee_{j<i} m_{t_j,t_i}$ marks the steps that start a new user group, and $\sum f_i \le k$. Transitivity clauses are added within $T$. With this version every instance solves in 0.3–5.5 s. Running both encodings together was slower than the pairwise one alone. Both versions are worth keeping as alternative formulations in the report.
+
+### Phase 3 finding: the direct integer model is the most readable but the slowest
+
+`z3-int` is almost a word-for-word copy of the Appendix 1 definitions. It is correct on everything it finishes (examples 1–16 and 18, and all families except `4-constraint-hard`), and it agrees with brute force on all 88 small instances. On the large instances it is much slower than CP-SAT:
+
+| Instance | cp-sat | z3-int (default) | z3 `QF_FD` | z3 `QF_LIA` | z3 enum sort | z3 bit-vector |
+|---|---|---|---|---|---|---|
+| example16 (sat) | 1.2 s | 3.4–7 s | 25 s | 3.9 s | 6.2 s | 10.6 s |
+| example17 (sat) | 0.3 s | >60 s | 3.1 s | 32 s | >60 s | 34 s |
+| example18 (unsat) | <1 s | 8.3 s | – | – | – | – |
+| example19 (unsat) | 1.3 s | >60 s | >60 s | >60 s | >60 s | >60 s |
+| 4-constraint-hard/0 | 1.2 s | >60 s | >60 s (56 s with implied constraint) | >60 s | >60 s | >60 s |
+
+We tried other z3 logics, user domains (enumerated sort, bit-vectors) and an implied constraint ($\ge |T|-k$ equal pairs per at-most-k scope). None fixed the hard cases consistently. A likely explanation for the report is that each $\pi_a \ne \pi_b$ becomes a case split ($<$ or $>$) in arithmetic, whereas CP-SAT's one-hot model propagates SoD and authorisation directly at the Boolean level. Phase 4 (z3 Boolean/PB) tests this. The cp-sat timings in this table come from separate runs, so treat them as indicative until the phase 7 benchmark.
 
 ### Open questions for the convenor
 
@@ -123,7 +137,8 @@ source .venv/bin/activate
 pip install -r requirements.txt
 
 pytest                                               # run tests
-python wsp_solver.py instances/examples/example3.txt # solve one instance (after Phase 1)
+python wsp_solver.py instances/examples/example3.txt          # default: cp-sat
+python wsp_solver.py instances/examples/example3.txt z3-int   # alternative method
 ```
 
 ## References

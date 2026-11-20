@@ -434,6 +434,8 @@ def transform_output(d):
 
 
 if __name__ == "__main__":
+    # Usage: python wsp_solver.py [instance_file] [method]
     dpath = sys.argv[1] if len(sys.argv) > 1 else "instances/examples/example3.txt"
-    d = Solver(dpath, silent=False)
+    method = sys.argv[2] if len(sys.argv) > 2 else "cp-sat"
+    d = Solver(dpath, method=method, silent=False)
     print(transform_output(d))
