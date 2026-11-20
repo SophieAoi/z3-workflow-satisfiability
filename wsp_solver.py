@@ -165,33 +165,33 @@ def check_plan(inst: Instance, plan: list[int]) -> list[str]:
 # --------------------------------------------------------------------------- #
 
 
-class CpSatBooleanModel:
-    """Approach 1: OR-Tools CP-SAT with a Boolean (one-hot) encoding.
+class BooleanEncoding:
+    """One-hot (Boolean) encoding of the WSP, written once and shared by the
+    CP-SAT backend (approach 1) and the z3 backend (approach 3).
 
     Decision variables: x[s, u] <=> pi(s) = u. A variable is only created for
     authorised pairs, so the Authorisations constraint is enforced by omission
     (unauthorised pairs are implicitly fixed to false).
 
       Assignment   forall s:            ExactlyOne_u x[s,u]
-      SoD (a, b)   forall u:            x[a,u] + x[b,u] <= 1
+      SoD (a, b)   forall u:            not x[a,u] or not x[b,u]
       BoD (a, b)   forall u:            x[a,u] == x[b,u]
       At-most-k    pairwise "same user" vars m[s,t] over T; count the steps
                    that start a new user group; that count <= k
                    (see _add_at_most_k)
       One-team     ExactlyOne_i z[i];   forall s in T, u in U_i: x[s,u] -> z[i]
-                   forall s in T, u in no team: x[s,u] = 0
+                   forall s in T, u in no team: not x[s,u]
+
+    Subclasses supply the solver-specific primitives (``_new_bool``, ``_neg``,
+    ``_clause``, ``_exactly_one``, ``_at_most``, ``_equal``) plus ``_value``
+    and ``_check``. Everything below is therefore pure propositional logic
+    with cardinality constraints, independent of the solver.
     """
 
-    def __init__(self, inst: Instance, time_limit=None, workers=8, **_):
+    def __init__(self, inst: Instance):
         self.inst = inst
-        self.model = cp_model.CpModel()
-        self.solver = cp_model.CpSolver()
-        self.solver.parameters.num_search_workers = workers
-        if time_limit is not None:
-            self.solver.parameters.max_time_in_seconds = time_limit
-        m = self.model
-        self.x: dict[tuple[int, int], cp_model.IntVar] = {
-            (s, u): m.NewBoolVar(f"x_s{s+1}_u{u+1}")
+        self.x = {
+            (s, u): self._new_bool(f"x_s{s+1}_u{u+1}")
             for s in range(inst.n_steps)
             for u in range(inst.n_users)
             if inst.authorised(u, s)
@@ -201,10 +201,10 @@ class CpSatBooleanModel:
         self.users_of: list[list[int]] = [[] for _ in range(inst.n_steps)]
         for s, u in self.x:
             self.users_of[s].append(u)
-        self.same: dict[tuple[int, int], cp_model.IntVar] = {}
+        self.same: dict[tuple[int, int], object] = {}
 
         for s in range(inst.n_steps):
-            m.AddExactlyOne(self.x[s, u] for u in self.users_of[s])
+            self._exactly_one([self.x[s, u] for u in self.users_of[s]])
         for a, b in inst.separation_of_duty:
             self._add_sod(a, b)
         for a, b in inst.binding_of_duty:
@@ -214,19 +214,21 @@ class CpSatBooleanModel:
         for i, (scope, teams) in enumerate(inst.one_team):
             self._add_one_team(i, scope, teams)
 
+    # -- constraint encodings ------------------------------------------------
+
     def _add_sod(self, a: int, b: int) -> None:
         for u in set(self.users_of[a]) & set(self.users_of[b]):
-            self.model.AddAtMostOne(self.x[a, u], self.x[b, u])
+            self._clause([self._neg(self.x[a, u]), self._neg(self.x[b, u])])
 
     def _add_bod(self, a: int, b: int) -> None:
         ua, ub = set(self.users_of[a]), set(self.users_of[b])
         for u in ua & ub:
-            self.model.Add(self.x[a, u] == self.x[b, u])
+            self._equal(self.x[a, u], self.x[b, u])
         # A user eligible for only one of the two steps can never be chosen.
         for s, u in [(a, u) for u in ua - ub] + [(b, u) for u in ub - ua]:
-            self.model.Add(self.x[s, u] == 0)
+            self._clause([self._neg(self.x[s, u])])
 
-    def _same_user(self, a: int, b: int) -> cp_model.IntVar:
+    def _same_user(self, a: int, b: int):
         """Boolean m[a,b] with  m[a,b] -> pi(a) = pi(b)  (created once per pair).
 
         Encoded as  m & x[a,u] -> x[b,u]  in both directions. Only this
@@ -236,15 +238,15 @@ class CpSatBooleanModel:
         """
         a, b = min(a, b), max(a, b)
         if (a, b) not in self.same:
-            m = self.model.NewBoolVar(f"same_s{a+1}_s{b+1}")
+            m = self._new_bool(f"same_s{a+1}_s{b+1}")
             self.same[a, b] = m
             for s, t in ((a, b), (b, a)):
                 eligible_t = set(self.users_of[t])
                 for u in self.users_of[s]:
                     if u in eligible_t:
-                        self.model.AddBoolOr([m.Not(), self.x[s, u].Not(), self.x[t, u]])
+                        self._clause([self._neg(m), self._neg(self.x[s, u]), self.x[t, u]])
                     else:
-                        self.model.AddBoolOr([m.Not(), self.x[s, u].Not()])
+                        self._clause([self._neg(m), self._neg(self.x[s, u])])
         return self.same[a, b]
 
     def _add_at_most_k(self, idx: int, k: int, scope: tuple[int, ...]) -> None:
@@ -252,7 +254,7 @@ class CpSatBooleanModel:
 
         Order T as t_1..t_m. Let f_i mean "t_i starts a new user group", i.e.
         no earlier t_j shares its user:   f_i  or  OR_{j<i} m[t_j, t_i].
-        Then  sum_i f_i <= k. Transitivity clauses on m within T tighten
+        Then  AtMost_k(f_1..f_m). Transitivity clauses on m within T tighten
         propagation. With |T| = 5 this is O(|T|^2 * |U|) clauses instead of
         one indicator per user, and it is far stronger in practice: the
         user-indicator version timed out (>20s) on example17/19 and the
@@ -261,35 +263,37 @@ class CpSatBooleanModel:
         scope = sorted(set(scope))
         f = []
         for i, t in enumerate(scope):
-            fi = self.model.NewBoolVar(f"amk{idx}_new_s{t+1}")
-            self.model.AddBoolOr([fi] + [self._same_user(scope[j], t) for j in range(i)])
+            fi = self._new_bool(f"amk{idx}_new_s{t+1}")
+            self._clause([fi] + [self._same_user(scope[j], t) for j in range(i)])
             f.append(fi)
         for a, b, c in itertools.combinations(scope, 3):
             ab, bc, ac = self._same_user(a, b), self._same_user(b, c), self._same_user(a, c)
             for p, q, r in ((ab, bc, ac), (ab, ac, bc), (ac, bc, ab)):
-                self.model.AddBoolOr([p.Not(), q.Not(), r])
-        self.model.Add(sum(f) <= k)
+                self._clause([self._neg(p), self._neg(q), r])
+        self._at_most(f, k)
 
     def _add_one_team(self, idx, scope, teams) -> None:
-        z = [self.model.NewBoolVar(f"team{idx}_{i}") for i in range(len(teams))]
-        self.model.AddExactlyOne(z)
+        z = [self._new_bool(f"team{idx}_{i}") for i in range(len(teams))]
+        self._exactly_one(z)
         team_of = {u: i for i, team in enumerate(teams) for u in team}
         for s in scope:
             for u in self.users_of[s]:
                 if u in team_of:
-                    self.model.AddImplication(self.x[s, u], z[team_of[u]])
+                    self._clause([self._neg(self.x[s, u]), z[team_of[u]]])
                 else:
-                    self.model.Add(self.x[s, u] == 0)
+                    self._clause([self._neg(self.x[s, u])])
+
+    # -- solving -------------------------------------------------------------
 
     def solve(self) -> tuple[str, list[int] | None]:
-        status = self.solver.Solve(self.model)
-        if status in (cp_model.OPTIMAL, cp_model.FEASIBLE):
-            plan = [
-                next(u for u in self.users_of[s] if self.solver.Value(self.x[s, u]))
-                for s in range(self.inst.n_steps)
-            ]
-            return "sat", plan
-        return ("unsat" if status == cp_model.INFEASIBLE else "unknown"), None
+        status = self._check()
+        if status != "sat":
+            return status, None
+        plan = [
+            next(u for u in self.users_of[s] if self._value(self.x[s, u]))
+            for s in range(self.inst.n_steps)
+        ]
+        return "sat", plan
 
     def block_plan(self, plan: list[int]) -> None:
         """Forbid exactly this plan:  OR_s  not x[s, plan[s]].
@@ -299,7 +303,96 @@ class CpSatBooleanModel:
         blocking them as well could wrongly rule out the same plan with
         different auxiliary values, or miss a genuinely different plan.
         """
-        self.model.AddBoolOr([self.x[s, u].Not() for s, u in enumerate(plan)])
+        self._clause([self._neg(self.x[s, u]) for s, u in enumerate(plan)])
+
+
+class CpSatBooleanModel(BooleanEncoding):
+    """Approach 1: the Boolean encoding solved by OR-Tools CP-SAT."""
+
+    def __init__(self, inst: Instance, time_limit=None, workers=8, **_):
+        self.model = cp_model.CpModel()
+        self.solver = cp_model.CpSolver()
+        self.solver.parameters.num_search_workers = workers
+        if time_limit is not None:
+            self.solver.parameters.max_time_in_seconds = time_limit
+        super().__init__(inst)
+
+    def _new_bool(self, name):
+        return self.model.NewBoolVar(name)
+
+    def _neg(self, lit):
+        return lit.Not()
+
+    def _clause(self, lits):
+        self.model.AddBoolOr(lits)
+
+    def _exactly_one(self, lits):
+        self.model.AddExactlyOne(lits)
+
+    def _at_most(self, lits, k):
+        self.model.Add(sum(lits) <= k)
+
+    def _equal(self, a, b):
+        self.model.Add(a == b)
+
+    def _check(self) -> str:
+        status = self.solver.Solve(self.model)
+        if status in (cp_model.OPTIMAL, cp_model.FEASIBLE):
+            return "sat"
+        return "unsat" if status == cp_model.INFEASIBLE else "unknown"
+
+    def _value(self, lit) -> bool:
+        return bool(self.solver.Value(lit))
+
+
+class Z3BooleanModel(BooleanEncoding):
+    """Approach 3: the same Boolean encoding solved by z3.
+
+    Cardinality constraints use z3's native pseudo-Boolean atoms
+    (``PbEq``/``AtMost``) rather than arithmetic over 0/1 integers, so the
+    whole problem stays propositional. ``logic`` selects the z3 solver:
+    'QF_FD' (finite-domain: SAT core with native cardinality handling) by
+    default, or None for z3's general-purpose solver.
+    """
+
+    def __init__(self, inst: Instance, time_limit=None, logic="QF_FD", **_):
+        self.solver = z3.SolverFor(logic) if logic else z3.Solver()
+        if time_limit is not None:
+            self.solver.set("timeout", int(time_limit * 1000))
+        self._model = None
+        super().__init__(inst)
+
+    def _new_bool(self, name):
+        return z3.Bool(name)
+
+    def _neg(self, lit):
+        return z3.Not(lit)
+
+    def _clause(self, lits):
+        self.solver.add(z3.Or(lits))  # Or([]) is False
+
+    def _exactly_one(self, lits):
+        if not lits:
+            self.solver.add(z3.BoolVal(False))
+        else:
+            self.solver.add(z3.PbEq([(l, 1) for l in lits], 1))
+
+    def _at_most(self, lits, k):
+        if len(lits) > k:
+            self.solver.add(z3.AtMost(*lits, k))
+
+    def _equal(self, a, b):
+        self.solver.add(a == b)
+
+    def _check(self) -> str:
+        result = self.solver.check()
+        self._model = self.solver.model() if result == z3.sat else None
+        if result == z3.sat:
+            return "sat"
+        return "unsat" if result == z3.unsat else "unknown"
+
+    def _value(self, lit) -> bool:
+        return z3.is_true(self._model.eval(lit, model_completion=True))
 
 
 class Z3IntegerModel:
@@ -369,6 +462,7 @@ class Z3IntegerModel:
 METHODS = {
     "cp-sat": CpSatBooleanModel,
     "z3-int": Z3IntegerModel,
+    "z3-bool": Z3BooleanModel,
 }
 MULTIPLE = "other solutions exist"
 UNIQUE = "this is the only solution"

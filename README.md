@@ -86,7 +86,7 @@ For higher marks the group needs **three or more solution approaches** and **at 
 | 1 | **Baseline: OR-Tools CP-SAT, Boolean encoding** (`CpSatBooleanModel`). Variables $x_{s,u}$ exist only for authorised pairs; `AddExactlyOne` per step; SoD $x_{a,u}+x_{b,u}\le1$; BoD $x_{a,u}=x_{b,u}$; one-team via team selectors $z_i$ with `AddExactlyOne`. At-most-k uses pairwise "same user" variables $m_{s,t}$ (see below). Every plan is re-checked with `check_plan` before it is returned. | all 179 instances solved correctly, max 5.5 s | ✅ done |
 | 2 | **Uniqueness check**: add a blocking clause $\bigvee_s \neg x_{s,\pi(s)}$ to the same model and solve again. SAT means other solutions exist (the second plan is also checked); UNSAT proves the plan is unique. Only the $x$ variables are blocked; auxiliary variables are not. Tested against the appendix (examples 3, 5 and 7 unique) and against brute-force solution counts on all 88 small instances. | 6 unique / 88 multiple, all correct | ✅ done |
 | 3 | **Approach 2: z3, integer encoding** (`Z3IntegerModel`, `method="z3-int"`). One `Int` variable $\pi_s \in [0,n)$ per step. Authorisation is $\bigvee_{u \in A^{-1}(s)} \pi_s = u$; SoD and BoD are `!=` and `==`; at-most-k is $\sum_i [\bigwedge_{j<i} \pi_{t_j} \ne \pi_{t_i}] \le k$; one-team is $\bigvee_i \bigwedge_{s\in T} \pi_s \in U_i$. Uniqueness is blocked with $\bigvee_s \pi_s \ne \pi^*(s)$. | correct everywhere it finishes; too slow on example17/19 and `4-constraint-hard` | ✅ done |
-| 4 | **Approach 3: z3, Boolean / pseudo-Boolean encoding** (`PbEq`, `AtMost`) and/or a CNF encoding (propositional logic, clausal form) | third solver | ⬜ |
+| 4 | **Approach 3: z3, Boolean / pseudo-Boolean encoding** (`Z3BooleanModel`, `method="z3-bool"`). The one-hot encoding is now written once in `BooleanEncoding` as clauses plus ExactlyOne/AtMost-k. Two backends supply the primitives: CP-SAT (`AddBoolOr`, `AddExactlyOne`) and z3 (`Or`, `PbEq`, `AtMost` on the `QF_FD` solver). | solves every instance that defeated `z3-int` | ✅ done |
 | 5 | **Efficiency**: drop users with no authorisations; merge users with identical authorisations when constraints are user-independent; symmetry breaking; solver parameters (workers, time limit) | faster runs on `4-constraint-hard` and examples 16–19 | ⬜ |
 | 6 | **Extra constraint types** (extra marks): e.g. at-least-k, super-user/assignment-dependent, Wang–Li style. Extend the parser, all encodings and `check_plan`. Write our own test instances for them. | ≥ 6 constraint types, new instances | ⬜ |
 | 7 | **Benchmark harness**: run every approach on every instance, verify each plan with `check_plan`, record times to CSV, plot results | `results/`, report figures | ⬜ |
@@ -111,6 +111,25 @@ The second version counts distinct users over **pairs of steps**. $m_{s,t} \Righ
 | 4-constraint-hard/0 | 1.2 s | >60 s | >60 s (56 s with implied constraint) | >60 s | >60 s | >60 s |
 
 We tried other z3 logics, user domains (enumerated sort, bit-vectors) and an implied constraint ($\ge |T|-k$ equal pairs per at-most-k scope). None fixed the hard cases consistently. A likely explanation for the report is that each $\pi_a \ne \pi_b$ becomes a case split ($<$ or $>$) in arithmetic, whereas CP-SAT's one-hot model propagates SoD and authorisation directly at the Boolean level. Phase 4 (z3 Boolean/PB) tests this. The cp-sat timings in this table come from separate runs, so treat them as indicative until the phase 7 benchmark.
+
+### Phase 4 finding: the encoding matters more than the solver
+
+The same z3 engine with the one-hot Boolean encoding solves every instance on which the integer encoding timed out. This supports the phase 3 explanation that the integer encoding was the bottleneck, not z3 itself. Times include the uniqueness re-solve, with a 60 s limit per call:
+
+| Instance | z3-int | z3-bool `QF_FD` | z3-bool default solver |
+|---|---|---|---|
+| example16 (sat) | 9.7 s | 22.4 s | 87.7 s |
+| example17 (sat) | >60 s | 0.9 s | 1.5 s |
+| example18 (unsat) | 4.3 s | 2.6 s | 2.9 s |
+| example19 (unsat) | >60 s | 3.8 s | 8.2 s |
+| 4-constraint-hard/0 (sat) | >60 s | 2.5 s | 12.1 s |
+| 4-constraint-hard/1 (unsat) | >60 s | 4.7 s | 12.1 s |
+| 4-constraint-hard/2 (sat) | >60 s | 3.5 s | 36.8 s |
+| 4-constraint-hard/18 (unsat) | >60 s | 10.3 s | 25.2 s |
+
+- `QF_FD` beats z3's default solver on every instance, so it is the default for `z3-bool`. Pass `logic=None` to use the general solver.
+- example16 is the one case where `z3-int` beats `z3-bool`. A likely reason, not yet tested: it is the only large example with unrestricted users (90 of 500), and those users add 90 × 40 one-hot variables that the integer model does not need.
+- CP-SAT remains the fastest overall (example16 ≈ 1–2 s, worst hard instance ≈ 7 s). It uses the identical encoding, so the remaining gap is solver technology: parallel portfolio search and LP relaxation versus a single-threaded SAT core.
 
 ### Open questions for the convenor
 
