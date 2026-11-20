@@ -20,6 +20,7 @@ import sys
 from dataclasses import dataclass, field
 from time import time as currenttime
 
+import z3
 from ortools.sat.python import cp_model
 
 # --------------------------------------------------------------------------- #
@@ -181,9 +182,13 @@ class CpSatBooleanModel:
                    forall s in T, u in no team: x[s,u] = 0
     """
 
-    def __init__(self, inst: Instance):
+    def __init__(self, inst: Instance, time_limit=None, workers=8, **_):
         self.inst = inst
         self.model = cp_model.CpModel()
+        self.solver = cp_model.CpSolver()
+        self.solver.parameters.num_search_workers = workers
+        if time_limit is not None:
+            self.solver.parameters.max_time_in_seconds = time_limit
         m = self.model
         self.x: dict[tuple[int, int], cp_model.IntVar] = {
             (s, u): m.NewBoolVar(f"x_s{s+1}_u{u+1}")
@@ -276,48 +281,143 @@ class CpSatBooleanModel:
                 else:
                     self.model.Add(self.x[s, u] == 0)
 
-    def extract_plan(self, solver: cp_model.CpSolver) -> list[int]:
-        return [
-            next(u for u in self.users_of[s] if solver.Value(self.x[s, u]))
-            for s in range(self.inst.n_steps)
-        ]
+    def solve(self) -> tuple[str, list[int] | None]:
+        status = self.solver.Solve(self.model)
+        if status in (cp_model.OPTIMAL, cp_model.FEASIBLE):
+            plan = [
+                next(u for u in self.users_of[s] if self.solver.Value(self.x[s, u]))
+                for s in range(self.inst.n_steps)
+            ]
+            return "sat", plan
+        return ("unsat" if status == cp_model.INFEASIBLE else "unknown"), None
+
+    def block_plan(self, plan: list[int]) -> None:
+        """Forbid exactly this plan:  OR_s  not x[s, plan[s]].
+
+        Only the x variables are blocked. Auxiliary variables (same-user,
+        new-group and team selectors) are functions of, or free given, x, so
+        blocking them as well could wrongly rule out the same plan with
+        different auxiliary values, or miss a genuinely different plan.
+        """
+        self.model.AddBoolOr([self.x[s, u].Not() for s, u in enumerate(plan)])
+
+
+class Z3IntegerModel:
+    """Approach 2: z3 (SMT, linear integer arithmetic) with one integer per step.
+
+    Decision variables: pi[s] in {0..n-1}, the user assigned to step s.
+    "Exactly one user per step" holds by construction - it is a function.
+
+      Authorisation  forall s:   OR_{u : u may do s} pi[s] = u
+                     (users with no Authorisations line are allowed for all
+                     steps; if every user is allowed, only the bounds remain)
+      SoD (a, b)     pi[a] != pi[b]
+      BoD (a, b)     pi[a] == pi[b]
+      At-most-k      T = (t_1..t_m):  f_i := AND_{j<i} pi[t_j] != pi[t_i]
+                     ("t_i starts a new user group"),  sum_i [f_i] <= k
+      One-team       OR_i AND_{s in T} (OR_{u in U_i} pi[s] = u)
+
+    The at-most-k formula is the same "count new groups" idea as the CP-SAT
+    pairwise encoding, but here the equalities are native, so no channelling
+    clauses are needed. This makes the formulation very close to the
+    mathematical definition in Appendix 1.
+    """
+
+    def __init__(self, inst: Instance, time_limit=None, **_):
+        self.inst = inst
+        self.solver = z3.Solver()
+        if time_limit is not None:
+            self.solver.set("timeout", int(time_limit * 1000))
+        n = inst.n_users
+        self.pi = [z3.Int(f"pi_s{s+1}") for s in range(inst.n_steps)]
+        add = self.solver.add
+
+        for s, p in enumerate(self.pi):
+            add(p >= 0, p < n)
+            eligible = [u for u in range(n) if inst.authorised(u, s)]
+            if len(eligible) < n:
+                add(z3.Or([p == u for u in eligible]))  # Or([]) is False -> unsat
+        for a, b in inst.separation_of_duty:
+            add(self.pi[a] != self.pi[b])
+        for a, b in inst.binding_of_duty:
+            add(self.pi[a] == self.pi[b])
+        for k, scope in inst.at_most_k:
+            scope = sorted(set(scope))
+            new_group = [
+                z3.And([self.pi[scope[j]] != self.pi[t] for j in range(i)])
+                for i, t in enumerate(scope)
+            ]
+            add(z3.Sum([z3.If(f, 1, 0) for f in new_group]) <= k)
+        for scope, teams in inst.one_team:
+            add(z3.Or([
+                z3.And([z3.Or([self.pi[s] == u for u in team]) for s in scope])
+                for team in teams
+            ]))
+
+    def solve(self) -> tuple[str, list[int] | None]:
+        result = self.solver.check()
+        if result == z3.sat:
+            m = self.solver.model()
+            return "sat", [m.eval(p, model_completion=True).as_long() for p in self.pi]
+        return ("unsat" if result == z3.unsat else "unknown"), None
+
+    def block_plan(self, plan: list[int]) -> None:
+        """Forbid exactly this plan:  OR_s  pi[s] != plan[s]."""
+        self.solver.add(z3.Or([p != u for p, u in zip(self.pi, plan)]))
+
+
+METHODS = {
+    "cp-sat": CpSatBooleanModel,
+    "z3-int": Z3IntegerModel,
+}
+MULTIPLE = "other solutions exist"
+UNIQUE = "this is the only solution"
 
 
 def Solver(filename, **kwargs):
-    """Solve the WSP instance in ``filename``.
+    """Solve the WSP instance in ``filename`` and decide uniqueness.
+
+    Uniqueness: after the first plan is found, it is forbidden with a
+    blocking clause and the same model is solved again. SAT on the second
+    call means another plan exists; UNSAT proves the first plan is unique.
 
     Optional kwargs:
-      time_limit  seconds before CP-SAT gives up (default: none)
+      method      one of METHODS (default 'cp-sat')
+      time_limit  seconds per solver call (default: none)
       workers     CP-SAT search workers (default: 8)
 
     Returns a dict with keys (template contract):
-      sat      'sat' | 'unsat'
+      sat      'sat' | 'unsat' | 'unknown' (time limit hit)
       sol      list of 's<i>: u<j>' strings ('' when unsat)
-      mul_sol  'other solutions exist' | 'this is the only solution' ('' when unsat)
-      exe_time '<n>ms'  (parse + build + solve)
+      mul_sol  MULTIPLE | UNIQUE | '' (unsat, or limit hit on second call)
+      exe_time '<n>ms'  (parse + build + both solves)
+    plus extra keys ignored by transform_output:
+      plan            0-based plan list, or None
+      other_plan      a second distinct plan when MULTIPLE, else None
     """
     starttime = int(currenttime() * 1000)
     inst = read_instance(filename)
-    enc = CpSatBooleanModel(inst)
+    enc = METHODS[kwargs.get("method", "cp-sat")](inst, **kwargs)
 
-    solver = cp_model.CpSolver()
-    solver.parameters.num_search_workers = kwargs.get("workers", 8)
-    if "time_limit" in kwargs:
-        solver.parameters.max_time_in_seconds = kwargs["time_limit"]
-    status = solver.Solve(enc.model)
-
-    d = dict(sat="unsat", sol="", mul_sol="", plan=None)
-    if status in (cp_model.OPTIMAL, cp_model.FEASIBLE):
-        plan = enc.extract_plan(solver)
+    d = dict(sat="unsat", sol="", mul_sol="", plan=None, other_plan=None)
+    status, plan = enc.solve()
+    d["sat"] = status
+    if status == "sat":
         # Defensive: never output a plan the independent checker rejects.
         violations = check_plan(inst, plan)
         assert not violations, f"encoding bug: {violations}"
-        d["sat"] = "sat"
         d["plan"] = plan
         d["sol"] = [f"s{s+1}: u{u+1}" for s, u in enumerate(plan)]
-        # TODO Phase 2: re-solve with a blocking clause to fill mul_sol.
-    elif status != cp_model.INFEASIBLE:
-        d["sat"] = "unknown"  # time limit hit before a verdict
+
+        enc.block_plan(plan)
+        status2, other = enc.solve()
+        if status2 == "sat":
+            assert other != plan and not check_plan(inst, other), "blocking bug"
+            d["mul_sol"] = MULTIPLE
+            d["other_plan"] = other
+        elif status2 == "unsat":
+            d["mul_sol"] = UNIQUE
+        # else: time limit on the second call -> uniqueness unknown, leave ''
 
     d["exe_time"] = f"{int(currenttime() * 1000) - starttime}ms"
     return d
