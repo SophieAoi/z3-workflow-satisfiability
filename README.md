@@ -1,27 +1,24 @@
 # Workflow Satisfiability Problem Solver
 
-COMP3070 Symbolic Artificial Intelligence, Coursework 2 (group, 30% of the module), Autumn 2026/27.
+COMP3070 Symbolic AI, Coursework 2 (group, 30%), Autumn 2026/27.
 
-**Deadline:** Tuesday 1 December 2026, 18:00, via Moodle. Late work loses 5% per calendar day, not counting weekends.
+Deadline: Tuesday 1 December 2026, 18:00, on Moodle. Late penalty is 5% per calendar day, excluding weekends.
 
 ## The problem
 
-The **Workflow Satisfiability Problem (WSP)** comes from access control. You are given a set $U$ of users and a set $S$ of workflow steps. The task is to find a plan $\pi : S \to U$ that satisfies every constraint.
+Given a set of users $U$ and workflow steps $S$, find a plan $\pi : S \to U$ that satisfies all the constraints. Every step gets exactly one user; a user can do any number of steps, including none.
 
-- Every step gets **exactly one** user.
-- A user may do several steps, or none.
-
-The solver reports **sat** with a plan, or **unsat**. For a sat instance it must also say whether the plan is **the only solution**.
+The solver outputs `sat` with a plan or `unsat`. For sat instances it also has to say whether the plan is the only solution.
 
 ### Constraint types (Appendix 1)
 
 | Constraint | File syntax | Requirement |
 |---|---|---|
-| **Authorisations** $(u, A)$ | `Authorisations u1 s1 s2` | $\pi(s) = u \Rightarrow s \in A$. A user with **no** Authorisations line may do **any** step. An empty list (`Authorisations u1`) means the user may do **no** steps. |
-| **Separation of duty** $(s', s'')$ | `Separation-of-duty s1 s2` | $\pi(s') \neq \pi(s'')$ |
-| **Binding of duty** $(s', s'')$ | `Binding-of-duty s1 s3` | $\pi(s') = \pi(s'')$ |
-| **At-most-k** $(k, T)$ | `At-most-k 2 s1 s2 s3` | $\lvert\{\pi(s) : s \in T\}\rvert \le k$ |
-| **One-team** $(T, U_1..U_r)$ | `One-team s1 s2 s4 (u1 u2) (u5 u7 u8) (u3)` | $\{\pi(s) : s \in T\} \subseteq U_i$ for some $i$. The teams are pairwise disjoint. |
+| Authorisations $(u, A)$ | `Authorisations u1 s1 s2` | $\pi(s) = u \Rightarrow s \in A$. Users without an Authorisations line can do any step. `Authorisations u1` with no steps means u1 can do nothing. |
+| Separation of duty $(s', s'')$ | `Separation-of-duty s1 s2` | $\pi(s') \neq \pi(s'')$ |
+| Binding of duty $(s', s'')$ | `Binding-of-duty s1 s3` | $\pi(s') = \pi(s'')$ |
+| At-most-k $(k, T)$ | `At-most-k 2 s1 s2 s3` | $\lvert\{\pi(s) : s \in T\}\rvert \le k$ |
+| One-team $(T, U_1..U_r)$ | `One-team s1 s2 s4 (u1 u2) (u5 u7 u8) (u3)` | $\{\pi(s) : s \in T\} \subseteq U_i$ for some $i$ (teams are disjoint) |
 
 ### Input format
 
@@ -33,13 +30,11 @@ Authorisations u1 s1 s2
 ...
 ```
 
-- Keywords are case-insensitive, and extra whitespace is ignored.
-- Steps and users are numbered from 1.
-- The provided files use CRLF line endings.
+Keywords are case-insensitive, extra whitespace is allowed, and steps and users are numbered from 1. The provided files have CRLF line endings.
 
 ### Output format
 
-The output must match the module's template and helper (`transform_output`):
+Same as the module template and `transform_output` helper:
 
 ```
 sat
@@ -50,114 +45,134 @@ this is the only solution      # or: other solutions exist
 12ms
 ```
 
-## Instance data (`instances/`)
+## Instances (`instances/`)
 
 | Folder | Count | Notes |
 |---|---|---|
-| `examples/` | 19 | Appendix 1 examples, with no solution files. Expected sat/unique results are in `expected.csv`. Examples 1–8 are small (for debugging), 9–15 are medium (for testing) and 16–19 are large (for performance). |
-| `1-constraint-small`, `3-constraint-small`, `4-constraint-small`, `5-constraint-small` | 20 each | Tiny instances |
-| `3-constraint`, `4-constraint`, `5-constraint` | 20 each | Families with shared properties, suited to empirical analysis |
-| `4-constraint-hard` | 20 | 60 steps, 500 users: the stress tests |
+| `examples/` | 19 | Appendix 1 examples. There are no solution files; expected results are in `expected.csv`. 1–8 are small, 9–15 medium, 16–19 large. |
+| `1-`, `3-`, `4-`, `5-constraint-small` | 20 each | Very small |
+| `3-constraint`, `4-constraint`, `5-constraint` | 20 each | Medium-sized families |
+| `4-constraint-hard` | 20 | 60 steps, 500 users |
 
-Every family folder holds `N.txt` with a matching `N-solution.txt`. A solution file is **one** valid plan, not necessarily the only one: two Moodle downloads gave different plans for the same instance. Tests must therefore **verify** our plan with `check_plan`, not compare it line by line with the solution file.
+Each family folder has `N.txt` and `N-solution.txt`. The solution file only gives one valid plan (two Moodle downloads had different plans for the same instance), so the tests check our plans with `check_plan` instead of comparing with the file.
 
-> **Note:** the constraint-type ticks in the Appendix 1 table are not accurate. For example, example7 has no BoD or at-most-k constraints. `expected.csv` takes the type columns from the files themselves and the sat/unique columns from the appendix.
+The constraint-type ticks in the Appendix 1 table don't match the files (e.g. example7 has no BoD or at-most-k). In `expected.csv` the type columns come from the files and the sat/unique columns from the appendix.
 
-## What we hand in
+## Submission
 
-1. **Solver**: `wsp_solver.py`, a **single file** that exposes `Solver(filename, **kwargs) -> dict`. It will also be run on **unseen** instances.
-2. **Group report** as a PDF, with sections a–h in order (see the marking table below). Write the group letter on it.
+1. `wsp_solver.py`, a single file with `Solver(filename, **kwargs) -> dict`. It will also be run on unseen instances.
+2. Group report (PDF), sections a–h in order, with the group letter on it.
 
 ### Marking
 
-| Part | Weight | What counts |
+| Part | Weight | Covers |
 |---|---|---|
-| 1. Completeness and correctness | 30% | Correct on unseen instances; terminates with a solution whenever one exists; "at least SIX constraint instances" (wording unclear, see open questions); extra marks for further methods, alternative formulations and constraints |
-| 2. Quality and elegance | 20% | Clear, documented, tested, efficient code; a compact mathematical formulation |
-| 3. Report | 50% | a) contents/novelty, b) formulations, c) alternative formulations and solutions, d) implementation (including **how uniqueness is detected**), e) evaluation with timings, f) discussion comparing approaches, g) conclusion, h) APA references |
+| Completeness and correctness | 30% | Correct on unseen instances, finds a solution when one exists, "at least SIX constraint instances" (unclear, see below), extra methods/formulations/constraints |
+| Quality and elegance | 20% | Code quality, tests, efficiency, a compact formulation |
+| Report | 50% | a) contents, b) formulations, c) alternatives, d) implementation incl. how uniqueness is checked, e) evaluation with timings, f) discussion, g) conclusion, h) references (APA) |
 
-For higher marks the group needs **three or more solution approaches** and **at least two alternative formulations**, all fully worked out.
+Higher marks need at least three solution approaches and two alternative formulations.
 
-## Implementation phases
+## Phases
 
-| # | Phase | Output | Status |
-|---|---|---|---|
-| 0 | **Foundations**: parser, `Instance` model, independent `check_plan` verifier, tests against all 160 instances and 122 reference plans | `wsp_solver.py`, `tests/` | ✅ done |
-| 1 | **Baseline: OR-Tools CP-SAT, Boolean encoding** (`CpSatBooleanModel`). Variables $x_{s,u}$ exist only for authorised pairs; `AddExactlyOne` per step; SoD $x_{a,u}+x_{b,u}\le1$; BoD $x_{a,u}=x_{b,u}$; one-team via team selectors $z_i$ with `AddExactlyOne`. At-most-k uses pairwise "same user" variables $m_{s,t}$ (see below). Every plan is re-checked with `check_plan` before it is returned. | all 179 instances solved correctly, max 5.5 s | ✅ done |
-| 2 | **Uniqueness check**: add a blocking clause $\bigvee_s \neg x_{s,\pi(s)}$ to the same model and solve again. SAT means other solutions exist (the second plan is also checked); UNSAT proves the plan is unique. Only the $x$ variables are blocked; auxiliary variables are not. Tested against the appendix (examples 3, 5 and 7 unique) and against brute-force solution counts on all 88 small instances. | 6 unique / 88 multiple, all correct | ✅ done |
-| 3 | **Approach 2: z3, integer encoding** (`Z3IntegerModel`, `method="z3-int"`). One `Int` variable $\pi_s \in [0,n)$ per step. Authorisation is $\bigvee_{u \in A^{-1}(s)} \pi_s = u$; SoD and BoD are `!=` and `==`; at-most-k is $\sum_i [\bigwedge_{j<i} \pi_{t_j} \ne \pi_{t_i}] \le k$; one-team is $\bigvee_i \bigwedge_{s\in T} \pi_s \in U_i$. Uniqueness is blocked with $\bigvee_s \pi_s \ne \pi^*(s)$. | correct everywhere it finishes; too slow on example17/19 and `4-constraint-hard` | ✅ done |
-| 4 | **Approach 3: z3, Boolean / pseudo-Boolean encoding** (`Z3BooleanModel`, `method="z3-bool"`). The one-hot encoding is now written once in `BooleanEncoding` as clauses plus ExactlyOne/AtMost-k. Two backends supply the primitives: CP-SAT (`AddBoolOr`, `AddExactlyOne`) and z3 (`Or`, `PbEq`, `AtMost` on the `QF_FD` solver). | solves every instance that defeated `z3-int` | ✅ done |
-| 5 | **Efficiency**: drop users with no authorisations; merge users with identical authorisations when constraints are user-independent; symmetry breaking; solver parameters (workers, time limit) | faster runs on `4-constraint-hard` and examples 16–19 | ⬜ |
-| 6 | **Extra constraint types** (extra marks): e.g. at-least-k, super-user/assignment-dependent, Wang–Li style. Extend the parser, all encodings and `check_plan`. Write our own test instances for them. | ≥ 6 constraint types, new instances | ⬜ |
-| 7 | **Benchmark harness**: run every approach on every instance, verify each plan with `check_plan`, record times to CSV, plot results | `results/`, report figures | ⬜ |
-| 8 | **Report** sections a–h; final single-file check; submit | PDF + `.py` | ⬜ |
+| # | Phase | Status |
+|---|---|---|
+| 0 | Parser, `Instance`, `check_plan`, tests on all 179 instances and the 122 reference plans | done |
+| 1 | CP-SAT, one-hot encoding (`cp-sat`, default method) | done |
+| 2 | Uniqueness check with a blocking clause | done |
+| 3 | z3, integer encoding (`z3-int`) | done |
+| 4 | z3, one-hot encoding with pseudo-Boolean constraints (`z3-bool`) | done |
+| 5 | Speed-ups: drop users with no authorisations, merge identical users, symmetry breaking, solver settings | todo |
+| 6 | Extra constraint types (at-least-k, super-user, ...) and our own test instances | todo |
+| 7 | Benchmark script: all methods on all instances, results to CSV, plots | todo |
+| 8 | Report and submission | todo |
 
-### Phase 1 finding: at-most-k encoding matters (report material)
+## Formulations
 
-The first version encoded at-most-k with one indicator variable per user per constraint: $x_{s,u} \Rightarrow y_u$ and $\sum_u y_u \le k$. With 500 users this relaxes poorly. Examples 17 and 19 and most of `4-constraint-hard` hit a 20 s limit without an answer, and example16 took 17 s.
+### One-hot encoding (`cp-sat`, `z3-bool`)
 
-The second version counts distinct users over **pairs of steps**. $m_{s,t} \Rightarrow \pi(s)=\pi(t)$. For $T = (t_1..t_m)$, $f_i \lor \bigvee_{j<i} m_{t_j,t_i}$ marks the steps that start a new user group, and $\sum f_i \le k$. Transitivity clauses are added within $T$. With this version every instance solves in 0.3–5.5 s. Running both encodings together was slower than the pairwise one alone. Both versions are worth keeping as alternative formulations in the report.
+$x_{s,u}$ is true iff $\pi(s) = u$. It is only created when $u$ is authorised for $s$, which covers the Authorisations constraint. This is written once in `BooleanEncoding`; `CpSatBooleanModel` and `Z3BooleanModel` just supply the solver calls.
 
-### Phase 3 finding: the direct integer model is the most readable but the slowest
+| Constraint | Encoding |
+|---|---|
+| One user per step | $\text{ExactlyOne}_u\, x_{s,u}$ |
+| SoD $(a,b)$ | $\neg x_{a,u} \lor \neg x_{b,u}$ for each $u$ |
+| BoD $(a,b)$ | $x_{a,u} \leftrightarrow x_{b,u}$ for each $u$; users eligible for only one of the steps are set false |
+| At-most-k | $m_{s,t}$ means "s and t have the same user" ($m_{s,t} \land x_{s,u} \rightarrow x_{t,u}$). $f_i \lor \bigvee_{j<i} m_{t_j,t_i}$ marks a step with a new user; $\text{AtMost}_k(f)$. Plus transitivity clauses on $m$. |
+| One-team | team selectors $z_i$ with $\text{ExactlyOne}_i\, z_i$ and $x_{s,u} \rightarrow z_{team(u)}$; users in no team are set false |
+| Uniqueness | add $\bigvee_s \neg x_{s,\pi^*(s)}$ and solve again |
 
-`z3-int` is almost a word-for-word copy of the Appendix 1 definitions. It is correct on everything it finishes (examples 1–16 and 18, and all families except `4-constraint-hard`), and it agrees with brute force on all 88 small instances. On the large instances it is much slower than CP-SAT:
+z3 uses `PbEq` and `AtMost` with the `QF_FD` solver. Only the $x$ variables are blocked for uniqueness, since blocking the auxiliary ones could exclude the same plan or miss a different one.
 
-| Instance | cp-sat | z3-int (default) | z3 `QF_FD` | z3 `QF_LIA` | z3 enum sort | z3 bit-vector |
-|---|---|---|---|---|---|---|
-| example16 (sat) | 1.2 s | 3.4–7 s | 25 s | 3.9 s | 6.2 s | 10.6 s |
-| example17 (sat) | 0.3 s | >60 s | 3.1 s | 32 s | >60 s | 34 s |
-| example18 (unsat) | <1 s | 8.3 s | – | – | – | – |
-| example19 (unsat) | 1.3 s | >60 s | >60 s | >60 s | >60 s | >60 s |
-| 4-constraint-hard/0 | 1.2 s | >60 s | >60 s (56 s with implied constraint) | >60 s | >60 s | >60 s |
+### Integer encoding (`z3-int`)
 
-We tried other z3 logics, user domains (enumerated sort, bit-vectors) and an implied constraint ($\ge |T|-k$ equal pairs per at-most-k scope). None fixed the hard cases consistently. A likely explanation for the report is that each $\pi_a \ne \pi_b$ becomes a case split ($<$ or $>$) in arithmetic, whereas CP-SAT's one-hot model propagates SoD and authorisation directly at the Boolean level. Phase 4 (z3 Boolean/PB) tests this. The cp-sat timings in this table come from separate runs, so treat them as indicative until the phase 7 benchmark.
+One integer $\pi_s \in [0, n)$ per step:
 
-### Phase 4 finding: the encoding matters more than the solver
+| Constraint | Encoding |
+|---|---|
+| Authorisation | $\bigvee_{u \text{ authorised for } s} \pi_s = u$ |
+| SoD / BoD | $\pi_a \ne \pi_b$ / $\pi_a = \pi_b$ |
+| At-most-k | $\sum_i [\bigwedge_{j<i} \pi_{t_j} \ne \pi_{t_i}] \le k$ |
+| One-team | $\bigvee_i \bigwedge_{s \in T} \bigvee_{u \in U_i} \pi_s = u$ |
+| Uniqueness | add $\bigvee_s \pi_s \ne \pi^*(s)$ and solve again |
 
-The same z3 engine with the one-hot Boolean encoding solves every instance on which the integer encoding timed out. This supports the phase 3 explanation that the integer encoding was the bottleneck, not z3 itself. Times include the uniqueness re-solve, with a 60 s limit per call:
+## Results so far
 
-| Instance | z3-int | z3-bool `QF_FD` | z3-bool default solver |
-|---|---|---|---|
-| example16 (sat) | 9.7 s | 22.4 s | 87.7 s |
-| example17 (sat) | >60 s | 0.9 s | 1.5 s |
-| example18 (unsat) | 4.3 s | 2.6 s | 2.9 s |
-| example19 (unsat) | >60 s | 3.8 s | 8.2 s |
-| 4-constraint-hard/0 (sat) | >60 s | 2.5 s | 12.1 s |
-| 4-constraint-hard/1 (unsat) | >60 s | 4.7 s | 12.1 s |
-| 4-constraint-hard/2 (sat) | >60 s | 3.5 s | 36.8 s |
-| 4-constraint-hard/18 (unsat) | >60 s | 10.3 s | 25.2 s |
+### At-most-k encoding
 
-- `QF_FD` beats z3's default solver on every instance, so it is the default for `z3-bool`. Pass `logic=None` to use the general solver.
-- example16 is the one case where `z3-int` beats `z3-bool`. A likely reason, not yet tested: it is the only large example with unrestricted users (90 of 500), and those users add 90 × 40 one-hot variables that the integer model does not need.
-- CP-SAT remains the fastest overall (example16 ≈ 1–2 s, worst hard instance ≈ 7 s). It uses the identical encoding, so the remaining gap is solver technology: parallel portfolio search and LP relaxation versus a single-threaded SAT core.
+The first CP-SAT version used one variable per user per at-most-k constraint ($x_{s,u} \Rightarrow y_u$, $\sum_u y_u \le k$). With 500 users, examples 17 and 19 and most of `4-constraint-hard` didn't finish in 20 s, and example16 took 17 s. Switching to the pairwise $m_{s,t}$ version above got every instance under about 7 s. Using both together was slower than the pairwise one alone.
 
-### Open questions for the convenor
+### Times on the large instances
 
-- Does "Set at least SIX constraint instances" mean six constraint *types* (the appendix defines five, so we would need at least one extra) or six of our own test instance files? Doing both is the safe choice.
-- How is `Solver` called on unseen instances? We currently assume `Solver(path)` and the template dict format.
+Times include the uniqueness re-solve; 60 s limit per solver call. Times vary by up to about 2x between runs on the same machine, so these are rough until the phase 7 benchmark.
 
-## Project layout
+| Instance | cp-sat | z3-int | z3-bool (`QF_FD`) | z3-bool (default solver) |
+|---|---|---|---|---|
+| example16 (sat) | 1–2 s | 3–48 s | 22.4 s | 87.7 s |
+| example17 (sat) | 0.3 s | >60 s | 0.9 s | 1.5 s |
+| example18 (unsat) | <1 s | 4–90 s | 2.6 s | 2.9 s |
+| example19 (unsat) | 1.3 s | >60 s | 3.8 s | 8.2 s |
+| 4-constraint-hard/0 (sat) | 1.2 s | >60 s | 2.5 s | 12.1 s |
+| 4-constraint-hard/1 (unsat) | 2.5 s | >60 s | 4.7 s | 12.1 s |
+| 4-constraint-hard/2 (sat) | 7.1 s | >60 s | 3.5 s | 36.8 s |
+| 4-constraint-hard/18 (unsat) | 7.3 s | >60 s | 10.3 s | 25.2 s |
+
+On the small and medium families all methods take under 100 ms.
+
+Notes:
+- `z3-int` gets every instance it finishes right, but times out on example17, example19 and all of `4-constraint-hard`, and its times on example16/18 swing a lot between runs (3 s to 90 s). We also tried other z3 logics (`QF_FD`, `QF_LIA`), users as an enum sort or bit-vectors, and an extra implied constraint for at-most-k. None of them fixed it.
+- Our guess is that each $\pi_a \ne \pi_b$ turns into a case split ($<$ or $>$) in integer arithmetic. The one-hot encoding avoids this, and with it z3 solves everything, which fits that explanation.
+- `QF_FD` was faster than z3's default solver on every instance, so it's the default for `z3-bool` (`logic=None` switches back).
+- example16 is the only instance where `z3-int` beats `z3-bool`. Possibly because it is the only large example with unrestricted users (90 of 500), which add a lot of one-hot variables. Not checked yet.
+- CP-SAT is still the fastest overall with the same encoding, probably because it runs a parallel portfolio search and z3 doesn't.
+
+## Open questions
+
+- Does "Set at least SIX constraint instances" mean six constraint types (the appendix has five) or six of our own instance files? Probably safest to do both.
+- How will `Solver` be called on the unseen instances? We're assuming `Solver(path)` and the template's dict format.
+
+## Layout
 
 ```
 .
-├── wsp_solver.py      # the single-file submission (parser, checker, solvers, output)
-├── tests/             # pytest tests
-├── instances/         # all instance families plus examples/expected.csv
+├── wsp_solver.py      # submission file: parser, checker, encodings, Solver()
+├── tests/             # pytest
+├── instances/         # instance families + examples/expected.csv
 ├── docs/              # report drafts, figures
 ├── requirements.txt
 └── pytest.ini
 ```
 
-## Setup and usage
+## Setup
 
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 
-pytest                                               # run tests
-python wsp_solver.py instances/examples/example3.txt          # default: cp-sat
-python wsp_solver.py instances/examples/example3.txt z3-int   # alternative method
+pytest
+python wsp_solver.py instances/examples/example3.txt            # cp-sat
+python wsp_solver.py instances/examples/example3.txt z3-int     # or z3-bool
 ```
 
 ## References
