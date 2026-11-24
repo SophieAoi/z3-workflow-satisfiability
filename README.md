@@ -180,7 +180,7 @@ Full numbers are in `results/benchmark.csv`: every instance (199 files, includin
 e \pi_b$ becomes a case split ($<$ or $>$) in integer arithmetic. With the one-hot encoding the same z3 solves everything, which fits that explanation. The one exception is example16 (`z3-int` 9 s vs `z3-bool` 14 s), possibly because it is the only large example with unrestricted users (90 of 500), which add many one-hot variables. Not checked.
 - **Native cardinality vs clauses** (`z3-bool` vs `z3-cnf`): almost the same on the hard family (3.5 s median for both) and on the large examples. On the medium families `z3-cnf` is 1.3–2.4x slower, presumably the cost of the extra sequential-counter variables. So z3's native cardinality handling helps less than we expected here; most of the work is the clause part of the encoding, which is shared.
 - **Solver** (`cp-sat` vs `z3-bool`, same encoding): CP-SAT is faster on everything except the tiny instances, where its fixed start-up cost (~2–3 ms) dominates. Probably because it runs a parallel portfolio of search strategies (4 workers here) and z3 runs one.
-- **Portfolio** gives `cp-sat`'s times, since `cp-sat` settles every instance first. The fallback only matters when `cp-sat` hits a time limit (tested in `test_phase5.py`).
+- **Portfolio** gives `cp-sat`'s times, since `cp-sat` settles every instance first. The fallback only matters when `cp-sat` hits a time limit (tested in `tests/test_pruning_and_portfolio.py`).
 - **`QF_FD`** was faster than z3's default solver on every large instance we tried for `z3-bool` (e.g. 22 s vs 88 s on example16, 3.5 s vs 37 s on `4-constraint-hard/2`), so it is the default (`logic=None` switches back).
 - Times vary by up to about 2x between runs on the same machine.
 
@@ -211,7 +211,8 @@ python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 
-pytest
+pytest                                                          # quick run (~20 s), skips the large instances
+pytest -m ""                                                    # full suite (~5 min)
 python wsp_solver.py instances/examples/example3.txt            # cp-sat
 python wsp_solver.py instances/examples/example3.txt z3-int     # or z3-bool
 python wsp_solver.py instances/examples/example3.txt portfolio  # try methods until one settles it
