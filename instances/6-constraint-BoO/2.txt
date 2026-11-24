@@ -1,0 +1,11 @@
+#Steps: 3
+#Users: 4
+#Constraints: 8
+Authorisations u1 s1
+Authorisations u3 s1 s2
+Binding-of-order s1 s2
+Binding-of-order s3 s2
+Separation-of-duty s2 s3
+Binding-of-duty s1 s1
+At-most-k 3 s1 s2 s3
+One-team s2 s3 (u1 u3) (u2 u4)

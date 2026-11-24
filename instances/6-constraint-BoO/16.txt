@@ -1,0 +1,8 @@
+#Steps: 4
+#Users: 4
+#Constraints: 5
+Authorisations u1
+Authorisations u2 s1 s2
+Authorisations u3
+Authorisations u4 s3 s4
+Binding-of-order s2 s3

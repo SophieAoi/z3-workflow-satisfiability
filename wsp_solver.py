@@ -41,6 +41,8 @@ class Instance:
     authorisations: dict[int, frozenset[int]] = field(default_factory=dict)
     separation_of_duty: list[tuple[int, int]] = field(default_factory=list)
     binding_of_duty: list[tuple[int, int]] = field(default_factory=list)
+    # binding of order (a, b): pi(a) <= pi(b) in the user order u1 < u2 < ...
+    binding_of_order: list[tuple[int, int]] = field(default_factory=list)
     at_most_k: list[tuple[int, tuple[int, ...]]] = field(default_factory=list)
     # (steps T, teams U_1..U_r); teams are pairwise disjoint user sets
     one_team: list[tuple[tuple[int, ...], tuple[tuple[int, ...], ...]]] = field(
@@ -53,6 +55,7 @@ class Instance:
             len(self.authorisations)
             + len(self.separation_of_duty)
             + len(self.binding_of_duty)
+            + len(self.binding_of_order)
             + len(self.at_most_k)
             + len(self.one_team)
         )
@@ -108,6 +111,9 @@ def parse_instance(text: str) -> Instance:
         elif name == "binding-of-duty":
             a, b = _steps(rest)
             inst.binding_of_duty.append((a, b))
+        elif name == "binding-of-order":
+            a, b = _steps(rest)
+            inst.binding_of_order.append((a, b))
         elif name == "at-most-k":
             k_str, _, scope = rest.strip().partition(" ")
             inst.at_most_k.append((int(k_str), _steps(scope)))
@@ -150,6 +156,9 @@ def check_plan(inst: Instance, plan: list[int]) -> list[str]:
     for a, b in inst.binding_of_duty:
         if plan[a] != plan[b]:
             errors.append(f"BoD violated: s{a+1}, s{b+1}")
+    for a, b in inst.binding_of_order:
+        if plan[a] > plan[b]:
+            errors.append(f"Bo2 violated: s{a+1} on u{plan[a]+1}, s{b+1} on u{plan[b]+1}")
     for k, scope in inst.at_most_k:
         if len({plan[s] for s in scope}) > k:
             errors.append(f"At-most-{k} violated on {scope}")
@@ -158,6 +167,46 @@ def check_plan(inst: Instance, plan: list[int]) -> list[str]:
         if not any(used <= set(team) for team in teams):
             errors.append(f"One-team violated on {scope}")
     return errors
+
+
+# --------------------------------------------------------------------------- #
+# Preprocessing: drop users that can never be assigned
+# --------------------------------------------------------------------------- #
+
+
+def prune_users(inst: Instance):
+    """Remove users with an explicit empty authorisation (no step they may do).
+
+    Such users appear in no plan, so the reduced instance is equivalent:
+    plans correspond one-to-one. Renumbering the remaining users keeps their
+    relative order, so binding-of-order (pi(a) <= pi(b)) is unaffected.
+    Returns (reduced_instance, alive) where alive[i] is the original index
+    of reduced user i, or (inst, None) when nothing can be pruned.
+    """
+    prunable = {
+        u
+        for u, steps in inst.authorisations.items()
+        if not steps
+    }
+    if not prunable:
+        return inst, None
+    alive = [u for u in range(inst.n_users) if u not in prunable]
+    pos = {u: i for i, u in enumerate(alive)}
+    # each pruned user was exactly one Authorisations line
+    small = Instance(inst.n_steps, len(alive),
+                     inst.n_constraints_declared - len(prunable))
+    small.authorisations = {
+        pos[u]: steps for u, steps in inst.authorisations.items() if u in pos
+    }
+    small.separation_of_duty = list(inst.separation_of_duty)
+    small.binding_of_duty = list(inst.binding_of_duty)
+    small.binding_of_order = list(inst.binding_of_order)
+    small.at_most_k = list(inst.at_most_k)
+    small.one_team = [
+        (scope, tuple(tuple(pos[u] for u in team if u in pos) for team in teams))
+        for scope, teams in inst.one_team
+    ]
+    return small, alive
 
 
 # --------------------------------------------------------------------------- #
@@ -176,6 +225,8 @@ class BooleanEncoding:
       Assignment   forall s:            ExactlyOne_u x[s,u]
       SoD (a, b)   forall u:            not x[a,u] or not x[b,u]
       BoD (a, b)   forall u:            x[a,u] == x[b,u]
+      Bo2 (a,b)    per-step chain ord[s][u] meaning "pi(s) >= u";
+                   forall u >= 1:       ord[a][u] -> ord[b][u]
       At-most-k    pairwise "same user" vars m[s,t] over T; count the steps
                    that start a new user group; that count <= k
                    (see _add_at_most_k)
@@ -202,6 +253,10 @@ class BooleanEncoding:
         for s, u in self.x:
             self.users_of[s].append(u)
         self.same: dict[tuple[int, int], object] = {}
+        # order chain literals ord[s][u] for "pi(s) >= u", built on demand
+        # (only for steps that appear in a binding-of-order constraint)
+        self._ord: dict[tuple[int, int], object] = {}
+        self._ord_built: set[int] = set()
 
         for s in range(inst.n_steps):
             self._exactly_one([self.x[s, u] for u in self.users_of[s]])
@@ -209,6 +264,8 @@ class BooleanEncoding:
             self._add_sod(a, b)
         for a, b in inst.binding_of_duty:
             self._add_bod(a, b)
+        for a, b in inst.binding_of_order:
+            self._add_bo2(a, b)
         for i, (k, scope) in enumerate(inst.at_most_k):
             self._add_at_most_k(i, k, scope)
         for i, (scope, teams) in enumerate(inst.one_team):
@@ -227,6 +284,46 @@ class BooleanEncoding:
         # A user eligible for only one of the two steps can never be chosen.
         for s, u in [(a, u) for u in ua - ub] + [(b, u) for u in ub - ua]:
             self._clause([self._neg(self.x[s, u])])
+
+    def _ensure_ord(self, s: int) -> None:
+        """Build the chain ord[s][u] meaning pi(s) >= u for one step.
+
+        ord[s][u] is defined by ord[s][u] <-> ord[s][u-1] and not x[s,u-1]
+        (ord[s][0] is true). A two-way link makes ord a pure function of x,
+        so it can never add a solution on its own and block_plan only needs
+        to forbid x. Cost is linear in |U| per step, and only steps that
+        appear in a binding-of-order constraint build a chain at all.
+        """
+        if s in self._ord_built:
+            return
+        self._ord_built.add(s)
+        prev = None  # None stands for ord[s][0], which is true
+        for u in range(1, self.inst.n_users):
+            cur = self._new_bool(f"ord_s{s+1}_ge_u{u+1}")
+            self._ord[s, u] = cur
+            xu = self.x.get((s, u - 1))  # absent: pi(s) != u-1 holds trivially
+            # cur -> prev
+            if prev is not None:
+                self._clause([self._neg(cur), prev])
+            # cur -> pi(s) != u-1
+            if xu is not None:
+                self._clause([self._neg(cur), self._neg(xu)])
+            # prev and pi(s) != u-1 -> cur, per the four cases of
+            # (prev is bottom) x (user u-1 authorised or not)
+            if xu is None:
+                self._clause([cur] if prev is None else [self._neg(prev), cur])
+            elif prev is None:
+                self._clause([xu, cur])
+            else:
+                self._clause([self._neg(prev), xu, cur])
+            prev = cur
+
+    def _add_bo2(self, a: int, b: int) -> None:
+        """Binding of order pi(a) <= pi(b): forall u>=1, ord[a][u] -> ord[b][u]."""
+        self._ensure_ord(a)
+        self._ensure_ord(b)
+        for u in range(1, self.inst.n_users):
+            self._clause([self._neg(self._ord[a, u]), self._ord[b, u]])
 
     def _same_user(self, a: int, b: int):
         """Boolean m[a,b] with  m[a,b] -> pi(a) = pi(b)  (created once per pair).
@@ -406,6 +503,7 @@ class Z3IntegerModel:
                      steps; if every user is allowed, only the bounds remain)
       SoD (a, b)     pi[a] != pi[b]
       BoD (a, b)     pi[a] == pi[b]
+      Bo2 (a, b)     pi[a] <= pi[b]
       At-most-k      T = (t_1..t_m):  f_i := AND_{j<i} pi[t_j] != pi[t_i]
                      ("t_i starts a new user group"),  sum_i [f_i] <= k
       One-team       OR_i AND_{s in T} (OR_{u in U_i} pi[s] = u)
@@ -434,6 +532,8 @@ class Z3IntegerModel:
             add(self.pi[a] != self.pi[b])
         for a, b in inst.binding_of_duty:
             add(self.pi[a] == self.pi[b])
+        for a, b in inst.binding_of_order:
+            add(self.pi[a] <= self.pi[b])
         for k, scope in inst.at_most_k:
             scope = sorted(set(scope))
             new_group = [
@@ -464,54 +564,93 @@ METHODS = {
     "z3-int": Z3IntegerModel,
     "z3-bool": Z3BooleanModel,
 }
+# Approach 4: try the methods in this order until one settles the question.
+PORTFOLIO_ORDER = ("cp-sat", "z3-bool", "z3-int")
 MULTIPLE = "other solutions exist"
 UNIQUE = "this is the only solution"
+
+
+def _attempt(inst, method, kwargs):
+    """Run one method end to end: solve, then settle uniqueness.
+
+    Returns (status, plan, other_plan, mul_sol). ``mul_sol`` is '' when the
+    first plan is found but the blocking re-solve hit its time limit.
+    """
+    enc = METHODS[method](inst, **kwargs)
+    status, plan = enc.solve()
+    if status != "sat":
+        return status, None, None, ""
+    # Defensive: never keep a plan the independent checker rejects.
+    violations = check_plan(inst, plan)
+    assert not violations, f"encoding bug ({method}): {violations}"
+    enc.block_plan(plan)
+    status2, other = enc.solve()
+    if status2 == "sat":
+        assert other != plan and not check_plan(inst, other), f"blocking bug ({method})"
+        return "sat", plan, other, MULTIPLE
+    if status2 == "unsat":
+        return "sat", plan, None, UNIQUE
+    return "sat", plan, None, ""
 
 
 def Solver(filename, **kwargs):
     """Solve the WSP instance in ``filename`` and decide uniqueness.
 
-    Uniqueness: after the first plan is found, it is forbidden with a
-    blocking clause and the same model is solved again. SAT on the second
-    call means another plan exists; UNSAT proves the first plan is unique.
+    Pipeline: parse, drop users that no plan can use (see prune_users), then
+    solve with the chosen method. Uniqueness: after the first plan is found,
+    it is forbidden with a blocking clause and the same model is solved again.
+    SAT on the second call means another plan exists; UNSAT proves uniqueness.
 
     Optional kwargs:
-      method      one of METHODS (default 'cp-sat')
+      method      'cp-sat' (default), 'z3-int', 'z3-bool' or 'portfolio'
       time_limit  seconds per solver call (default: none)
       workers     CP-SAT search workers (default: 8)
+
+    'portfolio' runs the methods in PORTFOLIO_ORDER and keeps the first
+    verdict that settles the instance (unsat, or sat with a proven uniqueness
+    answer), so an instance that makes one method time out is still answered
+    within its own time limit.
 
     Returns a dict with keys (template contract):
       sat      'sat' | 'unsat' | 'unknown' (time limit hit)
       sol      list of 's<i>: u<j>' strings ('' when unsat)
       mul_sol  MULTIPLE | UNIQUE | '' (unsat, or limit hit on second call)
-      exe_time '<n>ms'  (parse + build + both solves)
+      exe_time '<n>ms'  (parse + prune + build + both solves)
     plus extra keys ignored by transform_output:
-      plan            0-based plan list, or None
+      plan            0-based plan in original user numbering, or None
       other_plan      a second distinct plan when MULTIPLE, else None
+      method_used     which method produced the verdict
     """
     starttime = int(currenttime() * 1000)
     inst = read_instance(filename)
-    enc = METHODS[kwargs.get("method", "cp-sat")](inst, **kwargs)
+    inst, alive = prune_users(inst)
+    method = kwargs.get("method", "cp-sat")
 
     d = dict(sat="unsat", sol="", mul_sol="", plan=None, other_plan=None)
-    status, plan = enc.solve()
-    d["sat"] = status
-    if status == "sat":
-        # Defensive: never output a plan the independent checker rejects.
-        violations = check_plan(inst, plan)
-        assert not violations, f"encoding bug: {violations}"
-        d["plan"] = plan
-        d["sol"] = [f"s{s+1}: u{u+1}" for s, u in enumerate(plan)]
+    if method == "portfolio":
+        # Keep one method's whole answer set (plan, other plan, uniqueness);
+        # stop as soon as a method settles the instance definitively.
+        best = None
+        for m in PORTFOLIO_ORDER:
+            status, plan, other, mul = _attempt(inst, m, kwargs)
+            settled = status == "unsat" or (status == "sat" and mul)
+            if settled or best is None or best[0] == "unknown":
+                best = (status, plan, other, mul, m)
+            if settled:
+                break
+        status, plan, other, mul, used = best
+        d.update(sat=status, plan=plan, other_plan=other, mul_sol=mul, method_used=used)
+    else:
+        status, plan, other, mul = _attempt(inst, method, kwargs)
+        d.update(sat=status, plan=plan, other_plan=other, mul_sol=mul, method_used=method)
 
-        enc.block_plan(plan)
-        status2, other = enc.solve()
-        if status2 == "sat":
-            assert other != plan and not check_plan(inst, other), "blocking bug"
-            d["mul_sol"] = MULTIPLE
-            d["other_plan"] = other
-        elif status2 == "unsat":
-            d["mul_sol"] = UNIQUE
-        # else: time limit on the second call -> uniqueness unknown, leave ''
+    # Map the reduced user indices back to the original numbering.
+    if d["plan"] is not None:
+        if alive is not None:
+            d["plan"] = [alive[u] for u in d["plan"]]
+            if d["other_plan"] is not None:
+                d["other_plan"] = [alive[u] for u in d["other_plan"]]
+        d["sol"] = [f"s{s+1}: u{u+1}" for s, u in enumerate(d["plan"])]
 
     d["exe_time"] = f"{int(currenttime() * 1000) - starttime}ms"
     return d
