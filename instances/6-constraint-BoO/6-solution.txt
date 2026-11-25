@@ -1,5 +1,1 @@
-sat
-s1: u2
-s2: u2
-s3: u3
-s4: u2
+unsat

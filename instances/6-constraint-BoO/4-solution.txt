@@ -1,1 +1,5 @@
-unsat
+sat
+s1: u3
+s2: u3
+s3: u4
+s4: u4

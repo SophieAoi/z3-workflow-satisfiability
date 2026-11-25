@@ -78,5 +78,5 @@ def test_portfolio_falls_through_on_timeout(monkeypatch):
 
 def test_portfolio_solver_key_present():
     from wsp_solver import METHODS, PORTFOLIO_ORDER
-    assert set(METHODS) == {"cp-sat", "z3-int", "z3-bool"}
+    assert set(METHODS) == {"cp-sat", "z3-int", "z3-bool", "cp-sat-users", "z3-cnf"}
     assert PORTFOLIO_ORDER == ("cp-sat", "z3-bool", "z3-int")

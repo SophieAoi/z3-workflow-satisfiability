@@ -44,11 +44,10 @@ def gen(rng, small):
     # SoD and BoD
     a, b = sorted(rng.sample(range(1, n_steps + 1), 2))
     cons.append(f"Separation-of-duty s{a} s{b}")
-    if n_steps >= 4:
-        c, d = sorted(rng.sample(range(1, n_steps + 1), 2))
-        cons.append(f"Binding-of-duty s{c} s{d}")
-    else:
-        cons.append(f"Binding-of-duty s1 s1")
+    # Appendix 1 requires two different steps (s' != s''), so always sample a
+    # distinct pair, also for 3-step instances.
+    c, d = sorted(rng.sample(range(1, n_steps + 1), 2))
+    cons.append(f"Binding-of-duty s{c} s{d}")
     # At-most-k
     k = rng.randint(2, 3)
     t = sorted(rng.sample(range(1, n_steps + 1), min(3, n_steps)))

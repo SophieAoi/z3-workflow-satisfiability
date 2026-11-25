@@ -5,6 +5,6 @@ Authorisations u1 s1
 Binding-of-order s2 s3
 Binding-of-order s1 s3
 Separation-of-duty s1 s3
-Binding-of-duty s1 s1
+Binding-of-duty s1 s2
 At-most-k 2 s1 s2 s3
-One-team s1 s2 (u2 u5) (u1 u3 u4)
+One-team s2 s3 (u1 u5) (u2 u3 u4)

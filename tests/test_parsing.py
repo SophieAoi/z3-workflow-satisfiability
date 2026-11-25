@@ -55,6 +55,22 @@ def test_format_tolerance():
     assert inst.one_team == [((0, 1, 3), ((0, 1), (4, 6, 7), (2,)))]
 
 
+def test_tabs_and_irregular_whitespace():
+    """Appendix: extra whitespace must be ignored - including tabs."""
+    text = (
+        "#Steps:3\n#users: 4\n#Constraints: 4\n\n"
+        "authorisations\tu1\ts1 s2.\n"
+        "At-most-k\t2\ts1  s2\ts3\n"
+        "binding-of-duty\ts1\ts3\n"
+        "One-team\ts1 s2\t(u1\tu2)  (u3)\n"
+    )
+    inst = parse_instance(text)
+    assert inst.authorisations == {0: {0, 1}}
+    assert inst.at_most_k == [(2, (0, 1, 2))]
+    assert inst.binding_of_duty == [(0, 2)]
+    assert inst.one_team == [((0, 1), ((0, 1), (2,)))]
+
+
 def test_empty_authorisation_means_no_steps():
     inst = parse_instance("#Steps: 1\n#Users: 2\n#Constraints: 1\nAuthorisations u1\n")
     assert not inst.authorised(0, 0)

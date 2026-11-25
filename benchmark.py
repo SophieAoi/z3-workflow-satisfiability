@@ -1,7 +1,8 @@
 """Benchmark: every instance x every approach -> results/benchmark.csv.
 
 Runs Solver over the provided instance families (and the appendix examples)
-with the four approaches (cp-sat, z3-bool, z3-int and portfolio), a fixed
+with every approach (cp-sat, z3-bool, z3-int, portfolio, and the two
+alternative formulations cp-sat-users and z3-cnf), a fixed
 time limit per solver call, repeated runs (median) except for the hard
 family, which is too slow for repetition. Each row records the verdict, the
 uniqueness answer, the end-to-end time reported by Solver, and two
@@ -20,6 +21,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import re
 import statistics
 import sys
 import time
@@ -33,7 +35,7 @@ from wsp_solver import (
 ROOT = Path(__file__).parent
 INSTANCES = ROOT / "instances"
 RESULTS = ROOT / "results"
-ALL_METHODS = ("cp-sat", "z3-bool", "z3-int", "portfolio")
+ALL_METHODS = ("cp-sat", "z3-bool", "z3-int", "portfolio", "cp-sat-users", "z3-cnf")
 FIELDS = [
     "family", "instance", "method", "runs", "ms_median", "ms_all",
     "sat", "ref_sat", "agree_sat", "mul_sol", "ref_unique", "plan_ok",
@@ -109,8 +111,10 @@ def main() -> int:
         fam = fam_dir.name
         if args.families and fam not in args.families:
             continue
-        stems = sorted((p.stem for p in fam_dir.glob("*.txt") if p.stem.isdigit()),
-                       key=int)
+        # "N.txt" in the families, "exampleN.txt" in examples/; skip solutions
+        stems = sorted((p.stem for p in fam_dir.glob("*.txt")
+                        if re.fullmatch(r"(example)?\d+", p.stem)),
+                       key=lambda st: int(re.sub(r"\D", "", st)))
         for method in args.methods:
             runs = args.hard_runs if "hard" in fam else args.runs
             for stem in stems:
@@ -136,7 +140,9 @@ def main() -> int:
                     "ms_median": round(statistics.median(s["ms"] for s in samples), 2),
                     "ms_all": ";".join(str(s["ms"]) for s in samples),
                     "sat": last["sat"], "ref_sat": ref_sat,
-                    "agree_sat": ("" if not ref_sat else
+                    # '' when there is no reference or no verdict (timeout):
+                    # a timeout is not a wrong answer
+                    "agree_sat": ("" if not ref_sat or last["sat"] == "unknown" else
                                   ("1" if last["sat"] == ref_sat else "0")),
                     "mul_sol": last["mul_sol"],
                     # 1 = matches appendix uniqueness, 0 = disagrees, '' = n/a
@@ -149,7 +155,8 @@ def main() -> int:
                 writer.writerow(row)
                 out.flush()
                 n_done += 1
-                warn = "" if row["agree_sat"] != "0" else "  <-- DISAGREES"
+                warn = ("  <-- DISAGREES" if row["agree_sat"] == "0" else
+                        "  (timeout)" if row["sat"] == "unknown" else "")
                 print(f"{fam}/{stem} {method}: {row['sat']} {row['ms_median']}ms "
                       f"({n_done} done, {time.perf_counter()-t0:.0f}s){warn}", flush=True)
 
@@ -175,9 +182,9 @@ def main() -> int:
         a[3] += r["sat"] == "unknown"
     print(f"\n{len(rows)} cells in results/benchmark.csv "
           f"({n_done} new, {n_skip} reused, {time.perf_counter()-t0:.0f}s)")
-    print(f"{'family':<22}{'method':<10}{'cells':>6}{'mean ms':>10}{'timeouts':>10}")
+    print(f"{'family':<22}{'method':<14}{'cells':>6}{'mean ms':>10}{'timeouts':>10}")
     for (fam, method), (n, ms, agree, to) in sorted(agg.items()):
-        print(f"{fam:<22}{method:<10}{n:>6}{ms/n:>10.1f}{to:>10}")
+        print(f"{fam:<22}{method:<14}{n:>6}{ms/n:>10.1f}{to:>10}")
     return 0
 
 

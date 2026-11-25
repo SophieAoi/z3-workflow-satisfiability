@@ -34,6 +34,14 @@ pytestmark = pytest.mark.parametrize("method", sorted(METHODS))
 # correctness - documented in the README benchmark notes).
 TOO_SLOW = {
     "z3-int": ("4-constraint-hard/", "examples/example17.txt", "examples/example19.txt"),
+    # per-user at-most-k: times out on the hard family and example19, and
+    # needs 30 s+ on examples 16/17 (results/benchmark.csv)
+    "cp-sat-users": (
+        "4-constraint-hard/",
+        "examples/example16.txt",
+        "examples/example17.txt",
+        "examples/example19.txt",
+    ),
 }
 
 

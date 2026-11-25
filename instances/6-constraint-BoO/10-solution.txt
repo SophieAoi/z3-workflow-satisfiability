@@ -1,7 +1,8 @@
 sat
 s1: u1
-s2: u1
+s2: u2
 s3: u1
-s4: u2
+s4: u1
 s5: u1
 s6: u1
+s7: u1

@@ -20,8 +20,22 @@ import sys
 from dataclasses import dataclass, field
 from time import time as currenttime
 
-import z3
 from ortools.sat.python import cp_model
+
+# z3 is only needed by the z3-* methods. The default method (cp-sat) only
+# needs OR-Tools, so the file still works where z3 is not installed.
+try:
+    import z3
+except ImportError:  # pragma: no cover - depends on the environment
+    z3 = None
+
+
+def _require_z3() -> None:
+    if z3 is None:
+        raise ImportError(
+            "this method needs the z3 solver: pip install z3-solver "
+            "(the default method 'cp-sat' only needs ortools)"
+        )
 
 # --------------------------------------------------------------------------- #
 # Instance model
@@ -100,9 +114,10 @@ def parse_instance(text: str) -> Instance:
 
     inst = Instance(header["steps"], header["users"], header["constraints"])
     for line in lines:
-        name, _, rest = line.partition(" ")
+        # split on any whitespace (spaces or tabs, any amount)
+        name, rest = (line.split(None, 1) + [""])[:2]
         name = name.lower()
-        if name == "authorisations":
+        if name in ("authorisations", "authorizations"):
             (user,) = _users(rest.split()[0])
             inst.authorisations[user] = frozenset(_steps(" ".join(rest.split()[1:])))
         elif name == "separation-of-duty":
@@ -115,8 +130,9 @@ def parse_instance(text: str) -> Instance:
             a, b = _steps(rest)
             inst.binding_of_order.append((a, b))
         elif name == "at-most-k":
-            k_str, _, scope = rest.strip().partition(" ")
-            inst.at_most_k.append((int(k_str), _steps(scope)))
+            k_str, scope = (rest.split(None, 1) + [""])[:2]
+            k = int(re.match(r"\d+", k_str).group())
+            inst.at_most_k.append((k, _steps(scope)))
         elif name == "one-team":
             scope = rest.split("(", 1)[0]
             teams = tuple(_users(t) for t in _TEAM.findall(rest))
@@ -237,7 +253,12 @@ class BooleanEncoding:
     ``_clause``, ``_exactly_one``, ``_at_most``, ``_equal``) plus ``_value``
     and ``_check``. Everything below is therefore pure propositional logic
     with cardinality constraints, independent of the solver.
+
+    ``AMK_ENCODING`` selects the at-most-k formulation: "pairwise" (default,
+    _add_at_most_k) or "users" (_add_at_most_k_users, one indicator per user).
     """
+
+    AMK_ENCODING = "pairwise"
 
     def __init__(self, inst: Instance):
         self.inst = inst
@@ -266,8 +287,12 @@ class BooleanEncoding:
             self._add_bod(a, b)
         for a, b in inst.binding_of_order:
             self._add_bo2(a, b)
+        add_amk = {
+            "pairwise": self._add_at_most_k,
+            "users": self._add_at_most_k_users,
+        }[self.AMK_ENCODING]
         for i, (k, scope) in enumerate(inst.at_most_k):
-            self._add_at_most_k(i, k, scope)
+            add_amk(i, k, scope)
         for i, (scope, teams) in enumerate(inst.one_team):
             self._add_one_team(i, scope, teams)
 
@@ -369,6 +394,25 @@ class BooleanEncoding:
                 self._clause([self._neg(p), self._neg(q), r])
         self._at_most(f, k)
 
+    def _add_at_most_k_users(self, idx: int, k: int, scope: tuple[int, ...]) -> None:
+        """Alternative at-most-k: count users directly.
+
+        One indicator y[u] per user eligible for some step in T, meaning
+        "u is used in T":   x[s,u] -> y[u]  for s in T,   AtMost_k(y).
+        y[u] may be true for an unused user, which only over-counts, so this
+        is sound; the solver can always set y[u] to the truth, so it is
+        complete. It is the most direct reading of |{pi(s) : s in T}| <= k,
+        but with hundreds of eligible users the cardinality constraint ranges
+        over a large set and propagates weakly - which is why the pairwise
+        encoding above is the default (compare cp-sat vs cp-sat-users).
+        """
+        users = sorted({u for s in scope for u in self.users_of[s]})
+        y = {u: self._new_bool(f"amk{idx}_used_u{u+1}") for u in users}
+        for s in set(scope):
+            for u in self.users_of[s]:
+                self._clause([self._neg(self.x[s, u]), y[u]])
+        self._at_most(list(y.values()), k)
+
     def _add_one_team(self, idx, scope, teams) -> None:
         z = [self._new_bool(f"team{idx}_{i}") for i in range(len(teams))]
         self._exactly_one(z)
@@ -442,6 +486,14 @@ class CpSatBooleanModel(BooleanEncoding):
         return bool(self.solver.Value(lit))
 
 
+class CpSatUserAmkModel(CpSatBooleanModel):
+    """Alternative formulation: CP-SAT with the per-user at-most-k encoding
+    (see BooleanEncoding._add_at_most_k_users). Everything else is identical
+    to cp-sat, so timing differences isolate the at-most-k formulation."""
+
+    AMK_ENCODING = "users"
+
+
 class Z3BooleanModel(BooleanEncoding):
     """Approach 3: the same Boolean encoding solved by z3.
 
@@ -453,6 +505,7 @@ class Z3BooleanModel(BooleanEncoding):
     """
 
     def __init__(self, inst: Instance, time_limit=None, logic="QF_FD", **_):
+        _require_z3()
         self.solver = z3.SolverFor(logic) if logic else z3.Solver()
         if time_limit is not None:
             self.solver.set("timeout", int(time_limit * 1000))
@@ -492,6 +545,57 @@ class Z3BooleanModel(BooleanEncoding):
         return z3.is_true(self._model.eval(lit, model_completion=True))
 
 
+class Z3CnfModel(Z3BooleanModel):
+    """Alternative formulation: pure clausal form (CNF), solved by z3's SAT core.
+
+    Same variables and clauses as z3-bool, but no cardinality atoms at all:
+    every constraint the solver sees is a disjunction of literals.
+
+      Equality  a <-> b          (not a or b) and (a or not b)
+      AtMost_k  (x_1..x_n)       Sinz (2005) sequential counter: auxiliary
+                                 r[i][j] = "at least j+1 of x_1..x_i+1 are true",
+                                 O(n*k) clauses and variables
+      ExactlyOne(x_1..x_n)       (x_1 or ... or x_n) and AtMost_1(x_1..x_n)
+
+    This shows the problem in the clausal representation asked for in the
+    coursework, and the comparison with z3-bool measures what native
+    cardinality reasoning buys over a clause-level encoding.
+    """
+
+    def _equal(self, a, b):
+        self._clause([self._neg(a), b])
+        self._clause([a, self._neg(b)])
+
+    def _exactly_one(self, lits):
+        self._clause(lits)  # empty list -> empty clause -> unsat
+        self._at_most(lits, 1)
+
+    def _at_most(self, lits, k):
+        """Sequential counter encoding of  sum(lits) <= k  (Sinz, 2005)."""
+        n = len(lits)
+        if k >= n:
+            return
+        if k == 0:
+            for l in lits:
+                self._clause([self._neg(l)])
+            return
+        # r[i][j] (i < n-1, j < k): at least j+1 of lits[0..i] are true
+        r = [[z3.FreshBool("sc") for _ in range(k)] for _ in range(n - 1)]
+        neg = self._neg
+        self._clause([neg(lits[0]), r[0][0]])
+        for j in range(1, k):
+            self._clause([neg(r[0][j])])
+        for i in range(1, n - 1):
+            self._clause([neg(lits[i]), r[i][0]])
+            self._clause([neg(r[i - 1][0]), r[i][0]])
+            for j in range(1, k):
+                self._clause([neg(lits[i]), neg(r[i - 1][j - 1]), r[i][j]])
+                self._clause([neg(r[i - 1][j]), r[i][j]])
+            # lits[i] true while k of the earlier ones are already true
+            self._clause([neg(lits[i]), neg(r[i - 1][k - 1])])
+        self._clause([neg(lits[n - 1]), neg(r[n - 2][k - 1])])
+
+
 class Z3IntegerModel:
     """Approach 2: z3 (SMT, linear integer arithmetic) with one integer per step.
 
@@ -515,6 +619,7 @@ class Z3IntegerModel:
     """
 
     def __init__(self, inst: Instance, time_limit=None, **_):
+        _require_z3()
         self.inst = inst
         self.solver = z3.Solver()
         if time_limit is not None:
@@ -563,6 +668,9 @@ METHODS = {
     "cp-sat": CpSatBooleanModel,
     "z3-int": Z3IntegerModel,
     "z3-bool": Z3BooleanModel,
+    # alternative formulations
+    "cp-sat-users": CpSatUserAmkModel,  # per-user at-most-k encoding
+    "z3-cnf": Z3CnfModel,               # pure clausal form, no cardinality atoms
 }
 # Approach 4: try the methods in this order until one settles the question.
 PORTFOLIO_ORDER = ("cp-sat", "z3-bool", "z3-int")
@@ -632,6 +740,8 @@ def Solver(filename, **kwargs):
         # stop as soon as a method settles the instance definitively.
         best = None
         for m in PORTFOLIO_ORDER:
+            if m.startswith("z3") and z3 is None:
+                continue  # z3 not installed: skip the z3 fallbacks
             status, plan, other, mul = _attempt(inst, m, kwargs)
             settled = status == "unsat" or (status == "sat" and mul)
             if settled or best is None or best[0] == "unknown":
@@ -667,8 +777,13 @@ def transform_output(d):
 
 
 if __name__ == "__main__":
-    # Usage: python wsp_solver.py [instance_file] [method]
-    dpath = sys.argv[1] if len(sys.argv) > 1 else "instances/examples/example3.txt"
+    # Usage: python wsp_solver.py <instance_file> [method]
+    if len(sys.argv) < 2:
+        sys.exit(
+            "usage: python wsp_solver.py <instance_file> [method]\n"
+            f"methods: {', '.join(METHODS)}, portfolio (default: cp-sat)"
+        )
+    dpath = sys.argv[1]
     method = sys.argv[2] if len(sys.argv) > 2 else "cp-sat"
     d = Solver(dpath, method=method, silent=False)
     print(transform_output(d))

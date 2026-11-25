@@ -1,0 +1,1195 @@
+family,instance,method,runs,ms_median,ms_all,sat,ref_sat,agree_sat,mul_sol,ref_unique,plan_ok,other_ok,method_used
+1-constraint-small,0,cp-sat,3,2,4;2;2,sat,sat,1,this is the only solution,,1,,cp-sat
+1-constraint-small,1,cp-sat,3,0,0;0;0,unsat,unsat,1,,,,,cp-sat
+1-constraint-small,2,cp-sat,3,3,3;5;2,sat,sat,1,other solutions exist,,1,1,cp-sat
+1-constraint-small,3,cp-sat,3,4,4;3;4,sat,sat,1,other solutions exist,,1,1,cp-sat
+1-constraint-small,4,cp-sat,3,4,4;3;4,sat,sat,1,other solutions exist,,1,1,cp-sat
+1-constraint-small,5,cp-sat,3,4,4;3;4,sat,sat,1,other solutions exist,,1,1,cp-sat
+1-constraint-small,6,cp-sat,3,0,1;0;0,unsat,unsat,1,,,,,cp-sat
+1-constraint-small,7,cp-sat,3,3,3;4;2,sat,sat,1,other solutions exist,,1,1,cp-sat
+1-constraint-small,8,cp-sat,3,4,4;3;4,sat,sat,1,other solutions exist,,1,1,cp-sat
+1-constraint-small,9,cp-sat,3,4,4;3;4,sat,sat,1,other solutions exist,,1,1,cp-sat
+1-constraint-small,10,cp-sat,3,3,3;4;3,sat,sat,1,other solutions exist,,1,1,cp-sat
+1-constraint-small,11,cp-sat,3,3,3;2;4,sat,sat,1,other solutions exist,,1,1,cp-sat
+1-constraint-small,12,cp-sat,3,0,0;0;0,unsat,unsat,1,,,,,cp-sat
+1-constraint-small,13,cp-sat,3,3,3;4;3,sat,sat,1,other solutions exist,,1,1,cp-sat
+1-constraint-small,14,cp-sat,3,0,0;1;0,unsat,unsat,1,,,,,cp-sat
+1-constraint-small,15,cp-sat,3,3,3;4;3,sat,sat,1,other solutions exist,,1,1,cp-sat
+1-constraint-small,16,cp-sat,3,0,0;1;0,unsat,unsat,1,,,,,cp-sat
+1-constraint-small,17,cp-sat,3,0,0;0;0,unsat,unsat,1,,,,,cp-sat
+1-constraint-small,18,cp-sat,3,0,1;0;0,unsat,unsat,1,,,,,cp-sat
+1-constraint-small,19,cp-sat,3,2,2;1;2,sat,sat,1,this is the only solution,,1,,cp-sat
+1-constraint-small,0,z3-bool,3,1,2;1;0,sat,sat,1,this is the only solution,,1,,z3-bool
+1-constraint-small,1,z3-bool,3,0,1;0;0,unsat,unsat,1,,,,,z3-bool
+1-constraint-small,2,z3-bool,3,1,1;0;1,sat,sat,1,other solutions exist,,1,1,z3-bool
+1-constraint-small,3,z3-bool,3,0,0;1;0,sat,sat,1,other solutions exist,,1,1,z3-bool
+1-constraint-small,4,z3-bool,3,1,1;1;0,sat,sat,1,other solutions exist,,1,1,z3-bool
+1-constraint-small,5,z3-bool,3,1,1;0;1,sat,sat,1,other solutions exist,,1,1,z3-bool
+1-constraint-small,6,z3-bool,3,0,0;0;0,unsat,unsat,1,,,,,z3-bool
+1-constraint-small,7,z3-bool,3,1,1;0;1,sat,sat,1,other solutions exist,,1,1,z3-bool
+1-constraint-small,8,z3-bool,3,0,0;0;1,sat,sat,1,other solutions exist,,1,1,z3-bool
+1-constraint-small,9,z3-bool,3,0,0;1;0,sat,sat,1,other solutions exist,,1,1,z3-bool
+1-constraint-small,10,z3-bool,3,1,1;0;1,sat,sat,1,other solutions exist,,1,1,z3-bool
+1-constraint-small,11,z3-bool,3,0,0;1;0,sat,sat,1,other solutions exist,,1,1,z3-bool
+1-constraint-small,12,z3-bool,3,0,0;0;1,unsat,unsat,1,,,,,z3-bool
+1-constraint-small,13,z3-bool,3,0,0;1;0,sat,sat,1,other solutions exist,,1,1,z3-bool
+1-constraint-small,14,z3-bool,3,0,0;1;0,unsat,unsat,1,,,,,z3-bool
+1-constraint-small,15,z3-bool,3,0,0;1;0,sat,sat,1,other solutions exist,,1,1,z3-bool
+1-constraint-small,16,z3-bool,3,0,1;0;0,unsat,unsat,1,,,,,z3-bool
+1-constraint-small,17,z3-bool,3,0,0;1;0,unsat,unsat,1,,,,,z3-bool
+1-constraint-small,18,z3-bool,3,0,0;0;0,unsat,unsat,1,,,,,z3-bool
+1-constraint-small,19,z3-bool,3,0,0;0;0,sat,sat,1,this is the only solution,,1,,z3-bool
+1-constraint-small,0,z3-int,3,1,1;2;1,sat,sat,1,this is the only solution,,1,,z3-int
+1-constraint-small,1,z3-int,3,0,1;0;0,unsat,unsat,1,,,,,z3-int
+1-constraint-small,2,z3-int,3,1,1;2;1,sat,sat,1,other solutions exist,,1,1,z3-int
+1-constraint-small,3,z3-int,3,2,2;2;2,sat,sat,1,other solutions exist,,1,1,z3-int
+1-constraint-small,4,z3-int,3,2,2;2;1,sat,sat,1,other solutions exist,,1,1,z3-int
+1-constraint-small,5,z3-int,3,2,2;2;2,sat,sat,1,other solutions exist,,1,1,z3-int
+1-constraint-small,6,z3-int,3,1,1;1;1,unsat,unsat,1,,,,,z3-int
+1-constraint-small,7,z3-int,3,2,2;2;2,sat,sat,1,other solutions exist,,1,1,z3-int
+1-constraint-small,8,z3-int,3,3,3;2;3,sat,sat,1,other solutions exist,,1,1,z3-int
+1-constraint-small,9,z3-int,3,2,2;2;1,sat,sat,1,other solutions exist,,1,1,z3-int
+1-constraint-small,10,z3-int,3,2,2;2;2,sat,sat,1,other solutions exist,,1,1,z3-int
+1-constraint-small,11,z3-int,3,2,2;3;2,sat,sat,1,other solutions exist,,1,1,z3-int
+1-constraint-small,12,z3-int,3,0,1;0;0,unsat,unsat,1,,,,,z3-int
+1-constraint-small,13,z3-int,3,2,2;2;2,sat,sat,1,other solutions exist,,1,1,z3-int
+1-constraint-small,14,z3-int,3,0,0;1;0,unsat,unsat,1,,,,,z3-int
+1-constraint-small,15,z3-int,3,2,2;2;2,sat,sat,1,other solutions exist,,1,1,z3-int
+1-constraint-small,16,z3-int,3,0,0;1;0,unsat,unsat,1,,,,,z3-int
+1-constraint-small,17,z3-int,3,0,1;0;0,unsat,unsat,1,,,,,z3-int
+1-constraint-small,18,z3-int,3,0,0;0;1,unsat,unsat,1,,,,,z3-int
+1-constraint-small,19,z3-int,3,1,1;1;2,sat,sat,1,this is the only solution,,1,,z3-int
+1-constraint-small,0,portfolio,3,2,2;2;2,sat,sat,1,this is the only solution,,1,,cp-sat
+1-constraint-small,1,portfolio,3,0,0;0;0,unsat,unsat,1,,,,,cp-sat
+1-constraint-small,2,portfolio,3,3,3;4;3,sat,sat,1,other solutions exist,,1,1,cp-sat
+1-constraint-small,3,portfolio,3,4,4;3;4,sat,sat,1,other solutions exist,,1,1,cp-sat
+1-constraint-small,4,portfolio,3,4,4;4;3,sat,sat,1,other solutions exist,,1,1,cp-sat
+1-constraint-small,5,portfolio,3,4,4;4;3,sat,sat,1,other solutions exist,,1,1,cp-sat
+1-constraint-small,6,portfolio,3,0,0;0;1,unsat,unsat,1,,,,,cp-sat
+1-constraint-small,7,portfolio,3,3,3;4;3,sat,sat,1,other solutions exist,,1,1,cp-sat
+1-constraint-small,8,portfolio,3,3,2;4;3,sat,sat,1,other solutions exist,,1,1,cp-sat
+1-constraint-small,9,portfolio,3,4,3;4;4,sat,sat,1,other solutions exist,,1,1,cp-sat
+1-constraint-small,10,portfolio,3,3,3;4;3,sat,sat,1,other solutions exist,,1,1,cp-sat
+1-constraint-small,11,portfolio,3,4,3;4;4,sat,sat,1,other solutions exist,,1,1,cp-sat
+1-constraint-small,12,portfolio,3,0,0;0;0,unsat,unsat,1,,,,,cp-sat
+1-constraint-small,13,portfolio,3,4,4;3;4,sat,sat,1,other solutions exist,,1,1,cp-sat
+1-constraint-small,14,portfolio,3,0,0;0;0,unsat,unsat,1,,,,,cp-sat
+1-constraint-small,15,portfolio,3,4,4;3;4,sat,sat,1,other solutions exist,,1,1,cp-sat
+1-constraint-small,16,portfolio,3,0,0;0;0,unsat,unsat,1,,,,,cp-sat
+1-constraint-small,17,portfolio,3,0,0;1;0,unsat,unsat,1,,,,,cp-sat
+1-constraint-small,18,portfolio,3,0,0;0;0,unsat,unsat,1,,,,,cp-sat
+1-constraint-small,19,portfolio,3,2,2;2;2,sat,sat,1,this is the only solution,,1,,cp-sat
+1-constraint-small,0,cp-sat-users,3,2,2;1;2,sat,sat,1,this is the only solution,,1,,cp-sat-users
+1-constraint-small,1,cp-sat-users,3,0,0;0;0,unsat,unsat,1,,,,,cp-sat-users
+1-constraint-small,2,cp-sat-users,3,4,4;4;4,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+1-constraint-small,3,cp-sat-users,3,4,3;4;4,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+1-constraint-small,4,cp-sat-users,3,4,4;3;4,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+1-constraint-small,5,cp-sat-users,3,4,4;4;2,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+1-constraint-small,6,cp-sat-users,3,0,0;0;0,unsat,unsat,1,,,,,cp-sat-users
+1-constraint-small,7,cp-sat-users,3,4,3;4;4,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+1-constraint-small,8,cp-sat-users,3,4,3;4;4,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+1-constraint-small,9,cp-sat-users,3,3,3;4;3,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+1-constraint-small,10,cp-sat-users,3,4,4;2;4,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+1-constraint-small,11,cp-sat-users,3,4,4;3;4,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+1-constraint-small,12,cp-sat-users,3,0,0;1;0,unsat,unsat,1,,,,,cp-sat-users
+1-constraint-small,13,cp-sat-users,3,3,3;4;3,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+1-constraint-small,14,cp-sat-users,3,0,1;0;0,unsat,unsat,1,,,,,cp-sat-users
+1-constraint-small,15,cp-sat-users,3,4,4;3;4,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+1-constraint-small,16,cp-sat-users,3,0,0;0;0,unsat,unsat,1,,,,,cp-sat-users
+1-constraint-small,17,cp-sat-users,3,0,1;0;0,unsat,unsat,1,,,,,cp-sat-users
+1-constraint-small,18,cp-sat-users,3,0,0;0;0,unsat,unsat,1,,,,,cp-sat-users
+1-constraint-small,19,cp-sat-users,3,2,2;2;2,sat,sat,1,this is the only solution,,1,,cp-sat-users
+1-constraint-small,0,z3-cnf,3,0,1;0;0,sat,sat,1,this is the only solution,,1,,z3-cnf
+1-constraint-small,1,z3-cnf,3,0,0;0;0,unsat,unsat,1,,,,,z3-cnf
+1-constraint-small,2,z3-cnf,3,1,0;1;1,sat,sat,1,other solutions exist,,1,1,z3-cnf
+1-constraint-small,3,z3-cnf,3,1,1;1;0,sat,sat,1,other solutions exist,,1,1,z3-cnf
+1-constraint-small,4,z3-cnf,3,1,0;1;1,sat,sat,1,other solutions exist,,1,1,z3-cnf
+1-constraint-small,5,z3-cnf,3,1,1;0;3,sat,sat,1,other solutions exist,,1,1,z3-cnf
+1-constraint-small,6,z3-cnf,3,1,1;1;0,unsat,unsat,1,,,,,z3-cnf
+1-constraint-small,7,z3-cnf,3,1,0;2;1,sat,sat,1,other solutions exist,,1,1,z3-cnf
+1-constraint-small,8,z3-cnf,3,1,1;0;1,sat,sat,1,other solutions exist,,1,1,z3-cnf
+1-constraint-small,9,z3-cnf,3,1,1;0;1,sat,sat,1,other solutions exist,,1,1,z3-cnf
+1-constraint-small,10,z3-cnf,3,1,1;0;1,sat,sat,1,other solutions exist,,1,1,z3-cnf
+1-constraint-small,11,z3-cnf,3,1,1;1;0,sat,sat,1,other solutions exist,,1,1,z3-cnf
+1-constraint-small,12,z3-cnf,3,0,0;1;0,unsat,unsat,1,,,,,z3-cnf
+1-constraint-small,13,z3-cnf,3,1,1;0;1,sat,sat,1,other solutions exist,,1,1,z3-cnf
+1-constraint-small,14,z3-cnf,3,0,0;0;0,unsat,unsat,1,,,,,z3-cnf
+1-constraint-small,15,z3-cnf,3,1,0;1;1,sat,sat,1,other solutions exist,,1,1,z3-cnf
+1-constraint-small,16,z3-cnf,3,0,0;0;0,unsat,unsat,1,,,,,z3-cnf
+1-constraint-small,17,z3-cnf,3,0,0;0;0,unsat,unsat,1,,,,,z3-cnf
+1-constraint-small,18,z3-cnf,3,0,1;0;0,unsat,unsat,1,,,,,z3-cnf
+1-constraint-small,19,z3-cnf,3,0,1;0;0,sat,sat,1,this is the only solution,,1,,z3-cnf
+3-constraint,0,cp-sat,3,5,5;5;4,sat,sat,1,other solutions exist,,1,1,cp-sat
+3-constraint,1,cp-sat,3,5,5;4;5,sat,sat,1,other solutions exist,,1,1,cp-sat
+3-constraint,2,cp-sat,3,5,5;5;5,sat,sat,1,other solutions exist,,1,1,cp-sat
+3-constraint,3,cp-sat,3,5,5;5;4,sat,sat,1,other solutions exist,,1,1,cp-sat
+3-constraint,4,cp-sat,3,1,1;1;1,unsat,unsat,1,,,,,cp-sat
+3-constraint,5,cp-sat,3,1,0;1;1,unsat,unsat,1,,,,,cp-sat
+3-constraint,6,cp-sat,3,4,5;4;4,sat,sat,1,other solutions exist,,1,1,cp-sat
+3-constraint,7,cp-sat,3,1,0;1;1,unsat,unsat,1,,,,,cp-sat
+3-constraint,8,cp-sat,3,4,4;4;4,sat,sat,1,other solutions exist,,1,1,cp-sat
+3-constraint,9,cp-sat,3,1,2;1;1,unsat,unsat,1,,,,,cp-sat
+3-constraint,10,cp-sat,3,5,5;4;5,sat,sat,1,other solutions exist,,1,1,cp-sat
+3-constraint,11,cp-sat,3,4,4;4;5,sat,sat,1,other solutions exist,,1,1,cp-sat
+3-constraint,12,cp-sat,3,1,1;1;0,unsat,unsat,1,,,,,cp-sat
+3-constraint,13,cp-sat,3,5,5;5;5,sat,sat,1,other solutions exist,,1,1,cp-sat
+3-constraint,14,cp-sat,3,1,1;1;0,unsat,unsat,1,,,,,cp-sat
+3-constraint,15,cp-sat,3,1,1;1;8,unsat,unsat,1,,,,,cp-sat
+3-constraint,16,cp-sat,3,4,4;4;5,sat,sat,1,other solutions exist,,1,1,cp-sat
+3-constraint,17,cp-sat,3,1,1;1;0,unsat,unsat,1,,,,,cp-sat
+3-constraint,18,cp-sat,3,5,5;4;5,sat,sat,1,other solutions exist,,1,1,cp-sat
+3-constraint,19,cp-sat,3,5,5;5;5,sat,sat,1,other solutions exist,,1,1,cp-sat
+3-constraint,0,z3-bool,3,7,8;7;7,sat,sat,1,other solutions exist,,1,1,z3-bool
+3-constraint,1,z3-bool,3,5,5;4;6,sat,sat,1,other solutions exist,,1,1,z3-bool
+3-constraint,2,z3-bool,3,6,6;6;6,sat,sat,1,other solutions exist,,1,1,z3-bool
+3-constraint,3,z3-bool,3,7,7;7;7,sat,sat,1,other solutions exist,,1,1,z3-bool
+3-constraint,4,z3-bool,3,6,6;6;8,unsat,unsat,1,,,,,z3-bool
+3-constraint,5,z3-bool,3,6,6;5;6,unsat,unsat,1,,,,,z3-bool
+3-constraint,6,z3-bool,3,7,6;7;7,sat,sat,1,other solutions exist,,1,1,z3-bool
+3-constraint,7,z3-bool,3,3,3;4;3,unsat,unsat,1,,,,,z3-bool
+3-constraint,8,z3-bool,3,3,3;4;3,sat,sat,1,other solutions exist,,1,1,z3-bool
+3-constraint,9,z3-bool,3,7,8;7;7,unsat,unsat,1,,,,,z3-bool
+3-constraint,10,z3-bool,3,8,7;8;9,sat,sat,1,other solutions exist,,1,1,z3-bool
+3-constraint,11,z3-bool,3,4,4;3;4,sat,sat,1,other solutions exist,,1,1,z3-bool
+3-constraint,12,z3-bool,3,4,4;3;4,unsat,unsat,1,,,,,z3-bool
+3-constraint,13,z3-bool,3,7,7;7;7,sat,sat,1,other solutions exist,,1,1,z3-bool
+3-constraint,14,z3-bool,3,4,4;4;5,unsat,unsat,1,,,,,z3-bool
+3-constraint,15,z3-bool,3,4,3;4;4,unsat,unsat,1,,,,,z3-bool
+3-constraint,16,z3-bool,3,3,4;3;3,sat,sat,1,other solutions exist,,1,1,z3-bool
+3-constraint,17,z3-bool,3,3,3;4;3,unsat,unsat,1,,,,,z3-bool
+3-constraint,18,z3-bool,3,4,4;4;4,sat,sat,1,other solutions exist,,1,1,z3-bool
+3-constraint,19,z3-bool,3,5,5;5;5,sat,sat,1,other solutions exist,,1,1,z3-bool
+3-constraint,0,z3-int,3,8,11;8;8,sat,sat,1,other solutions exist,,1,1,z3-int
+3-constraint,1,z3-int,3,7,6;7;7,sat,sat,1,other solutions exist,,1,1,z3-int
+3-constraint,2,z3-int,3,6,6;8;6,sat,sat,1,other solutions exist,,1,1,z3-int
+3-constraint,3,z3-int,3,9,9;10;9,sat,sat,1,other solutions exist,,1,1,z3-int
+3-constraint,4,z3-int,3,3,3;3;3,unsat,unsat,1,,,,,z3-int
+3-constraint,5,z3-int,3,2,2;3;2,unsat,unsat,1,,,,,z3-int
+3-constraint,6,z3-int,3,8,8;9;7,sat,sat,1,other solutions exist,,1,1,z3-int
+3-constraint,7,z3-int,3,2,2;3;2,unsat,unsat,1,,,,,z3-int
+3-constraint,8,z3-int,3,6,5;6;6,sat,sat,1,other solutions exist,,1,1,z3-int
+3-constraint,9,z3-int,3,3,3;3;3,unsat,unsat,1,,,,,z3-int
+3-constraint,10,z3-int,3,7,7;7;7,sat,sat,1,other solutions exist,,1,1,z3-int
+3-constraint,11,z3-int,3,6,6;6;6,sat,sat,1,other solutions exist,,1,1,z3-int
+3-constraint,12,z3-int,3,2,3;2;2,unsat,unsat,1,,,,,z3-int
+3-constraint,13,z3-int,3,7,7;7;8,sat,sat,1,other solutions exist,,1,1,z3-int
+3-constraint,14,z3-int,3,2,2;3;2,unsat,unsat,1,,,,,z3-int
+3-constraint,15,z3-int,3,3,3;3;3,unsat,unsat,1,,,,,z3-int
+3-constraint,16,z3-int,3,6,6;7;5,sat,sat,1,other solutions exist,,1,1,z3-int
+3-constraint,17,z3-int,3,3,3;3;3,unsat,unsat,1,,,,,z3-int
+3-constraint,18,z3-int,3,5,5;7;5,sat,sat,1,other solutions exist,,1,1,z3-int
+3-constraint,19,z3-int,3,7,7;7;7,sat,sat,1,other solutions exist,,1,1,z3-int
+3-constraint,0,portfolio,3,5,5;5;10,sat,sat,1,other solutions exist,,1,1,cp-sat
+3-constraint,1,portfolio,3,7,7;7;5,sat,sat,1,other solutions exist,,1,1,cp-sat
+3-constraint,2,portfolio,3,5,5;4;5,sat,sat,1,other solutions exist,,1,1,cp-sat
+3-constraint,3,portfolio,3,5,5;5;5,sat,sat,1,other solutions exist,,1,1,cp-sat
+3-constraint,4,portfolio,3,1,1;1;1,unsat,unsat,1,,,,,cp-sat
+3-constraint,5,portfolio,3,1,1;1;1,unsat,unsat,1,,,,,cp-sat
+3-constraint,6,portfolio,3,5,5;5;5,sat,sat,1,other solutions exist,,1,1,cp-sat
+3-constraint,7,portfolio,3,1,1;0;1,unsat,unsat,1,,,,,cp-sat
+3-constraint,8,portfolio,3,4,4;5;4,sat,sat,1,other solutions exist,,1,1,cp-sat
+3-constraint,9,portfolio,3,1,1;2;1,unsat,unsat,1,,,,,cp-sat
+3-constraint,10,portfolio,3,4,4;5;4,sat,sat,1,other solutions exist,,1,1,cp-sat
+3-constraint,11,portfolio,3,4,4;5;4,sat,sat,1,other solutions exist,,1,1,cp-sat
+3-constraint,12,portfolio,3,1,1;1;1,unsat,unsat,1,,,,,cp-sat
+3-constraint,13,portfolio,3,5,4;5;5,sat,sat,1,other solutions exist,,1,1,cp-sat
+3-constraint,14,portfolio,3,1,0;1;1,unsat,unsat,1,,,,,cp-sat
+3-constraint,15,portfolio,3,1,0;1;1,unsat,unsat,1,,,,,cp-sat
+3-constraint,16,portfolio,3,4,5;4;4,sat,sat,1,other solutions exist,,1,1,cp-sat
+3-constraint,17,portfolio,3,1,1;1;0,unsat,unsat,1,,,,,cp-sat
+3-constraint,18,portfolio,3,4,4;5;4,sat,sat,1,other solutions exist,,1,1,cp-sat
+3-constraint,19,portfolio,3,5,5;5;7,sat,sat,1,other solutions exist,,1,1,cp-sat
+3-constraint,0,cp-sat-users,3,5,5;5;5,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+3-constraint,1,cp-sat-users,3,5,5;4;5,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+3-constraint,2,cp-sat-users,3,4,4;5;4,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+3-constraint,3,cp-sat-users,3,5,5;4;5,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+3-constraint,4,cp-sat-users,3,1,1;1;1,unsat,unsat,1,,,,,cp-sat-users
+3-constraint,5,cp-sat-users,3,1,1;1;1,unsat,unsat,1,,,,,cp-sat-users
+3-constraint,6,cp-sat-users,3,5,4;5;5,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+3-constraint,7,cp-sat-users,3,0,0;2;0,unsat,unsat,1,,,,,cp-sat-users
+3-constraint,8,cp-sat-users,3,4,4;5;4,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+3-constraint,9,cp-sat-users,3,1,1;1;1,unsat,unsat,1,,,,,cp-sat-users
+3-constraint,10,cp-sat-users,3,5,4;5;5,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+3-constraint,11,cp-sat-users,3,5,5;4;5,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+3-constraint,12,cp-sat-users,3,1,1;1;0,unsat,unsat,1,,,,,cp-sat-users
+3-constraint,13,cp-sat-users,3,5,5;5;4,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+3-constraint,14,cp-sat-users,3,1,1;1;1,unsat,unsat,1,,,,,cp-sat-users
+3-constraint,15,cp-sat-users,3,1,1;1;0,unsat,unsat,1,,,,,cp-sat-users
+3-constraint,16,cp-sat-users,3,4,4;4;4,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+3-constraint,17,cp-sat-users,3,1,1;1;1,unsat,unsat,1,,,,,cp-sat-users
+3-constraint,18,cp-sat-users,3,5,5;4;5,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+3-constraint,19,cp-sat-users,3,4,4;5;4,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+3-constraint,0,z3-cnf,3,16,16;16;17,sat,sat,1,other solutions exist,,1,1,z3-cnf
+3-constraint,1,z3-cnf,3,13,13;13;14,sat,sat,1,other solutions exist,,1,1,z3-cnf
+3-constraint,2,z3-cnf,3,16,15;16;16,sat,sat,1,other solutions exist,,1,1,z3-cnf
+3-constraint,3,z3-cnf,3,20,20;19;20,sat,sat,1,other solutions exist,,1,1,z3-cnf
+3-constraint,4,z3-cnf,3,18,17;18;18,unsat,unsat,1,,,,,z3-cnf
+3-constraint,5,z3-cnf,3,15,14;15;15,unsat,unsat,1,,,,,z3-cnf
+3-constraint,6,z3-cnf,3,15,15;14;15,sat,sat,1,other solutions exist,,1,1,z3-cnf
+3-constraint,7,z3-cnf,3,10,10;10;10,unsat,unsat,1,,,,,z3-cnf
+3-constraint,8,z3-cnf,3,11,11;11;12,sat,sat,1,other solutions exist,,1,1,z3-cnf
+3-constraint,9,z3-cnf,3,19,19;20;19,unsat,unsat,1,,,,,z3-cnf
+3-constraint,10,z3-cnf,3,18,18;18;18,sat,sat,1,other solutions exist,,1,1,z3-cnf
+3-constraint,11,z3-cnf,3,9,9;9;10,sat,sat,1,other solutions exist,,1,1,z3-cnf
+3-constraint,12,z3-cnf,3,11,11;11;12,unsat,unsat,1,,,,,z3-cnf
+3-constraint,13,z3-cnf,3,17,16;17;17,sat,sat,1,other solutions exist,,1,1,z3-cnf
+3-constraint,14,z3-cnf,3,12,12;12;13,unsat,unsat,1,,,,,z3-cnf
+3-constraint,15,z3-cnf,3,12,12;12;12,unsat,unsat,1,,,,,z3-cnf
+3-constraint,16,z3-cnf,3,12,12;11;12,sat,sat,1,other solutions exist,,1,1,z3-cnf
+3-constraint,17,z3-cnf,3,11,12;11;11,unsat,unsat,1,,,,,z3-cnf
+3-constraint,18,z3-cnf,3,11,12;11;11,sat,sat,1,other solutions exist,,1,1,z3-cnf
+3-constraint,19,z3-cnf,3,12,13;12;12,sat,sat,1,other solutions exist,,1,1,z3-cnf
+3-constraint-small,0,cp-sat,3,4,5;4;3,sat,sat,1,other solutions exist,,1,1,cp-sat
+3-constraint-small,1,cp-sat,3,0,0;0;0,unsat,unsat,1,,,,,cp-sat
+3-constraint-small,2,cp-sat,3,3,3;2;4,sat,sat,1,other solutions exist,,1,1,cp-sat
+3-constraint-small,3,cp-sat,3,3,2;3;3,sat,sat,1,other solutions exist,,1,1,cp-sat
+3-constraint-small,4,cp-sat,3,3,4;3;2,sat,sat,1,other solutions exist,,1,1,cp-sat
+3-constraint-small,5,cp-sat,3,3,4;3;3,sat,sat,1,other solutions exist,,1,1,cp-sat
+3-constraint-small,6,cp-sat,3,0,0;0;0,unsat,unsat,1,,,,,cp-sat
+3-constraint-small,7,cp-sat,3,0,1;0;0,unsat,unsat,1,,,,,cp-sat
+3-constraint-small,8,cp-sat,3,3,3;3;4,sat,sat,1,other solutions exist,,1,1,cp-sat
+3-constraint-small,9,cp-sat,3,4,4;3;4,sat,sat,1,other solutions exist,,1,1,cp-sat
+3-constraint-small,10,cp-sat,3,4,4;2;4,sat,sat,1,other solutions exist,,1,1,cp-sat
+3-constraint-small,11,cp-sat,3,3,4;3;3,sat,sat,1,other solutions exist,,1,1,cp-sat
+3-constraint-small,12,cp-sat,3,0,0;0;1,unsat,unsat,1,,,,,cp-sat
+3-constraint-small,13,cp-sat,3,3,2;4;3,sat,sat,1,other solutions exist,,1,1,cp-sat
+3-constraint-small,14,cp-sat,3,0,1;0;0,unsat,unsat,1,,,,,cp-sat
+3-constraint-small,15,cp-sat,3,4,4;3;4,sat,sat,1,other solutions exist,,1,1,cp-sat
+3-constraint-small,16,cp-sat,3,0,1;0;0,unsat,unsat,1,,,,,cp-sat
+3-constraint-small,17,cp-sat,3,0,1;0;0,unsat,unsat,1,,,,,cp-sat
+3-constraint-small,18,cp-sat,3,0,1;0;0,unsat,unsat,1,,,,,cp-sat
+3-constraint-small,19,cp-sat,3,3,3;3;2,sat,sat,1,other solutions exist,,1,1,cp-sat
+3-constraint-small,0,z3-bool,3,1,1;1;0,sat,sat,1,other solutions exist,,1,1,z3-bool
+3-constraint-small,1,z3-bool,3,0,0;0;1,unsat,unsat,1,,,,,z3-bool
+3-constraint-small,2,z3-bool,3,1,1;1;1,sat,sat,1,other solutions exist,,1,1,z3-bool
+3-constraint-small,3,z3-bool,3,1,0;1;1,sat,sat,1,other solutions exist,,1,1,z3-bool
+3-constraint-small,4,z3-bool,3,1,0;1;1,sat,sat,1,other solutions exist,,1,1,z3-bool
+3-constraint-small,5,z3-bool,3,0,0;1;0,sat,sat,1,other solutions exist,,1,1,z3-bool
+3-constraint-small,6,z3-bool,3,0,1;0;0,unsat,unsat,1,,,,,z3-bool
+3-constraint-small,7,z3-bool,3,1,1;0;1,unsat,unsat,1,,,,,z3-bool
+3-constraint-small,8,z3-bool,3,0,0;1;0,sat,sat,1,other solutions exist,,1,1,z3-bool
+3-constraint-small,9,z3-bool,3,1,1;0;1,sat,sat,1,other solutions exist,,1,1,z3-bool
+3-constraint-small,10,z3-bool,3,1,1;0;1,sat,sat,1,other solutions exist,,1,1,z3-bool
+3-constraint-small,11,z3-bool,3,1,1;0;1,sat,sat,1,other solutions exist,,1,1,z3-bool
+3-constraint-small,12,z3-bool,3,0,0;0;1,unsat,unsat,1,,,,,z3-bool
+3-constraint-small,13,z3-bool,3,0,0;1;0,sat,sat,1,other solutions exist,,1,1,z3-bool
+3-constraint-small,14,z3-bool,3,0,1;0;0,unsat,unsat,1,,,,,z3-bool
+3-constraint-small,15,z3-bool,3,1,1;0;1,sat,sat,1,other solutions exist,,1,1,z3-bool
+3-constraint-small,16,z3-bool,3,0,0;1;0,unsat,unsat,1,,,,,z3-bool
+3-constraint-small,17,z3-bool,3,0,0;1;0,unsat,unsat,1,,,,,z3-bool
+3-constraint-small,18,z3-bool,3,0,0;0;1,unsat,unsat,1,,,,,z3-bool
+3-constraint-small,19,z3-bool,3,0,0;1;0,sat,sat,1,other solutions exist,,1,1,z3-bool
+3-constraint-small,0,z3-int,3,2,3;2;2,sat,sat,1,other solutions exist,,1,1,z3-int
+3-constraint-small,1,z3-int,3,1,1;0;1,unsat,unsat,1,,,,,z3-int
+3-constraint-small,2,z3-int,3,2,3;2;2,sat,sat,1,other solutions exist,,1,1,z3-int
+3-constraint-small,3,z3-int,3,2,3;2;2,sat,sat,1,other solutions exist,,1,1,z3-int
+3-constraint-small,4,z3-int,3,2,2;2;1,sat,sat,1,other solutions exist,,1,1,z3-int
+3-constraint-small,5,z3-int,3,2,2;2;1,sat,sat,1,other solutions exist,,1,1,z3-int
+3-constraint-small,6,z3-int,3,0,0;0;1,unsat,unsat,1,,,,,z3-int
+3-constraint-small,7,z3-int,3,0,0;1;0,unsat,unsat,1,,,,,z3-int
+3-constraint-small,8,z3-int,3,2,2;2;2,sat,sat,1,other solutions exist,,1,1,z3-int
+3-constraint-small,9,z3-int,3,2,2;2;1,sat,sat,1,other solutions exist,,1,1,z3-int
+3-constraint-small,10,z3-int,3,2,2;2;2,sat,sat,1,other solutions exist,,1,1,z3-int
+3-constraint-small,11,z3-int,3,2,2;2;2,sat,sat,1,other solutions exist,,1,1,z3-int
+3-constraint-small,12,z3-int,3,0,0;0;1,unsat,unsat,1,,,,,z3-int
+3-constraint-small,13,z3-int,3,2,2;1;2,sat,sat,1,other solutions exist,,1,1,z3-int
+3-constraint-small,14,z3-int,3,0,1;0;0,unsat,unsat,1,,,,,z3-int
+3-constraint-small,15,z3-int,3,2,2;2;2,sat,sat,1,other solutions exist,,1,1,z3-int
+3-constraint-small,16,z3-int,3,0,0;1;0,unsat,unsat,1,,,,,z3-int
+3-constraint-small,17,z3-int,3,0,1;0;0,unsat,unsat,1,,,,,z3-int
+3-constraint-small,18,z3-int,3,0,0;0;1,unsat,unsat,1,,,,,z3-int
+3-constraint-small,19,z3-int,3,2,2;2;2,sat,sat,1,other solutions exist,,1,1,z3-int
+3-constraint-small,0,portfolio,3,3,3;4;3,sat,sat,1,other solutions exist,,1,1,cp-sat
+3-constraint-small,1,portfolio,3,0,1;0;0,unsat,unsat,1,,,,,cp-sat
+3-constraint-small,2,portfolio,3,3,3;4;3,sat,sat,1,other solutions exist,,1,1,cp-sat
+3-constraint-small,3,portfolio,3,3,4;3;3,sat,sat,1,other solutions exist,,1,1,cp-sat
+3-constraint-small,4,portfolio,3,3,4;3;3,sat,sat,1,other solutions exist,,1,1,cp-sat
+3-constraint-small,5,portfolio,3,3,3;3;4,sat,sat,1,other solutions exist,,1,1,cp-sat
+3-constraint-small,6,portfolio,3,0,0;0;0,unsat,unsat,1,,,,,cp-sat
+3-constraint-small,7,portfolio,3,0,0;0;0,unsat,unsat,1,,,,,cp-sat
+3-constraint-small,8,portfolio,3,4,4;3;4,sat,sat,1,other solutions exist,,1,1,cp-sat
+3-constraint-small,9,portfolio,3,4,4;3;4,sat,sat,1,other solutions exist,,1,1,cp-sat
+3-constraint-small,10,portfolio,3,4,4;4;4,sat,sat,1,other solutions exist,,1,1,cp-sat
+3-constraint-small,11,portfolio,3,4,4;3;4,sat,sat,1,other solutions exist,,1,1,cp-sat
+3-constraint-small,12,portfolio,3,0,0;0;0,unsat,unsat,1,,,,,cp-sat
+3-constraint-small,13,portfolio,3,4,3;4;4,sat,sat,1,other solutions exist,,1,1,cp-sat
+3-constraint-small,14,portfolio,3,0,0;1;0,unsat,unsat,1,,,,,cp-sat
+3-constraint-small,15,portfolio,3,4,4;4;3,sat,sat,1,other solutions exist,,1,1,cp-sat
+3-constraint-small,16,portfolio,3,0,0;0;0,unsat,unsat,1,,,,,cp-sat
+3-constraint-small,17,portfolio,3,0,1;0;0,unsat,unsat,1,,,,,cp-sat
+3-constraint-small,18,portfolio,3,0,1;0;0,unsat,unsat,1,,,,,cp-sat
+3-constraint-small,19,portfolio,3,4,4;4;4,sat,sat,1,other solutions exist,,1,1,cp-sat
+3-constraint-small,0,cp-sat-users,3,4,5;4;4,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+3-constraint-small,1,cp-sat-users,3,0,0;0;1,unsat,unsat,1,,,,,cp-sat-users
+3-constraint-small,2,cp-sat-users,3,4,4;4;3,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+3-constraint-small,3,cp-sat-users,3,4,4;4;4,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+3-constraint-small,4,cp-sat-users,3,4,4;4;4,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+3-constraint-small,5,cp-sat-users,3,4,4;4;4,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+3-constraint-small,6,cp-sat-users,3,0,0;0;1,unsat,unsat,1,,,,,cp-sat-users
+3-constraint-small,7,cp-sat-users,3,0,0;0;0,unsat,unsat,1,,,,,cp-sat-users
+3-constraint-small,8,cp-sat-users,3,3,3;5;3,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+3-constraint-small,9,cp-sat-users,3,4,3;4;4,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+3-constraint-small,10,cp-sat-users,3,4,4;4;3,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+3-constraint-small,11,cp-sat-users,3,4,4;5;4,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+3-constraint-small,12,cp-sat-users,3,0,0;1;0,unsat,unsat,1,,,,,cp-sat-users
+3-constraint-small,13,cp-sat-users,3,4,4;4;4,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+3-constraint-small,14,cp-sat-users,3,0,0;0;1,unsat,unsat,1,,,,,cp-sat-users
+3-constraint-small,15,cp-sat-users,3,4,4;4;4,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+3-constraint-small,16,cp-sat-users,3,0,0;0;1,unsat,unsat,1,,,,,cp-sat-users
+3-constraint-small,17,cp-sat-users,3,0,0;0;1,unsat,unsat,1,,,,,cp-sat-users
+3-constraint-small,18,cp-sat-users,3,0,0;0;0,unsat,unsat,1,,,,,cp-sat-users
+3-constraint-small,19,cp-sat-users,3,4,4;5;4,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+3-constraint-small,0,z3-cnf,3,1,1;2;1,sat,sat,1,other solutions exist,,1,1,z3-cnf
+3-constraint-small,1,z3-cnf,3,1,1;0;1,unsat,unsat,1,,,,,z3-cnf
+3-constraint-small,2,z3-cnf,3,1,1;2;1,sat,sat,1,other solutions exist,,1,1,z3-cnf
+3-constraint-small,3,z3-cnf,3,1,1;1;1,sat,sat,1,other solutions exist,,1,1,z3-cnf
+3-constraint-small,4,z3-cnf,3,1,1;1;2,sat,sat,1,other solutions exist,,1,1,z3-cnf
+3-constraint-small,5,z3-cnf,3,1,1;1;1,sat,sat,1,other solutions exist,,1,1,z3-cnf
+3-constraint-small,6,z3-cnf,3,0,1;0;0,unsat,unsat,1,,,,,z3-cnf
+3-constraint-small,7,z3-cnf,3,1,1;1;1,unsat,unsat,1,,,,,z3-cnf
+3-constraint-small,8,z3-cnf,3,1,1;1;1,sat,sat,1,other solutions exist,,1,1,z3-cnf
+3-constraint-small,9,z3-cnf,3,0,0;1;0,sat,sat,1,other solutions exist,,1,1,z3-cnf
+3-constraint-small,10,z3-cnf,3,1,1;1;1,sat,sat,1,other solutions exist,,1,1,z3-cnf
+3-constraint-small,11,z3-cnf,3,1,1;0;1,sat,sat,1,other solutions exist,,1,1,z3-cnf
+3-constraint-small,12,z3-cnf,3,1,1;0;1,unsat,unsat,1,,,,,z3-cnf
+3-constraint-small,13,z3-cnf,3,1,1;0;1,sat,sat,1,other solutions exist,,1,1,z3-cnf
+3-constraint-small,14,z3-cnf,3,0,0;1;0,unsat,unsat,1,,,,,z3-cnf
+3-constraint-small,15,z3-cnf,3,1,1;1;1,sat,sat,1,other solutions exist,,1,1,z3-cnf
+3-constraint-small,16,z3-cnf,3,0,0;0;1,unsat,unsat,1,,,,,z3-cnf
+3-constraint-small,17,z3-cnf,3,0,0;0;1,unsat,unsat,1,,,,,z3-cnf
+3-constraint-small,18,z3-cnf,3,0,0;0;1,unsat,unsat,1,,,,,z3-cnf
+3-constraint-small,19,z3-cnf,3,1,1;0;1,sat,sat,1,other solutions exist,,1,1,z3-cnf
+4-constraint,0,cp-sat,3,17,18;17;16,sat,sat,1,other solutions exist,,1,1,cp-sat
+4-constraint,1,cp-sat,3,3,4;3;3,unsat,unsat,1,,,,,cp-sat
+4-constraint,2,cp-sat,3,3,3;3;3,unsat,unsat,1,,,,,cp-sat
+4-constraint,3,cp-sat,3,3,3;2;3,unsat,unsat,1,,,,,cp-sat
+4-constraint,4,cp-sat,3,3,3;3;3,unsat,unsat,1,,,,,cp-sat
+4-constraint,5,cp-sat,3,11,11;10;11,sat,sat,1,other solutions exist,,1,1,cp-sat
+4-constraint,6,cp-sat,3,12,12;11;12,sat,sat,1,other solutions exist,,1,1,cp-sat
+4-constraint,7,cp-sat,3,18,18;19;18,sat,sat,1,other solutions exist,,1,1,cp-sat
+4-constraint,8,cp-sat,3,13,13;13;14,sat,sat,1,other solutions exist,,1,1,cp-sat
+4-constraint,9,cp-sat,3,3,3;3;4,unsat,unsat,1,,,,,cp-sat
+4-constraint,10,cp-sat,3,16,16;17;16,sat,sat,1,other solutions exist,,1,1,cp-sat
+4-constraint,11,cp-sat,3,19,18;19;19,sat,sat,1,other solutions exist,,1,1,cp-sat
+4-constraint,12,cp-sat,3,14,14;14;14,sat,sat,1,other solutions exist,,1,1,cp-sat
+4-constraint,13,cp-sat,3,3,3;3;3,unsat,unsat,1,,,,,cp-sat
+4-constraint,14,cp-sat,3,14,14;14;15,sat,sat,1,other solutions exist,,1,1,cp-sat
+4-constraint,15,cp-sat,3,3,3;3;3,unsat,unsat,1,,,,,cp-sat
+4-constraint,16,cp-sat,3,4,5;4;4,unsat,unsat,1,,,,,cp-sat
+4-constraint,17,cp-sat,3,3,3;3;3,unsat,unsat,1,,,,,cp-sat
+4-constraint,18,cp-sat,3,12,13;12;12,sat,sat,1,other solutions exist,,1,1,cp-sat
+4-constraint,19,cp-sat,3,12,12;12;11,sat,sat,1,other solutions exist,,1,1,cp-sat
+4-constraint,0,z3-bool,3,27,28;27;27,sat,sat,1,other solutions exist,,1,1,z3-bool
+4-constraint,1,z3-bool,3,29,29;29;28,unsat,unsat,1,,,,,z3-bool
+4-constraint,2,z3-bool,3,28,28;28;28,unsat,unsat,1,,,,,z3-bool
+4-constraint,3,z3-bool,3,22,22;22;22,unsat,unsat,1,,,,,z3-bool
+4-constraint,4,z3-bool,3,26,26;26;26,unsat,unsat,1,,,,,z3-bool
+4-constraint,5,z3-bool,3,28,28;27;28,sat,sat,1,other solutions exist,,1,1,z3-bool
+4-constraint,6,z3-bool,3,26,26;26;26,sat,sat,1,other solutions exist,,1,1,z3-bool
+4-constraint,7,z3-bool,3,30,30;30;31,sat,sat,1,other solutions exist,,1,1,z3-bool
+4-constraint,8,z3-bool,3,26,25;27;26,sat,sat,1,other solutions exist,,1,1,z3-bool
+4-constraint,9,z3-bool,3,32,33;32;32,unsat,unsat,1,,,,,z3-bool
+4-constraint,10,z3-bool,3,27,27;27;27,sat,sat,1,other solutions exist,,1,1,z3-bool
+4-constraint,11,z3-bool,3,37,36;40;37,sat,sat,1,other solutions exist,,1,1,z3-bool
+4-constraint,12,z3-bool,3,24,24;24;25,sat,sat,1,other solutions exist,,1,1,z3-bool
+4-constraint,13,z3-bool,3,26,27;26;26,unsat,unsat,1,,,,,z3-bool
+4-constraint,14,z3-bool,3,28,27;28;28,sat,sat,1,other solutions exist,,1,1,z3-bool
+4-constraint,15,z3-bool,3,30,30;30;30,unsat,unsat,1,,,,,z3-bool
+4-constraint,16,z3-bool,3,28,28;27;28,unsat,unsat,1,,,,,z3-bool
+4-constraint,17,z3-bool,3,28,28;28;30,unsat,unsat,1,,,,,z3-bool
+4-constraint,18,z3-bool,3,30,30;30;30,sat,sat,1,other solutions exist,,1,1,z3-bool
+4-constraint,19,z3-bool,3,26,26;25;26,sat,sat,1,other solutions exist,,1,1,z3-bool
+4-constraint,0,z3-int,3,9,9;8;9,sat,sat,1,other solutions exist,,1,1,z3-int
+4-constraint,1,z3-int,3,4,4;4;4,unsat,unsat,1,,,,,z3-int
+4-constraint,2,z3-int,3,4,3;4;4,unsat,unsat,1,,,,,z3-int
+4-constraint,3,z3-int,3,3,3;4;3,unsat,unsat,1,,,,,z3-int
+4-constraint,4,z3-int,3,4,4;4;3,unsat,unsat,1,,,,,z3-int
+4-constraint,5,z3-int,3,9,9;10;9,sat,sat,1,other solutions exist,,1,1,z3-int
+4-constraint,6,z3-int,3,10,10;10;9,sat,sat,1,other solutions exist,,1,1,z3-int
+4-constraint,7,z3-int,3,11,9;11;11,sat,sat,1,other solutions exist,,1,1,z3-int
+4-constraint,8,z3-int,3,9,9;9;10,sat,sat,1,other solutions exist,,1,1,z3-int
+4-constraint,9,z3-int,3,4,4;4;4,unsat,unsat,1,,,,,z3-int
+4-constraint,10,z3-int,3,9,9;11;8,sat,sat,1,other solutions exist,,1,1,z3-int
+4-constraint,11,z3-int,3,9,9;9;10,sat,sat,1,other solutions exist,,1,1,z3-int
+4-constraint,12,z3-int,3,9,9;9;8,sat,sat,1,other solutions exist,,1,1,z3-int
+4-constraint,13,z3-int,3,4,4;4;4,unsat,unsat,1,,,,,z3-int
+4-constraint,14,z3-int,3,8,8;7;8,sat,sat,1,other solutions exist,,1,1,z3-int
+4-constraint,15,z3-int,3,4,4;4;4,unsat,unsat,1,,,,,z3-int
+4-constraint,16,z3-int,3,6,6;6;6,unsat,unsat,1,,,,,z3-int
+4-constraint,17,z3-int,3,4,4;3;4,unsat,unsat,1,,,,,z3-int
+4-constraint,18,z3-int,3,9,9;9;9,sat,sat,1,other solutions exist,,1,1,z3-int
+4-constraint,19,z3-int,3,9,9;9;11,sat,sat,1,other solutions exist,,1,1,z3-int
+4-constraint,0,portfolio,3,16,16;16;17,sat,sat,1,other solutions exist,,1,1,cp-sat
+4-constraint,1,portfolio,3,3,3;3;3,unsat,unsat,1,,,,,cp-sat
+4-constraint,2,portfolio,3,3,4;3;3,unsat,unsat,1,,,,,cp-sat
+4-constraint,3,portfolio,3,3,3;2;3,unsat,unsat,1,,,,,cp-sat
+4-constraint,4,portfolio,3,3,3;3;3,unsat,unsat,1,,,,,cp-sat
+4-constraint,5,portfolio,3,12,12;12;11,sat,sat,1,other solutions exist,,1,1,cp-sat
+4-constraint,6,portfolio,3,13,13;13;13,sat,sat,1,other solutions exist,,1,1,cp-sat
+4-constraint,7,portfolio,3,19,19;19;19,sat,sat,1,other solutions exist,,1,1,cp-sat
+4-constraint,8,portfolio,3,14,14;14;15,sat,sat,1,other solutions exist,,1,1,cp-sat
+4-constraint,9,portfolio,3,4,4;3;4,unsat,unsat,1,,,,,cp-sat
+4-constraint,10,portfolio,3,17,17;17;18,sat,sat,1,other solutions exist,,1,1,cp-sat
+4-constraint,11,portfolio,3,20,20;21;20,sat,sat,1,other solutions exist,,1,1,cp-sat
+4-constraint,12,portfolio,3,15,15;15;16,sat,sat,1,other solutions exist,,1,1,cp-sat
+4-constraint,13,portfolio,3,3,3;3;3,unsat,unsat,1,,,,,cp-sat
+4-constraint,14,portfolio,3,15,15;16;15,sat,sat,1,other solutions exist,,1,1,cp-sat
+4-constraint,15,portfolio,3,3,3;3;4,unsat,unsat,1,,,,,cp-sat
+4-constraint,16,portfolio,3,4,4;4;6,unsat,unsat,1,,,,,cp-sat
+4-constraint,17,portfolio,3,3,3;3;3,unsat,unsat,1,,,,,cp-sat
+4-constraint,18,portfolio,3,14,13;14;14,sat,sat,1,other solutions exist,,1,1,cp-sat
+4-constraint,19,portfolio,3,13,13;13;13,sat,sat,1,other solutions exist,,1,1,cp-sat
+4-constraint,0,cp-sat-users,3,14,14;14;14,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+4-constraint,1,cp-sat-users,3,2,2;2;2,unsat,unsat,1,,,,,cp-sat-users
+4-constraint,2,cp-sat-users,3,2,2;2;2,unsat,unsat,1,,,,,cp-sat-users
+4-constraint,3,cp-sat-users,3,1,1;2;1,unsat,unsat,1,,,,,cp-sat-users
+4-constraint,4,cp-sat-users,3,2,2;2;1,unsat,unsat,1,,,,,cp-sat-users
+4-constraint,5,cp-sat-users,3,12,12;13;12,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+4-constraint,6,cp-sat-users,3,12,12;11;13,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+4-constraint,7,cp-sat-users,3,17,18;17;17,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+4-constraint,8,cp-sat-users,3,12,12;11;12,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+4-constraint,9,cp-sat-users,3,2,2;2;3,unsat,unsat,1,,,,,cp-sat-users
+4-constraint,10,cp-sat-users,3,14,13;14;14,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+4-constraint,11,cp-sat-users,3,19,19;19;19,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+4-constraint,12,cp-sat-users,3,10,10;10;10,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+4-constraint,13,cp-sat-users,3,2,2;1;2,unsat,unsat,1,,,,,cp-sat-users
+4-constraint,14,cp-sat-users,3,13,13;13;13,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+4-constraint,15,cp-sat-users,3,2,2;2;2,unsat,unsat,1,,,,,cp-sat-users
+4-constraint,16,cp-sat-users,3,30,30;30;30,unsat,unsat,1,,,,,cp-sat-users
+4-constraint,17,cp-sat-users,3,2,2;3;2,unsat,unsat,1,,,,,cp-sat-users
+4-constraint,18,cp-sat-users,3,13,12;13;13,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+4-constraint,19,cp-sat-users,3,12,12;11;12,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+4-constraint,0,z3-cnf,3,39,39;39;38,sat,sat,1,other solutions exist,,1,1,z3-cnf
+4-constraint,1,z3-cnf,3,40,40;40;39,unsat,unsat,1,,,,,z3-cnf
+4-constraint,2,z3-cnf,3,39,39;39;38,unsat,unsat,1,,,,,z3-cnf
+4-constraint,3,z3-cnf,3,31,31;31;31,unsat,unsat,1,,,,,z3-cnf
+4-constraint,4,z3-cnf,3,36,37;36;36,unsat,unsat,1,,,,,z3-cnf
+4-constraint,5,z3-cnf,3,37,37;37;39,sat,sat,1,other solutions exist,,1,1,z3-cnf
+4-constraint,6,z3-cnf,3,37,37;37;46,sat,sat,1,other solutions exist,,1,1,z3-cnf
+4-constraint,7,z3-cnf,3,42,42;43;42,sat,sat,1,other solutions exist,,1,1,z3-cnf
+4-constraint,8,z3-cnf,3,37,37;37;35,sat,sat,1,other solutions exist,,1,1,z3-cnf
+4-constraint,9,z3-cnf,3,44,44;44;45,unsat,unsat,1,,,,,z3-cnf
+4-constraint,10,z3-cnf,3,38,38;37;38,sat,sat,1,other solutions exist,,1,1,z3-cnf
+4-constraint,11,z3-cnf,3,51,51;51;50,sat,sat,1,other solutions exist,,1,1,z3-cnf
+4-constraint,12,z3-cnf,3,34,34;35;33,sat,sat,1,other solutions exist,,1,1,z3-cnf
+4-constraint,13,z3-cnf,3,36,36;35;36,unsat,unsat,1,,,,,z3-cnf
+4-constraint,14,z3-cnf,3,39,39;39;39,sat,sat,1,other solutions exist,,1,1,z3-cnf
+4-constraint,15,z3-cnf,3,41,41;41;42,unsat,unsat,1,,,,,z3-cnf
+4-constraint,16,z3-cnf,3,38,39;38;38,unsat,unsat,1,,,,,z3-cnf
+4-constraint,17,z3-cnf,3,39,40;39;39,unsat,unsat,1,,,,,z3-cnf
+4-constraint,18,z3-cnf,3,40,40;40;41,sat,sat,1,other solutions exist,,1,1,z3-cnf
+4-constraint,19,z3-cnf,3,35,35;35;35,sat,sat,1,other solutions exist,,1,1,z3-cnf
+4-constraint-hard,0,cp-sat,1,1966,1966,sat,sat,1,other solutions exist,,1,1,cp-sat
+4-constraint-hard,1,cp-sat,1,2266,2266,unsat,unsat,1,,,,,cp-sat
+4-constraint-hard,2,cp-sat,1,6434,6434,sat,sat,1,other solutions exist,,1,1,cp-sat
+4-constraint-hard,3,cp-sat,1,2786,2786,unsat,unsat,1,,,,,cp-sat
+4-constraint-hard,4,cp-sat,1,980,980,unsat,unsat,1,,,,,cp-sat
+4-constraint-hard,5,cp-sat,1,2074,2074,unsat,unsat,1,,,,,cp-sat
+4-constraint-hard,6,cp-sat,1,2788,2788,sat,sat,1,other solutions exist,,1,1,cp-sat
+4-constraint-hard,7,cp-sat,1,2413,2413,unsat,unsat,1,,,,,cp-sat
+4-constraint-hard,8,cp-sat,1,2477,2477,unsat,unsat,1,,,,,cp-sat
+4-constraint-hard,9,cp-sat,1,1504,1504,sat,sat,1,other solutions exist,,1,1,cp-sat
+4-constraint-hard,10,cp-sat,1,4851,4851,unsat,unsat,1,,,,,cp-sat
+4-constraint-hard,11,cp-sat,1,1201,1201,unsat,unsat,1,,,,,cp-sat
+4-constraint-hard,12,cp-sat,1,1811,1811,unsat,unsat,1,,,,,cp-sat
+4-constraint-hard,13,cp-sat,1,1194,1194,unsat,unsat,1,,,,,cp-sat
+4-constraint-hard,14,cp-sat,1,934,934,unsat,unsat,1,,,,,cp-sat
+4-constraint-hard,15,cp-sat,1,3272,3272,sat,sat,1,other solutions exist,,1,1,cp-sat
+4-constraint-hard,16,cp-sat,1,1175,1175,unsat,unsat,1,,,,,cp-sat
+4-constraint-hard,17,cp-sat,1,1808,1808,unsat,unsat,1,,,,,cp-sat
+4-constraint-hard,18,cp-sat,1,4704,4704,unsat,unsat,1,,,,,cp-sat
+4-constraint-hard,19,cp-sat,1,2534,2534,unsat,unsat,1,,,,,cp-sat
+4-constraint-hard,0,z3-bool,1,2445,2445,sat,sat,1,other solutions exist,,1,1,z3-bool
+4-constraint-hard,1,z3-bool,1,5540,5540,unsat,unsat,1,,,,,z3-bool
+4-constraint-hard,2,z3-bool,1,3986,3986,sat,sat,1,other solutions exist,,1,1,z3-bool
+4-constraint-hard,3,z3-bool,1,5364,5364,unsat,unsat,1,,,,,z3-bool
+4-constraint-hard,4,z3-bool,1,2683,2683,unsat,unsat,1,,,,,z3-bool
+4-constraint-hard,5,z3-bool,1,4664,4664,unsat,unsat,1,,,,,z3-bool
+4-constraint-hard,6,z3-bool,1,2078,2078,sat,sat,1,other solutions exist,,1,1,z3-bool
+4-constraint-hard,7,z3-bool,1,5274,5274,unsat,unsat,1,,,,,z3-bool
+4-constraint-hard,8,z3-bool,1,4604,4604,unsat,unsat,1,,,,,z3-bool
+4-constraint-hard,9,z3-bool,1,2244,2244,sat,sat,1,other solutions exist,,1,1,z3-bool
+4-constraint-hard,10,z3-bool,1,7772,7772,unsat,unsat,1,,,,,z3-bool
+4-constraint-hard,11,z3-bool,1,2739,2739,unsat,unsat,1,,,,,z3-bool
+4-constraint-hard,12,z3-bool,1,3298,3298,unsat,unsat,1,,,,,z3-bool
+4-constraint-hard,13,z3-bool,1,3123,3123,unsat,unsat,1,,,,,z3-bool
+4-constraint-hard,14,z3-bool,1,2439,2439,unsat,unsat,1,,,,,z3-bool
+4-constraint-hard,15,z3-bool,1,3702,3702,sat,sat,1,other solutions exist,,1,1,z3-bool
+4-constraint-hard,16,z3-bool,1,3129,3129,unsat,unsat,1,,,,,z3-bool
+4-constraint-hard,17,z3-bool,1,2966,2966,unsat,unsat,1,,,,,z3-bool
+4-constraint-hard,18,z3-bool,1,10737,10737,unsat,unsat,1,,,,,z3-bool
+4-constraint-hard,19,z3-bool,1,3826,3826,unsat,unsat,1,,,,,z3-bool
+4-constraint-hard,0,z3-int,1,30090,30090,unknown,sat,,,,,,z3-int
+4-constraint-hard,1,z3-int,1,30095,30095,unknown,unsat,,,,,,z3-int
+4-constraint-hard,2,z3-int,1,30090,30090,unknown,sat,,,,,,z3-int
+4-constraint-hard,3,z3-int,1,30092,30092,unknown,unsat,,,,,,z3-int
+4-constraint-hard,4,z3-int,1,30088,30088,unknown,unsat,,,,,,z3-int
+4-constraint-hard,5,z3-int,1,30096,30096,unknown,unsat,,,,,,z3-int
+4-constraint-hard,6,z3-int,1,30092,30092,unknown,sat,,,,,,z3-int
+4-constraint-hard,7,z3-int,1,30092,30092,unknown,unsat,,,,,,z3-int
+4-constraint-hard,8,z3-int,1,30094,30094,unknown,unsat,,,,,,z3-int
+4-constraint-hard,9,z3-int,1,30093,30093,unknown,sat,,,,,,z3-int
+4-constraint-hard,10,z3-int,1,30091,30091,unknown,unsat,,,,,,z3-int
+4-constraint-hard,11,z3-int,1,30086,30086,unknown,unsat,,,,,,z3-int
+4-constraint-hard,12,z3-int,1,30088,30088,unknown,unsat,,,,,,z3-int
+4-constraint-hard,13,z3-int,1,30084,30084,unknown,unsat,,,,,,z3-int
+4-constraint-hard,14,z3-int,1,30086,30086,unknown,unsat,,,,,,z3-int
+4-constraint-hard,15,z3-int,1,30086,30086,unknown,sat,,,,,,z3-int
+4-constraint-hard,16,z3-int,1,30086,30086,unknown,unsat,,,,,,z3-int
+4-constraint-hard,17,z3-int,1,30088,30088,unknown,unsat,,,,,,z3-int
+4-constraint-hard,18,z3-int,1,30088,30088,unknown,unsat,,,,,,z3-int
+4-constraint-hard,19,z3-int,1,30089,30089,unknown,unsat,,,,,,z3-int
+4-constraint-hard,0,portfolio,1,1822,1822,sat,sat,1,other solutions exist,,1,1,cp-sat
+4-constraint-hard,1,portfolio,1,2227,2227,unsat,unsat,1,,,,,cp-sat
+4-constraint-hard,2,portfolio,1,5635,5635,sat,sat,1,other solutions exist,,1,1,cp-sat
+4-constraint-hard,3,portfolio,1,2540,2540,unsat,unsat,1,,,,,cp-sat
+4-constraint-hard,4,portfolio,1,1022,1022,unsat,unsat,1,,,,,cp-sat
+4-constraint-hard,5,portfolio,1,1924,1924,unsat,unsat,1,,,,,cp-sat
+4-constraint-hard,6,portfolio,1,2135,2135,sat,sat,1,other solutions exist,,1,1,cp-sat
+4-constraint-hard,7,portfolio,1,2179,2179,unsat,unsat,1,,,,,cp-sat
+4-constraint-hard,8,portfolio,1,2217,2217,unsat,unsat,1,,,,,cp-sat
+4-constraint-hard,9,portfolio,1,1314,1314,sat,sat,1,other solutions exist,,1,1,cp-sat
+4-constraint-hard,10,portfolio,1,5065,5065,unsat,unsat,1,,,,,cp-sat
+4-constraint-hard,11,portfolio,1,1060,1060,unsat,unsat,1,,,,,cp-sat
+4-constraint-hard,12,portfolio,1,1619,1619,unsat,unsat,1,,,,,cp-sat
+4-constraint-hard,13,portfolio,1,1105,1105,unsat,unsat,1,,,,,cp-sat
+4-constraint-hard,14,portfolio,1,957,957,unsat,unsat,1,,,,,cp-sat
+4-constraint-hard,15,portfolio,1,3360,3360,sat,sat,1,other solutions exist,,1,1,cp-sat
+4-constraint-hard,16,portfolio,1,1077,1077,unsat,unsat,1,,,,,cp-sat
+4-constraint-hard,17,portfolio,1,1616,1616,unsat,unsat,1,,,,,cp-sat
+4-constraint-hard,18,portfolio,1,4850,4850,unsat,unsat,1,,,,,cp-sat
+4-constraint-hard,19,portfolio,1,2302,2302,unsat,unsat,1,,,,,cp-sat
+4-constraint-hard,0,cp-sat-users,1,30167,30167,unknown,sat,,,,,,cp-sat-users
+4-constraint-hard,1,cp-sat-users,1,30093,30093,unknown,unsat,,,,,,cp-sat-users
+4-constraint-hard,2,cp-sat-users,1,30106,30106,unknown,sat,,,,,,cp-sat-users
+4-constraint-hard,3,cp-sat-users,1,30098,30098,unknown,unsat,,,,,,cp-sat-users
+4-constraint-hard,4,cp-sat-users,1,30099,30099,unknown,unsat,,,,,,cp-sat-users
+4-constraint-hard,5,cp-sat-users,1,30100,30100,unknown,unsat,,,,,,cp-sat-users
+4-constraint-hard,6,cp-sat-users,1,30285,30285,unknown,sat,,,,,,cp-sat-users
+4-constraint-hard,7,cp-sat-users,1,30107,30107,unknown,unsat,,,,,,cp-sat-users
+4-constraint-hard,8,cp-sat-users,1,30111,30111,unknown,unsat,,,,,,cp-sat-users
+4-constraint-hard,9,cp-sat-users,1,30217,30217,unknown,sat,,,,,,cp-sat-users
+4-constraint-hard,10,cp-sat-users,1,30040,30040,unknown,unsat,,,,,,cp-sat-users
+4-constraint-hard,11,cp-sat-users,1,30102,30102,unknown,unsat,,,,,,cp-sat-users
+4-constraint-hard,12,cp-sat-users,1,30098,30098,unknown,unsat,,,,,,cp-sat-users
+4-constraint-hard,13,cp-sat-users,1,30194,30194,unknown,unsat,,,,,,cp-sat-users
+4-constraint-hard,14,cp-sat-users,1,30145,30145,unknown,unsat,,,,,,cp-sat-users
+4-constraint-hard,15,cp-sat-users,1,30220,30220,unknown,sat,,,,,,cp-sat-users
+4-constraint-hard,16,cp-sat-users,1,30256,30256,unknown,unsat,,,,,,cp-sat-users
+4-constraint-hard,17,cp-sat-users,1,30225,30225,unknown,unsat,,,,,,cp-sat-users
+4-constraint-hard,18,cp-sat-users,1,30102,30102,unknown,unsat,,,,,,cp-sat-users
+4-constraint-hard,19,cp-sat-users,1,30098,30098,unknown,unsat,,,,,,cp-sat-users
+4-constraint-hard,0,z3-cnf,1,3267,3267,sat,sat,1,other solutions exist,,1,1,z3-cnf
+4-constraint-hard,1,z3-cnf,1,4975,4975,unsat,unsat,1,,,,,z3-cnf
+4-constraint-hard,2,z3-cnf,1,4472,4472,sat,sat,1,other solutions exist,,1,1,z3-cnf
+4-constraint-hard,3,z3-cnf,1,5652,5652,unsat,unsat,1,,,,,z3-cnf
+4-constraint-hard,4,z3-cnf,1,2901,2901,unsat,unsat,1,,,,,z3-cnf
+4-constraint-hard,5,z3-cnf,1,3577,3577,unsat,unsat,1,,,,,z3-cnf
+4-constraint-hard,6,z3-cnf,1,3336,3336,sat,sat,1,other solutions exist,,1,1,z3-cnf
+4-constraint-hard,7,z3-cnf,1,4813,4813,unsat,unsat,1,,,,,z3-cnf
+4-constraint-hard,8,z3-cnf,1,4917,4917,unsat,unsat,1,,,,,z3-cnf
+4-constraint-hard,9,z3-cnf,1,2527,2527,sat,sat,1,other solutions exist,,1,1,z3-cnf
+4-constraint-hard,10,z3-cnf,1,10347,10347,unsat,unsat,1,,,,,z3-cnf
+4-constraint-hard,11,z3-cnf,1,2914,2914,unsat,unsat,1,,,,,z3-cnf
+4-constraint-hard,12,z3-cnf,1,3580,3580,unsat,unsat,1,,,,,z3-cnf
+4-constraint-hard,13,z3-cnf,1,2992,2992,unsat,unsat,1,,,,,z3-cnf
+4-constraint-hard,14,z3-cnf,1,2550,2550,unsat,unsat,1,,,,,z3-cnf
+4-constraint-hard,15,z3-cnf,1,3140,3140,sat,sat,1,other solutions exist,,1,1,z3-cnf
+4-constraint-hard,16,z3-cnf,1,3284,3284,unsat,unsat,1,,,,,z3-cnf
+4-constraint-hard,17,z3-cnf,1,3394,3394,unsat,unsat,1,,,,,z3-cnf
+4-constraint-hard,18,z3-cnf,1,10881,10881,unsat,unsat,1,,,,,z3-cnf
+4-constraint-hard,19,z3-cnf,1,4388,4388,unsat,unsat,1,,,,,z3-cnf
+4-constraint-small,0,cp-sat,3,10,13;10;10,sat,sat,1,other solutions exist,,1,1,cp-sat
+4-constraint-small,1,cp-sat,3,1,2;1;1,unsat,unsat,1,,,,,cp-sat
+4-constraint-small,2,cp-sat,3,8,8;8;8,sat,sat,1,other solutions exist,,1,1,cp-sat
+4-constraint-small,3,cp-sat,3,1,1;1;0,unsat,unsat,1,,,,,cp-sat
+4-constraint-small,4,cp-sat,3,9,9;11;9,sat,sat,1,other solutions exist,,1,1,cp-sat
+4-constraint-small,5,cp-sat,3,6,6;6;6,sat,sat,1,other solutions exist,,1,1,cp-sat
+4-constraint-small,6,cp-sat,3,5,6;5;5,sat,sat,1,other solutions exist,,1,1,cp-sat
+4-constraint-small,7,cp-sat,3,1,1;2;1,unsat,unsat,1,,,,,cp-sat
+4-constraint-small,8,cp-sat,3,6,6;7;6,sat,sat,1,other solutions exist,,1,1,cp-sat
+4-constraint-small,9,cp-sat,3,1,2;1;1,unsat,unsat,1,,,,,cp-sat
+4-constraint-small,10,cp-sat,3,9,9;10;9,sat,sat,1,other solutions exist,,1,1,cp-sat
+4-constraint-small,11,cp-sat,3,10,10;10;9,sat,sat,1,other solutions exist,,1,1,cp-sat
+4-constraint-small,12,cp-sat,3,1,1;1;1,unsat,unsat,1,,,,,cp-sat
+4-constraint-small,13,cp-sat,3,9,9;8;9,sat,sat,1,other solutions exist,,1,1,cp-sat
+4-constraint-small,14,cp-sat,3,1,1;1;1,unsat,unsat,1,,,,,cp-sat
+4-constraint-small,15,cp-sat,3,9,10;9;9,sat,sat,1,other solutions exist,,1,1,cp-sat
+4-constraint-small,16,cp-sat,3,1,1;1;1,unsat,unsat,1,,,,,cp-sat
+4-constraint-small,17,cp-sat,3,5,5;6;5,sat,sat,1,other solutions exist,,1,1,cp-sat
+4-constraint-small,18,cp-sat,3,1,1;1;2,unsat,unsat,1,,,,,cp-sat
+4-constraint-small,19,cp-sat,3,1,1;1;1,unsat,unsat,1,,,,,cp-sat
+4-constraint-small,0,z3-bool,3,14,14;14;14,sat,sat,1,other solutions exist,,1,1,z3-bool
+4-constraint-small,1,z3-bool,3,10,11;10;10,unsat,unsat,1,,,,,z3-bool
+4-constraint-small,2,z3-bool,3,12,12;13;12,sat,sat,1,other solutions exist,,1,1,z3-bool
+4-constraint-small,3,z3-bool,3,9,10;9;9,unsat,unsat,1,,,,,z3-bool
+4-constraint-small,4,z3-bool,3,15,15;14;15,sat,sat,1,other solutions exist,,1,1,z3-bool
+4-constraint-small,5,z3-bool,3,12,12;12;12,sat,sat,1,other solutions exist,,1,1,z3-bool
+4-constraint-small,6,z3-bool,3,12,11;12;12,sat,sat,1,other solutions exist,,1,1,z3-bool
+4-constraint-small,7,z3-bool,3,10,10;11;10,unsat,unsat,1,,,,,z3-bool
+4-constraint-small,8,z3-bool,3,12,12;12;12,sat,sat,1,other solutions exist,,1,1,z3-bool
+4-constraint-small,9,z3-bool,3,10,10;10;10,unsat,unsat,1,,,,,z3-bool
+4-constraint-small,10,z3-bool,3,12,12;13;12,sat,sat,1,other solutions exist,,1,1,z3-bool
+4-constraint-small,11,z3-bool,3,14,14;13;14,sat,sat,1,other solutions exist,,1,1,z3-bool
+4-constraint-small,12,z3-bool,3,10,10;10;10,unsat,unsat,1,,,,,z3-bool
+4-constraint-small,13,z3-bool,3,12,12;11;13,sat,sat,1,other solutions exist,,1,1,z3-bool
+4-constraint-small,14,z3-bool,3,9,9;9;10,unsat,unsat,1,,,,,z3-bool
+4-constraint-small,15,z3-bool,3,13,13;13;13,sat,sat,1,other solutions exist,,1,1,z3-bool
+4-constraint-small,16,z3-bool,3,9,9;9;9,unsat,unsat,1,,,,,z3-bool
+4-constraint-small,17,z3-bool,3,10,10;10;11,sat,sat,1,other solutions exist,,1,1,z3-bool
+4-constraint-small,18,z3-bool,3,10,10;9;10,unsat,unsat,1,,,,,z3-bool
+4-constraint-small,19,z3-bool,3,10,9;10;11,unsat,unsat,1,,,,,z3-bool
+4-constraint-small,0,z3-int,3,7,7;6;7,sat,sat,1,other solutions exist,,1,1,z3-int
+4-constraint-small,1,z3-int,3,4,4;4;4,unsat,unsat,1,,,,,z3-int
+4-constraint-small,2,z3-int,3,6,5;7;6,sat,sat,1,other solutions exist,,1,1,z3-int
+4-constraint-small,3,z3-int,3,2,1;2;2,unsat,unsat,1,,,,,z3-int
+4-constraint-small,4,z3-int,3,6,6;6;5,sat,sat,1,other solutions exist,,1,1,z3-int
+4-constraint-small,5,z3-int,3,6,6;5;6,sat,sat,1,other solutions exist,,1,1,z3-int
+4-constraint-small,6,z3-int,3,5,5;6;5,sat,sat,1,other solutions exist,,1,1,z3-int
+4-constraint-small,7,z3-int,3,4,5;4;4,unsat,unsat,1,,,,,z3-int
+4-constraint-small,8,z3-int,3,7,7;7;6,sat,sat,1,other solutions exist,,1,1,z3-int
+4-constraint-small,9,z3-int,3,2,2;2;2,unsat,unsat,1,,,,,z3-int
+4-constraint-small,10,z3-int,3,5,6;5;5,sat,sat,1,other solutions exist,,1,1,z3-int
+4-constraint-small,11,z3-int,3,6,6;6;6,sat,sat,1,other solutions exist,,1,1,z3-int
+4-constraint-small,12,z3-int,3,1,2;1;1,unsat,unsat,1,,,,,z3-int
+4-constraint-small,13,z3-int,3,6,6;7;6,sat,sat,1,other solutions exist,,1,1,z3-int
+4-constraint-small,14,z3-int,3,2,2;2;1,unsat,unsat,1,,,,,z3-int
+4-constraint-small,15,z3-int,3,7,8;6;7,sat,sat,1,other solutions exist,,1,1,z3-int
+4-constraint-small,16,z3-int,3,2,2;2;1,unsat,unsat,1,,,,,z3-int
+4-constraint-small,17,z3-int,3,5,5;6;5,sat,sat,1,other solutions exist,,1,1,z3-int
+4-constraint-small,18,z3-int,3,2,2;1;2,unsat,unsat,1,,,,,z3-int
+4-constraint-small,19,z3-int,3,3,4;3;3,unsat,unsat,1,,,,,z3-int
+4-constraint-small,0,portfolio,3,10,10;10;10,sat,sat,1,other solutions exist,,1,1,cp-sat
+4-constraint-small,1,portfolio,3,1,1;1;1,unsat,unsat,1,,,,,cp-sat
+4-constraint-small,2,portfolio,3,8,8;8;8,sat,sat,1,other solutions exist,,1,1,cp-sat
+4-constraint-small,3,portfolio,3,1,1;1;1,unsat,unsat,1,,,,,cp-sat
+4-constraint-small,4,portfolio,3,10,10;9;10,sat,sat,1,other solutions exist,,1,1,cp-sat
+4-constraint-small,5,portfolio,3,6,6;5;6,sat,sat,1,other solutions exist,,1,1,cp-sat
+4-constraint-small,6,portfolio,3,5,5;5;6,sat,sat,1,other solutions exist,,1,1,cp-sat
+4-constraint-small,7,portfolio,3,1,2;1;1,unsat,unsat,1,,,,,cp-sat
+4-constraint-small,8,portfolio,3,7,7;6;7,sat,sat,1,other solutions exist,,1,1,cp-sat
+4-constraint-small,9,portfolio,3,1,2;1;1,unsat,unsat,1,,,,,cp-sat
+4-constraint-small,10,portfolio,3,9,9;10;9,sat,sat,1,other solutions exist,,1,1,cp-sat
+4-constraint-small,11,portfolio,3,10,10;10;11,sat,sat,1,other solutions exist,,1,1,cp-sat
+4-constraint-small,12,portfolio,3,1,1;1;1,unsat,unsat,1,,,,,cp-sat
+4-constraint-small,13,portfolio,3,10,10;10;9,sat,sat,1,other solutions exist,,1,1,cp-sat
+4-constraint-small,14,portfolio,3,1,1;1;1,unsat,unsat,1,,,,,cp-sat
+4-constraint-small,15,portfolio,3,9,9;9;12,sat,sat,1,other solutions exist,,1,1,cp-sat
+4-constraint-small,16,portfolio,3,1,1;1;1,unsat,unsat,1,,,,,cp-sat
+4-constraint-small,17,portfolio,3,6,6;5;6,sat,sat,1,other solutions exist,,1,1,cp-sat
+4-constraint-small,18,portfolio,3,1,2;1;1,unsat,unsat,1,,,,,cp-sat
+4-constraint-small,19,portfolio,3,1,1;1;1,unsat,unsat,1,,,,,cp-sat
+4-constraint-small,0,cp-sat-users,3,6,6;7;6,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+4-constraint-small,1,cp-sat-users,3,0,0;1;0,unsat,unsat,1,,,,,cp-sat-users
+4-constraint-small,2,cp-sat-users,3,5,5;5;6,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+4-constraint-small,3,cp-sat-users,3,0,0;0;1,unsat,unsat,1,,,,,cp-sat-users
+4-constraint-small,4,cp-sat-users,3,6,6;6;6,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+4-constraint-small,5,cp-sat-users,3,4,4;3;4,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+4-constraint-small,6,cp-sat-users,3,4,4;4;5,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+4-constraint-small,7,cp-sat-users,3,0,0;1;0,unsat,unsat,1,,,,,cp-sat-users
+4-constraint-small,8,cp-sat-users,3,5,5;4;5,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+4-constraint-small,9,cp-sat-users,3,0,0;0;7,unsat,unsat,1,,,,,cp-sat-users
+4-constraint-small,10,cp-sat-users,3,6,6;6;6,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+4-constraint-small,11,cp-sat-users,3,6,7;6;6,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+4-constraint-small,12,cp-sat-users,3,0,0;1;0,unsat,unsat,1,,,,,cp-sat-users
+4-constraint-small,13,cp-sat-users,3,6,6;5;6,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+4-constraint-small,14,cp-sat-users,3,0,0;1;0,unsat,unsat,1,,,,,cp-sat-users
+4-constraint-small,15,cp-sat-users,3,6,7;6;6,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+4-constraint-small,16,cp-sat-users,3,0,1;0;0,unsat,unsat,1,,,,,cp-sat-users
+4-constraint-small,17,cp-sat-users,3,4,5;4;4,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+4-constraint-small,18,cp-sat-users,3,0,1;0;0,unsat,unsat,1,,,,,cp-sat-users
+4-constraint-small,19,cp-sat-users,3,1,1;0;1,unsat,unsat,1,,,,,cp-sat-users
+4-constraint-small,0,z3-cnf,3,18,20;18;18,sat,sat,1,other solutions exist,,1,1,z3-cnf
+4-constraint-small,1,z3-cnf,3,14,14;13;14,unsat,unsat,1,,,,,z3-cnf
+4-constraint-small,2,z3-cnf,3,16,16;16;16,sat,sat,1,other solutions exist,,1,1,z3-cnf
+4-constraint-small,3,z3-cnf,3,13,13;13;13,unsat,unsat,1,,,,,z3-cnf
+4-constraint-small,4,z3-cnf,3,19,19;18;19,sat,sat,1,other solutions exist,,1,1,z3-cnf
+4-constraint-small,5,z3-cnf,3,16,16;16;16,sat,sat,1,other solutions exist,,1,1,z3-cnf
+4-constraint-small,6,z3-cnf,3,15,15;15;14,sat,sat,1,other solutions exist,,1,1,z3-cnf
+4-constraint-small,7,z3-cnf,3,14,14;14;14,unsat,unsat,1,,,,,z3-cnf
+4-constraint-small,8,z3-cnf,3,15,15;16;15,sat,sat,1,other solutions exist,,1,1,z3-cnf
+4-constraint-small,9,z3-cnf,3,13,13;13;14,unsat,unsat,1,,,,,z3-cnf
+4-constraint-small,10,z3-cnf,3,16,16;16;16,sat,sat,1,other solutions exist,,1,1,z3-cnf
+4-constraint-small,11,z3-cnf,3,17,17;17;17,sat,sat,1,other solutions exist,,1,1,z3-cnf
+4-constraint-small,12,z3-cnf,3,13,13;13;14,unsat,unsat,1,,,,,z3-cnf
+4-constraint-small,13,z3-cnf,3,15,15;16;15,sat,sat,1,other solutions exist,,1,1,z3-cnf
+4-constraint-small,14,z3-cnf,3,13,13;13;13,unsat,unsat,1,,,,,z3-cnf
+4-constraint-small,15,z3-cnf,3,17,16;17;17,sat,sat,1,other solutions exist,,1,1,z3-cnf
+4-constraint-small,16,z3-cnf,3,12,12;13;12,unsat,unsat,1,,,,,z3-cnf
+4-constraint-small,17,z3-cnf,3,14,15;14;14,sat,sat,1,other solutions exist,,1,1,z3-cnf
+4-constraint-small,18,z3-cnf,3,13,13;13;12,unsat,unsat,1,,,,,z3-cnf
+4-constraint-small,19,z3-cnf,3,13,14;13;13,unsat,unsat,1,,,,,z3-cnf
+5-constraint,0,cp-sat,3,8,9;8;7,unsat,unsat,1,,,,,cp-sat
+5-constraint,1,cp-sat,3,6,6;6;5,unsat,unsat,1,,,,,cp-sat
+5-constraint,2,cp-sat,3,28,30;28;28,sat,sat,1,other solutions exist,,1,1,cp-sat
+5-constraint,3,cp-sat,3,27,27;26;27,sat,sat,1,other solutions exist,,1,1,cp-sat
+5-constraint,4,cp-sat,3,7,7;8;7,unsat,unsat,1,,,,,cp-sat
+5-constraint,5,cp-sat,3,16,16;15;16,sat,sat,1,other solutions exist,,1,1,cp-sat
+5-constraint,6,cp-sat,3,27,27;28;26,sat,sat,1,other solutions exist,,1,1,cp-sat
+5-constraint,7,cp-sat,3,5,6;5;5,unsat,unsat,1,,,,,cp-sat
+5-constraint,8,cp-sat,3,5,5;6;5,unsat,unsat,1,,,,,cp-sat
+5-constraint,9,cp-sat,3,30,30;30;29,sat,sat,1,other solutions exist,,1,1,cp-sat
+5-constraint,10,cp-sat,3,29,29;29;28,sat,sat,1,other solutions exist,,1,1,cp-sat
+5-constraint,11,cp-sat,3,5,4;5;5,unsat,unsat,1,,,,,cp-sat
+5-constraint,12,cp-sat,3,24,24;25;24,sat,sat,1,other solutions exist,,1,1,cp-sat
+5-constraint,13,cp-sat,3,28,28;28;28,sat,sat,1,other solutions exist,,1,1,cp-sat
+5-constraint,14,cp-sat,3,7,8;7;7,unsat,unsat,1,,,,,cp-sat
+5-constraint,15,cp-sat,3,6,6;6;6,unsat,unsat,1,,,,,cp-sat
+5-constraint,16,cp-sat,3,21,21;22;21,sat,sat,1,other solutions exist,,1,1,cp-sat
+5-constraint,17,cp-sat,3,6,6;5;6,unsat,unsat,1,,,,,cp-sat
+5-constraint,18,cp-sat,3,18,18;18;17,sat,sat,1,other solutions exist,,1,1,cp-sat
+5-constraint,19,cp-sat,3,6,5;6;6,unsat,unsat,1,,,,,cp-sat
+5-constraint,0,z3-bool,3,69,69;69;69,unsat,unsat,1,,,,,z3-bool
+5-constraint,1,z3-bool,3,61,62;61;60,unsat,unsat,1,,,,,z3-bool
+5-constraint,2,z3-bool,3,76,76;77;76,sat,sat,1,other solutions exist,,1,1,z3-bool
+5-constraint,3,z3-bool,3,86,88;86;86,sat,sat,1,other solutions exist,,1,1,z3-bool
+5-constraint,4,z3-bool,3,75,75;75;75,unsat,unsat,1,,,,,z3-bool
+5-constraint,5,z3-bool,3,64,65;64;64,sat,sat,1,other solutions exist,,1,1,z3-bool
+5-constraint,6,z3-bool,3,70,70;70;69,sat,sat,1,other solutions exist,,1,1,z3-bool
+5-constraint,7,z3-bool,3,56,56;54;56,unsat,unsat,1,,,,,z3-bool
+5-constraint,8,z3-bool,3,59,58;59;59,unsat,unsat,1,,,,,z3-bool
+5-constraint,9,z3-bool,3,82,82;82;81,sat,sat,1,other solutions exist,,1,1,z3-bool
+5-constraint,10,z3-bool,3,79,79;81;79,sat,sat,1,other solutions exist,,1,1,z3-bool
+5-constraint,11,z3-bool,3,48,48;48;48,unsat,unsat,1,,,,,z3-bool
+5-constraint,12,z3-bool,3,60,59;60;60,sat,sat,1,other solutions exist,,1,1,z3-bool
+5-constraint,13,z3-bool,3,74,74;75;73,sat,sat,1,other solutions exist,,1,1,z3-bool
+5-constraint,14,z3-bool,3,56,57;56;55,unsat,unsat,1,,,,,z3-bool
+5-constraint,15,z3-bool,3,60,60;58;60,unsat,unsat,1,,,,,z3-bool
+5-constraint,16,z3-bool,3,62,61;62;62,sat,sat,1,other solutions exist,,1,1,z3-bool
+5-constraint,17,z3-bool,3,55,56;55;55,unsat,unsat,1,,,,,z3-bool
+5-constraint,18,z3-bool,3,58,58;57;58,sat,sat,1,other solutions exist,,1,1,z3-bool
+5-constraint,19,z3-bool,3,58,58;58;59,unsat,unsat,1,,,,,z3-bool
+5-constraint,0,z3-int,3,21,23;21;18,unsat,unsat,1,,,,,z3-int
+5-constraint,1,z3-int,3,12,12;13;12,unsat,unsat,1,,,,,z3-int
+5-constraint,2,z3-int,3,27,25;27;31,sat,sat,1,other solutions exist,,1,1,z3-int
+5-constraint,3,z3-int,3,22,23;19;22,sat,sat,1,other solutions exist,,1,1,z3-int
+5-constraint,4,z3-int,3,7,7;7;8,unsat,unsat,1,,,,,z3-int
+5-constraint,5,z3-int,3,25,28;25;18,sat,sat,1,other solutions exist,,1,1,z3-int
+5-constraint,6,z3-int,3,25,25;22;30,sat,sat,1,other solutions exist,,1,1,z3-int
+5-constraint,7,z3-int,3,11,11;11;12,unsat,unsat,1,,,,,z3-int
+5-constraint,8,z3-int,3,13,13;11;17,unsat,unsat,1,,,,,z3-int
+5-constraint,9,z3-int,3,24,24;21;33,sat,sat,1,other solutions exist,,1,1,z3-int
+5-constraint,10,z3-int,3,25,22;25;33,sat,sat,1,other solutions exist,,1,1,z3-int
+5-constraint,11,z3-int,3,15,12;16;15,unsat,unsat,1,,,,,z3-int
+5-constraint,12,z3-int,3,21,22;21;20,sat,sat,1,other solutions exist,,1,1,z3-int
+5-constraint,13,z3-int,3,24,24;29;17,sat,sat,1,other solutions exist,,1,1,z3-int
+5-constraint,14,z3-int,3,16,22;14;16,unsat,unsat,1,,,,,z3-int
+5-constraint,15,z3-int,3,13,11;13;14,unsat,unsat,1,,,,,z3-int
+5-constraint,16,z3-int,3,28,27;34;28,sat,sat,1,other solutions exist,,1,1,z3-int
+5-constraint,17,z3-int,3,13,12;13;13,unsat,unsat,1,,,,,z3-int
+5-constraint,18,z3-int,3,24,26;23;24,sat,sat,1,other solutions exist,,1,1,z3-int
+5-constraint,19,z3-int,3,12,11;12;13,unsat,unsat,1,,,,,z3-int
+5-constraint,0,portfolio,3,8,8;7;8,unsat,unsat,1,,,,,cp-sat
+5-constraint,1,portfolio,3,5,6;5;5,unsat,unsat,1,,,,,cp-sat
+5-constraint,2,portfolio,3,29,30;28;29,sat,sat,1,other solutions exist,,1,1,cp-sat
+5-constraint,3,portfolio,3,27,27;26;27,sat,sat,1,other solutions exist,,1,1,cp-sat
+5-constraint,4,portfolio,3,7,7;7;7,unsat,unsat,1,,,,,cp-sat
+5-constraint,5,portfolio,3,16,15;16;16,sat,sat,1,other solutions exist,,1,1,cp-sat
+5-constraint,6,portfolio,3,28,28;27;28,sat,sat,1,other solutions exist,,1,1,cp-sat
+5-constraint,7,portfolio,3,6,6;6;5,unsat,unsat,1,,,,,cp-sat
+5-constraint,8,portfolio,3,6,6;5;6,unsat,unsat,1,,,,,cp-sat
+5-constraint,9,portfolio,3,30,30;31;30,sat,sat,1,other solutions exist,,1,1,cp-sat
+5-constraint,10,portfolio,3,29,29;29;29,sat,sat,1,other solutions exist,,1,1,cp-sat
+5-constraint,11,portfolio,3,5,5;5;5,unsat,unsat,1,,,,,cp-sat
+5-constraint,12,portfolio,3,23,23;23;23,sat,sat,1,other solutions exist,,1,1,cp-sat
+5-constraint,13,portfolio,3,27,27;28;27,sat,sat,1,other solutions exist,,1,1,cp-sat
+5-constraint,14,portfolio,3,7,8;7;7,unsat,unsat,1,,,,,cp-sat
+5-constraint,15,portfolio,3,6,6;6;6,unsat,unsat,1,,,,,cp-sat
+5-constraint,16,portfolio,3,20,20;21;20,sat,sat,1,other solutions exist,,1,1,cp-sat
+5-constraint,17,portfolio,3,6,6;6;5,unsat,unsat,1,,,,,cp-sat
+5-constraint,18,portfolio,3,18,18;18;17,sat,sat,1,other solutions exist,,1,1,cp-sat
+5-constraint,19,portfolio,3,6,6;8;5,unsat,unsat,1,,,,,cp-sat
+5-constraint,0,cp-sat-users,3,7,6;7;7,unsat,unsat,1,,,,,cp-sat-users
+5-constraint,1,cp-sat-users,3,4,4;5;4,unsat,unsat,1,,,,,cp-sat-users
+5-constraint,2,cp-sat-users,3,31,32;31;30,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+5-constraint,3,cp-sat-users,3,32,32;33;32,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+5-constraint,4,cp-sat-users,3,5,5;6;5,unsat,unsat,1,,,,,cp-sat-users
+5-constraint,5,cp-sat-users,3,24,24;25;24,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+5-constraint,6,cp-sat-users,3,29,29;30;28,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+5-constraint,7,cp-sat-users,3,3,5;3;3,unsat,unsat,1,,,,,cp-sat-users
+5-constraint,8,cp-sat-users,3,4,4;4;4,unsat,unsat,1,,,,,cp-sat-users
+5-constraint,9,cp-sat-users,3,36,36;39;35,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+5-constraint,10,cp-sat-users,3,31,32;31;31,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+5-constraint,11,cp-sat-users,3,3,3;4;3,unsat,unsat,1,,,,,cp-sat-users
+5-constraint,12,cp-sat-users,3,18,19;18;18,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+5-constraint,13,cp-sat-users,3,31,31;31;30,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+5-constraint,14,cp-sat-users,3,5,5;6;5,unsat,unsat,1,,,,,cp-sat-users
+5-constraint,15,cp-sat-users,3,4,4;5;4,unsat,unsat,1,,,,,cp-sat-users
+5-constraint,16,cp-sat-users,3,17,17;17;17,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+5-constraint,17,cp-sat-users,3,4,5;3;4,unsat,unsat,1,,,,,cp-sat-users
+5-constraint,18,cp-sat-users,3,19,19;18;19,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+5-constraint,19,cp-sat-users,3,4,4;6;4,unsat,unsat,1,,,,,cp-sat-users
+5-constraint,0,z3-cnf,3,87,86;87;87,unsat,unsat,1,,,,,z3-cnf
+5-constraint,1,z3-cnf,3,81,81;81;81,unsat,unsat,1,,,,,z3-cnf
+5-constraint,2,z3-cnf,3,94,95;93;94,sat,sat,1,other solutions exist,,1,1,z3-cnf
+5-constraint,3,z3-cnf,3,107,107;107;107,sat,sat,1,other solutions exist,,1,1,z3-cnf
+5-constraint,4,z3-cnf,3,93,94;93;92,unsat,unsat,1,,,,,z3-cnf
+5-constraint,5,z3-cnf,3,84,84;84;83,sat,sat,1,other solutions exist,,1,1,z3-cnf
+5-constraint,6,z3-cnf,3,86,87;86;86,sat,sat,1,other solutions exist,,1,1,z3-cnf
+5-constraint,7,z3-cnf,3,73,74;73;72,unsat,unsat,1,,,,,z3-cnf
+5-constraint,8,z3-cnf,3,77,77;77;77,unsat,unsat,1,,,,,z3-cnf
+5-constraint,9,z3-cnf,3,100,100;100;100,sat,sat,1,other solutions exist,,1,1,z3-cnf
+5-constraint,10,z3-cnf,3,97,98;97;97,sat,sat,1,other solutions exist,,1,1,z3-cnf
+5-constraint,11,z3-cnf,3,65,65;65;65,unsat,unsat,1,,,,,z3-cnf
+5-constraint,12,z3-cnf,3,78,78;78;78,sat,sat,1,other solutions exist,,1,1,z3-cnf
+5-constraint,13,z3-cnf,3,92,92;92;93,sat,sat,1,other solutions exist,,1,1,z3-cnf
+5-constraint,14,z3-cnf,3,73,73;73;73,unsat,unsat,1,,,,,z3-cnf
+5-constraint,15,z3-cnf,3,77,78;77;77,unsat,unsat,1,,,,,z3-cnf
+5-constraint,16,z3-cnf,3,80,81;79;80,sat,sat,1,other solutions exist,,1,1,z3-cnf
+5-constraint,17,z3-cnf,3,73,74;73;73,unsat,unsat,1,,,,,z3-cnf
+5-constraint,18,z3-cnf,3,75,75;75;75,sat,sat,1,other solutions exist,,1,1,z3-cnf
+5-constraint,19,z3-cnf,3,76,77;76;76,unsat,unsat,1,,,,,z3-cnf
+5-constraint-small,0,cp-sat,3,6,7;6;6,sat,sat,1,other solutions exist,,1,1,cp-sat
+5-constraint-small,1,cp-sat,3,6,6;6;6,sat,sat,1,other solutions exist,,1,1,cp-sat
+5-constraint-small,2,cp-sat,3,2,2;2;1,unsat,unsat,1,,,,,cp-sat
+5-constraint-small,3,cp-sat,3,2,2;1;2,unsat,unsat,1,,,,,cp-sat
+5-constraint-small,4,cp-sat,3,7,7;7;6,sat,sat,1,other solutions exist,,1,1,cp-sat
+5-constraint-small,5,cp-sat,3,7,6;7;7,sat,sat,1,other solutions exist,,1,1,cp-sat
+5-constraint-small,6,cp-sat,3,6,5;6;7,sat,sat,1,other solutions exist,,1,1,cp-sat
+5-constraint-small,7,cp-sat,3,1,1;2;1,unsat,unsat,1,,,,,cp-sat
+5-constraint-small,8,cp-sat,3,4,4;4;4,sat,sat,1,this is the only solution,,1,,cp-sat
+5-constraint-small,9,cp-sat,3,2,2;1;2,unsat,unsat,1,,,,,cp-sat
+5-constraint-small,10,cp-sat,3,1,2;1;1,unsat,unsat,1,,,,,cp-sat
+5-constraint-small,11,cp-sat,3,1,2;1;1,unsat,unsat,1,,,,,cp-sat
+5-constraint-small,12,cp-sat,3,1,2;1;1,unsat,unsat,1,,,,,cp-sat
+5-constraint-small,13,cp-sat,3,1,2;1;1,unsat,unsat,1,,,,,cp-sat
+5-constraint-small,14,cp-sat,3,8,9;8;8,sat,sat,1,other solutions exist,,1,1,cp-sat
+5-constraint-small,15,cp-sat,3,6,6;7;6,sat,sat,1,other solutions exist,,1,1,cp-sat
+5-constraint-small,16,cp-sat,3,6,5;6;6,sat,sat,1,other solutions exist,,1,1,cp-sat
+5-constraint-small,17,cp-sat,3,1,1;2;1,unsat,unsat,1,,,,,cp-sat
+5-constraint-small,18,cp-sat,3,2,2;1;2,unsat,unsat,1,,,,,cp-sat
+5-constraint-small,19,cp-sat,3,6,5;6;7,sat,sat,1,other solutions exist,,1,1,cp-sat
+5-constraint-small,0,z3-bool,3,10,10;10;26,sat,sat,1,other solutions exist,,1,1,z3-bool
+5-constraint-small,1,z3-bool,3,10,12;10;9,sat,sat,1,other solutions exist,,1,1,z3-bool
+5-constraint-small,2,z3-bool,3,10,10;10;10,unsat,unsat,1,,,,,z3-bool
+5-constraint-small,3,z3-bool,3,9,9;9;9,unsat,unsat,1,,,,,z3-bool
+5-constraint-small,4,z3-bool,3,12,11;12;13,sat,sat,1,other solutions exist,,1,1,z3-bool
+5-constraint-small,5,z3-bool,3,11,11;11;11,sat,sat,1,other solutions exist,,1,1,z3-bool
+5-constraint-small,6,z3-bool,3,10,10;9;10,sat,sat,1,other solutions exist,,1,1,z3-bool
+5-constraint-small,7,z3-bool,3,9,9;8;9,unsat,unsat,1,,,,,z3-bool
+5-constraint-small,8,z3-bool,3,9,9;10;9,sat,sat,1,this is the only solution,,1,,z3-bool
+5-constraint-small,9,z3-bool,3,10,10;10;10,unsat,unsat,1,,,,,z3-bool
+5-constraint-small,10,z3-bool,3,8,8;9;8,unsat,unsat,1,,,,,z3-bool
+5-constraint-small,11,z3-bool,3,8,8;8;9,unsat,unsat,1,,,,,z3-bool
+5-constraint-small,12,z3-bool,3,8,7;8;8,unsat,unsat,1,,,,,z3-bool
+5-constraint-small,13,z3-bool,3,8,9;8;8,unsat,unsat,1,,,,,z3-bool
+5-constraint-small,14,z3-bool,3,10,10;10;9,sat,sat,1,other solutions exist,,1,1,z3-bool
+5-constraint-small,15,z3-bool,3,11,11;10;11,sat,sat,1,other solutions exist,,1,1,z3-bool
+5-constraint-small,16,z3-bool,3,10,10;9;10,sat,sat,1,other solutions exist,,1,1,z3-bool
+5-constraint-small,17,z3-bool,3,9,9;9;10,unsat,unsat,1,,,,,z3-bool
+5-constraint-small,18,z3-bool,3,10,10;10;10,unsat,unsat,1,,,,,z3-bool
+5-constraint-small,19,z3-bool,3,11,11;10;12,sat,sat,1,other solutions exist,,1,1,z3-bool
+5-constraint-small,0,z3-int,3,7,7;7;6,sat,sat,1,other solutions exist,,1,1,z3-int
+5-constraint-small,1,z3-int,3,6,6;7;6,sat,sat,1,other solutions exist,,1,1,z3-int
+5-constraint-small,2,z3-int,3,5,5;4;5,unsat,unsat,1,,,,,z3-int
+5-constraint-small,3,z3-int,3,3,3;3;4,unsat,unsat,1,,,,,z3-int
+5-constraint-small,4,z3-int,3,7,7;7;6,sat,sat,1,other solutions exist,,1,1,z3-int
+5-constraint-small,5,z3-int,3,6,6;7;6,sat,sat,1,other solutions exist,,1,1,z3-int
+5-constraint-small,6,z3-int,3,6,7;6;6,sat,sat,1,other solutions exist,,1,1,z3-int
+5-constraint-small,7,z3-int,3,5,5;5;5,unsat,unsat,1,,,,,z3-int
+5-constraint-small,8,z3-int,3,6,6;6;6,sat,sat,1,this is the only solution,,1,,z3-int
+5-constraint-small,9,z3-int,3,3,4;3;3,unsat,unsat,1,,,,,z3-int
+5-constraint-small,10,z3-int,3,5,5;4;5,unsat,unsat,1,,,,,z3-int
+5-constraint-small,11,z3-int,3,4,4;4;4,unsat,unsat,1,,,,,z3-int
+5-constraint-small,12,z3-int,3,4,4;5;4,unsat,unsat,1,,,,,z3-int
+5-constraint-small,13,z3-int,3,4,4;4;4,unsat,unsat,1,,,,,z3-int
+5-constraint-small,14,z3-int,3,7,8;5;7,sat,sat,1,other solutions exist,,1,1,z3-int
+5-constraint-small,15,z3-int,3,7,7;6;7,sat,sat,1,other solutions exist,,1,1,z3-int
+5-constraint-small,16,z3-int,3,6,6;7;6,sat,sat,1,other solutions exist,,1,1,z3-int
+5-constraint-small,17,z3-int,3,5,5;5;5,unsat,unsat,1,,,,,z3-int
+5-constraint-small,18,z3-int,3,5,5;4;5,unsat,unsat,1,,,,,z3-int
+5-constraint-small,19,z3-int,3,6,6;6;6,sat,sat,1,other solutions exist,,1,1,z3-int
+5-constraint-small,0,portfolio,3,6,6;6;6,sat,sat,1,other solutions exist,,1,1,cp-sat
+5-constraint-small,1,portfolio,3,6,6;6;6,sat,sat,1,other solutions exist,,1,1,cp-sat
+5-constraint-small,2,portfolio,3,1,1;2;1,unsat,unsat,1,,,,,cp-sat
+5-constraint-small,3,portfolio,3,1,1;1;2,unsat,unsat,1,,,,,cp-sat
+5-constraint-small,4,portfolio,3,6,6;7;6,sat,sat,1,other solutions exist,,1,1,cp-sat
+5-constraint-small,5,portfolio,3,7,7;6;7,sat,sat,1,other solutions exist,,1,1,cp-sat
+5-constraint-small,6,portfolio,3,6,6;6;7,sat,sat,1,other solutions exist,,1,1,cp-sat
+5-constraint-small,7,portfolio,3,1,1;2;1,unsat,unsat,1,,,,,cp-sat
+5-constraint-small,8,portfolio,3,4,4;4;4,sat,sat,1,this is the only solution,,1,,cp-sat
+5-constraint-small,9,portfolio,3,2,2;2;1,unsat,unsat,1,,,,,cp-sat
+5-constraint-small,10,portfolio,3,1,2;1;1,unsat,unsat,1,,,,,cp-sat
+5-constraint-small,11,portfolio,3,1,1;2;1,unsat,unsat,1,,,,,cp-sat
+5-constraint-small,12,portfolio,3,1,1;2;1,unsat,unsat,1,,,,,cp-sat
+5-constraint-small,13,portfolio,3,1,1;1;2,unsat,unsat,1,,,,,cp-sat
+5-constraint-small,14,portfolio,3,8,8;8;8,sat,sat,1,other solutions exist,,1,1,cp-sat
+5-constraint-small,15,portfolio,3,6,6;6;6,sat,sat,1,other solutions exist,,1,1,cp-sat
+5-constraint-small,16,portfolio,3,6,6;6;6,sat,sat,1,other solutions exist,,1,1,cp-sat
+5-constraint-small,17,portfolio,3,2,2;2;2,unsat,unsat,1,,,,,cp-sat
+5-constraint-small,18,portfolio,3,2,1;2;2,unsat,unsat,1,,,,,cp-sat
+5-constraint-small,19,portfolio,3,7,7;7;7,sat,sat,1,other solutions exist,,1,1,cp-sat
+5-constraint-small,0,cp-sat-users,3,6,6;6;7,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+5-constraint-small,1,cp-sat-users,3,7,7;6;7,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+5-constraint-small,2,cp-sat-users,3,24,26;24;23,unsat,unsat,1,,,,,cp-sat-users
+5-constraint-small,3,cp-sat-users,3,1,1;1;1,unsat,unsat,1,,,,,cp-sat-users
+5-constraint-small,4,cp-sat-users,3,6,5;6;7,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+5-constraint-small,5,cp-sat-users,3,6,6;7;6,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+5-constraint-small,6,cp-sat-users,3,6,6;6;7,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+5-constraint-small,7,cp-sat-users,3,1,0;1;1,unsat,unsat,1,,,,,cp-sat-users
+5-constraint-small,8,cp-sat-users,3,4,3;4;4,sat,sat,1,this is the only solution,,1,,cp-sat-users
+5-constraint-small,9,cp-sat-users,3,1,1;1;1,unsat,unsat,1,,,,,cp-sat-users
+5-constraint-small,10,cp-sat-users,3,1,0;1;1,unsat,unsat,1,,,,,cp-sat-users
+5-constraint-small,11,cp-sat-users,3,1,1;1;0,unsat,unsat,1,,,,,cp-sat-users
+5-constraint-small,12,cp-sat-users,3,1,0;1;1,unsat,unsat,1,,,,,cp-sat-users
+5-constraint-small,13,cp-sat-users,3,1,1;0;1,unsat,unsat,1,,,,,cp-sat-users
+5-constraint-small,14,cp-sat-users,3,6,7;6;6,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+5-constraint-small,15,cp-sat-users,3,6,5;6;6,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+5-constraint-small,16,cp-sat-users,3,5,5;5;4,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+5-constraint-small,17,cp-sat-users,3,1,0;1;1,unsat,unsat,1,,,,,cp-sat-users
+5-constraint-small,18,cp-sat-users,3,25,25;26;24,unsat,unsat,1,,,,,cp-sat-users
+5-constraint-small,19,cp-sat-users,3,6,6;5;6,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+5-constraint-small,0,z3-cnf,3,13,14;13;13,sat,sat,1,other solutions exist,,1,1,z3-cnf
+5-constraint-small,1,z3-cnf,3,13,13;13;14,sat,sat,1,other solutions exist,,1,1,z3-cnf
+5-constraint-small,2,z3-cnf,3,13,13;14;13,unsat,unsat,1,,,,,z3-cnf
+5-constraint-small,3,z3-cnf,3,12,12;12;12,unsat,unsat,1,,,,,z3-cnf
+5-constraint-small,4,z3-cnf,3,15,15;15;16,sat,sat,1,other solutions exist,,1,1,z3-cnf
+5-constraint-small,5,z3-cnf,3,15,15;15;14,sat,sat,1,other solutions exist,,1,1,z3-cnf
+5-constraint-small,6,z3-cnf,3,13,12;13;13,sat,sat,1,other solutions exist,,1,1,z3-cnf
+5-constraint-small,7,z3-cnf,3,12,12;12;12,unsat,unsat,1,,,,,z3-cnf
+5-constraint-small,8,z3-cnf,3,13,13;13;12,sat,sat,1,this is the only solution,,1,,z3-cnf
+5-constraint-small,9,z3-cnf,3,14,14;13;14,unsat,unsat,1,,,,,z3-cnf
+5-constraint-small,10,z3-cnf,3,11,11;12;11,unsat,unsat,1,,,,,z3-cnf
+5-constraint-small,11,z3-cnf,3,11,11;11;12,unsat,unsat,1,,,,,z3-cnf
+5-constraint-small,12,z3-cnf,3,11,11;10;11,unsat,unsat,1,,,,,z3-cnf
+5-constraint-small,13,z3-cnf,3,11,11;12;11,unsat,unsat,1,,,,,z3-cnf
+5-constraint-small,14,z3-cnf,3,13,13;13;14,sat,sat,1,other solutions exist,,1,1,z3-cnf
+5-constraint-small,15,z3-cnf,3,14,14;15;14,sat,sat,1,other solutions exist,,1,1,z3-cnf
+5-constraint-small,16,z3-cnf,3,13,13;13;13,sat,sat,1,other solutions exist,,1,1,z3-cnf
+5-constraint-small,17,z3-cnf,3,13,13;12;13,unsat,unsat,1,,,,,z3-cnf
+5-constraint-small,18,z3-cnf,3,14,14;13;14,unsat,unsat,1,,,,,z3-cnf
+5-constraint-small,19,z3-cnf,3,14,15;14;14,sat,sat,1,other solutions exist,,1,1,z3-cnf
+6-constraint-BoO,0,cp-sat,3,4,4;5;4,sat,sat,1,other solutions exist,,1,1,cp-sat
+6-constraint-BoO,1,cp-sat,3,4,5;4;4,sat,sat,1,other solutions exist,,1,1,cp-sat
+6-constraint-BoO,2,cp-sat,3,1,1;0;1,unsat,unsat,1,,,,,cp-sat
+6-constraint-BoO,3,cp-sat,3,0,0;1;0,unsat,unsat,1,,,,,cp-sat
+6-constraint-BoO,4,cp-sat,3,5,5;4;5,sat,sat,1,other solutions exist,,1,1,cp-sat
+6-constraint-BoO,5,cp-sat,3,5,5;5;4,sat,sat,1,other solutions exist,,1,1,cp-sat
+6-constraint-BoO,6,cp-sat,3,1,1;0;1,unsat,unsat,1,,,,,cp-sat
+6-constraint-BoO,7,cp-sat,3,4,4;4;5,sat,sat,1,other solutions exist,,1,1,cp-sat
+6-constraint-BoO,8,cp-sat,3,5,5;3;5,sat,sat,1,other solutions exist,,1,1,cp-sat
+6-constraint-BoO,9,cp-sat,3,5,5;4;6,sat,sat,1,other solutions exist,,1,1,cp-sat
+6-constraint-BoO,10,cp-sat,3,5,5;5;6,sat,sat,1,other solutions exist,,1,1,cp-sat
+6-constraint-BoO,11,cp-sat,3,8,8;7;8,sat,sat,1,other solutions exist,,1,1,cp-sat
+6-constraint-BoO,12,cp-sat,3,7,7;7;8,sat,sat,1,other solutions exist,,1,1,cp-sat
+6-constraint-BoO,13,cp-sat,3,8,8;7;8,sat,sat,1,other solutions exist,,1,1,cp-sat
+6-constraint-BoO,14,cp-sat,3,7,6;7;7,sat,sat,1,other solutions exist,,1,1,cp-sat
+6-constraint-BoO,15,cp-sat,3,6,6;6;6,sat,sat,1,other solutions exist,,1,1,cp-sat
+6-constraint-BoO,16,cp-sat,3,2,3;2;2,sat,sat,1,this is the only solution,,1,,cp-sat
+6-constraint-BoO,17,cp-sat,3,2,2;2;2,sat,sat,1,this is the only solution,,1,,cp-sat
+6-constraint-BoO,18,cp-sat,3,2,3;2;2,sat,sat,1,this is the only solution,,1,,cp-sat
+6-constraint-BoO,19,cp-sat,3,2,2;2;3,sat,sat,1,this is the only solution,,1,,cp-sat
+6-constraint-BoO,0,z3-bool,3,4,4;4;4,sat,sat,1,other solutions exist,,1,1,z3-bool
+6-constraint-BoO,1,z3-bool,3,3,3;3;3,sat,sat,1,other solutions exist,,1,1,z3-bool
+6-constraint-BoO,2,z3-bool,3,2,2;3;2,unsat,unsat,1,,,,,z3-bool
+6-constraint-BoO,3,z3-bool,3,2,2;2;2,unsat,unsat,1,,,,,z3-bool
+6-constraint-BoO,4,z3-bool,3,3,3;3;3,sat,sat,1,other solutions exist,,1,1,z3-bool
+6-constraint-BoO,5,z3-bool,3,3,4;3;3,sat,sat,1,other solutions exist,,1,1,z3-bool
+6-constraint-BoO,6,z3-bool,3,3,3;3;2,unsat,unsat,1,,,,,z3-bool
+6-constraint-BoO,7,z3-bool,3,3,3;2;3,sat,sat,1,other solutions exist,,1,1,z3-bool
+6-constraint-BoO,8,z3-bool,3,3,3;2;3,sat,sat,1,other solutions exist,,1,1,z3-bool
+6-constraint-BoO,9,z3-bool,3,3,3;2;3,sat,sat,1,other solutions exist,,1,1,z3-bool
+6-constraint-BoO,10,z3-bool,3,5,5;5;5,sat,sat,1,other solutions exist,,1,1,z3-bool
+6-constraint-BoO,11,z3-bool,3,7,7;7;6,sat,sat,1,other solutions exist,,1,1,z3-bool
+6-constraint-BoO,12,z3-bool,3,5,5;5;5,sat,sat,1,other solutions exist,,1,1,z3-bool
+6-constraint-BoO,13,z3-bool,3,6,7;6;6,sat,sat,1,other solutions exist,,1,1,z3-bool
+6-constraint-BoO,14,z3-bool,3,4,4;4;4,sat,sat,1,other solutions exist,,1,1,z3-bool
+6-constraint-BoO,15,z3-bool,3,5,5;4;5,sat,sat,1,other solutions exist,,1,1,z3-bool
+6-constraint-BoO,16,z3-bool,3,0,0;1;0,sat,sat,1,this is the only solution,,1,,z3-bool
+6-constraint-BoO,17,z3-bool,3,1,1;0;1,sat,sat,1,this is the only solution,,1,,z3-bool
+6-constraint-BoO,18,z3-bool,3,0,0;1;0,sat,sat,1,this is the only solution,,1,,z3-bool
+6-constraint-BoO,19,z3-bool,3,1,1;1;0,sat,sat,1,this is the only solution,,1,,z3-bool
+6-constraint-BoO,0,z3-int,3,4,4;4;3,sat,sat,1,other solutions exist,,1,1,z3-int
+6-constraint-BoO,1,z3-int,3,3,3;4;3,sat,sat,1,other solutions exist,,1,1,z3-int
+6-constraint-BoO,2,z3-int,3,1,1;1;1,unsat,unsat,1,,,,,z3-int
+6-constraint-BoO,3,z3-int,3,2,2;3;2,unsat,unsat,1,,,,,z3-int
+6-constraint-BoO,4,z3-int,3,4,4;4;4,sat,sat,1,other solutions exist,,1,1,z3-int
+6-constraint-BoO,5,z3-int,3,4,4;3;4,sat,sat,1,other solutions exist,,1,1,z3-int
+6-constraint-BoO,6,z3-int,3,1,1;0;1,unsat,unsat,1,,,,,z3-int
+6-constraint-BoO,7,z3-int,3,3,4;3;3,sat,sat,1,other solutions exist,,1,1,z3-int
+6-constraint-BoO,8,z3-int,3,3,4;3;3,sat,sat,1,other solutions exist,,1,1,z3-int
+6-constraint-BoO,9,z3-int,3,3,3;3;4,sat,sat,1,other solutions exist,,1,1,z3-int
+6-constraint-BoO,10,z3-int,3,4,4;5;4,sat,sat,1,other solutions exist,,1,1,z3-int
+6-constraint-BoO,11,z3-int,3,5,5;5;4,sat,sat,1,other solutions exist,,1,1,z3-int
+6-constraint-BoO,12,z3-int,3,4,5;4;4,sat,sat,1,other solutions exist,,1,1,z3-int
+6-constraint-BoO,13,z3-int,3,4,4;5;4,sat,sat,1,other solutions exist,,1,1,z3-int
+6-constraint-BoO,14,z3-int,3,4,4;4;5,sat,sat,1,other solutions exist,,1,1,z3-int
+6-constraint-BoO,15,z3-int,3,4,4;4;4,sat,sat,1,other solutions exist,,1,1,z3-int
+6-constraint-BoO,16,z3-int,3,2,1;2;2,sat,sat,1,this is the only solution,,1,,z3-int
+6-constraint-BoO,17,z3-int,3,2,2;1;2,sat,sat,1,this is the only solution,,1,,z3-int
+6-constraint-BoO,18,z3-int,3,2,2;1;2,sat,sat,1,this is the only solution,,1,,z3-int
+6-constraint-BoO,19,z3-int,3,1,1;2;1,sat,sat,1,this is the only solution,,1,,z3-int
+6-constraint-BoO,0,portfolio,3,5,3;5;5,sat,sat,1,other solutions exist,,1,1,cp-sat
+6-constraint-BoO,1,portfolio,3,4,4;4;4,sat,sat,1,other solutions exist,,1,1,cp-sat
+6-constraint-BoO,2,portfolio,3,0,0;0;1,unsat,unsat,1,,,,,cp-sat
+6-constraint-BoO,3,portfolio,3,0,0;1;0,unsat,unsat,1,,,,,cp-sat
+6-constraint-BoO,4,portfolio,3,4,4;4;4,sat,sat,1,other solutions exist,,1,1,cp-sat
+6-constraint-BoO,5,portfolio,3,4,3;4;5,sat,sat,1,other solutions exist,,1,1,cp-sat
+6-constraint-BoO,6,portfolio,3,0,0;1;0,unsat,unsat,1,,,,,cp-sat
+6-constraint-BoO,7,portfolio,3,5,5;5;4,sat,sat,1,other solutions exist,,1,1,cp-sat
+6-constraint-BoO,8,portfolio,3,5,5;5;5,sat,sat,1,other solutions exist,,1,1,cp-sat
+6-constraint-BoO,9,portfolio,3,5,5;5;5,sat,sat,1,other solutions exist,,1,1,cp-sat
+6-constraint-BoO,10,portfolio,3,6,5;6;6,sat,sat,1,other solutions exist,,1,1,cp-sat
+6-constraint-BoO,11,portfolio,3,8,8;7;8,sat,sat,1,other solutions exist,,1,1,cp-sat
+6-constraint-BoO,12,portfolio,3,7,7;7;7,sat,sat,1,other solutions exist,,1,1,cp-sat
+6-constraint-BoO,13,portfolio,3,7,8;7;7,sat,sat,1,other solutions exist,,1,1,cp-sat
+6-constraint-BoO,14,portfolio,3,6,7;6;6,sat,sat,1,other solutions exist,,1,1,cp-sat
+6-constraint-BoO,15,portfolio,3,6,6;5;6,sat,sat,1,other solutions exist,,1,1,cp-sat
+6-constraint-BoO,16,portfolio,3,2,3;2;2,sat,sat,1,this is the only solution,,1,,cp-sat
+6-constraint-BoO,17,portfolio,3,2,3;2;2,sat,sat,1,this is the only solution,,1,,cp-sat
+6-constraint-BoO,18,portfolio,3,2,3;2;2,sat,sat,1,this is the only solution,,1,,cp-sat
+6-constraint-BoO,19,portfolio,3,2,2;2;3,sat,sat,1,this is the only solution,,1,,cp-sat
+6-constraint-BoO,0,cp-sat-users,3,5,5;5;5,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+6-constraint-BoO,1,cp-sat-users,3,5,5;5;6,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+6-constraint-BoO,2,cp-sat-users,3,0,0;1;0,unsat,unsat,1,,,,,cp-sat-users
+6-constraint-BoO,3,cp-sat-users,3,1,1;0;1,unsat,unsat,1,,,,,cp-sat-users
+6-constraint-BoO,4,cp-sat-users,3,5,5;5;5,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+6-constraint-BoO,5,cp-sat-users,3,5,5;6;5,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+6-constraint-BoO,6,cp-sat-users,3,0,0;1;0,unsat,unsat,1,,,,,cp-sat-users
+6-constraint-BoO,7,cp-sat-users,3,5,5;5;5,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+6-constraint-BoO,8,cp-sat-users,3,6,6;5;6,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+6-constraint-BoO,9,cp-sat-users,3,7,8;6;7,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+6-constraint-BoO,10,cp-sat-users,3,7,7;6;7,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+6-constraint-BoO,11,cp-sat-users,3,9,9;9;8,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+6-constraint-BoO,12,cp-sat-users,3,7,7;7;7,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+6-constraint-BoO,13,cp-sat-users,3,8,8;8;7,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+6-constraint-BoO,14,cp-sat-users,3,6,6;6;6,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+6-constraint-BoO,15,cp-sat-users,3,6,7;6;6,sat,sat,1,other solutions exist,,1,1,cp-sat-users
+6-constraint-BoO,16,cp-sat-users,3,2,2;2;3,sat,sat,1,this is the only solution,,1,,cp-sat-users
+6-constraint-BoO,17,cp-sat-users,3,2,2;2;3,sat,sat,1,this is the only solution,,1,,cp-sat-users
+6-constraint-BoO,18,cp-sat-users,3,2,2;2;2,sat,sat,1,this is the only solution,,1,,cp-sat-users
+6-constraint-BoO,19,cp-sat-users,3,2,3;1;2,sat,sat,1,this is the only solution,,1,,cp-sat-users
+6-constraint-BoO,0,z3-cnf,3,5,6;5;5,sat,sat,1,other solutions exist,,1,1,z3-cnf
+6-constraint-BoO,1,z3-cnf,3,4,4;3;4,sat,sat,1,other solutions exist,,1,1,z3-cnf
+6-constraint-BoO,2,z3-cnf,3,3,3;2;3,unsat,unsat,1,,,,,z3-cnf
+6-constraint-BoO,3,z3-cnf,3,3,3;3;2,unsat,unsat,1,,,,,z3-cnf
+6-constraint-BoO,4,z3-cnf,3,4,4;4;4,sat,sat,1,other solutions exist,,1,1,z3-cnf
+6-constraint-BoO,5,z3-cnf,3,4,4;4;5,sat,sat,1,other solutions exist,,1,1,z3-cnf
+6-constraint-BoO,6,z3-cnf,3,3,3;3;4,unsat,unsat,1,,,,,z3-cnf
+6-constraint-BoO,7,z3-cnf,3,3,3;3;3,sat,sat,1,other solutions exist,,1,1,z3-cnf
+6-constraint-BoO,8,z3-cnf,3,4,3;4;4,sat,sat,1,other solutions exist,,1,1,z3-cnf
+6-constraint-BoO,9,z3-cnf,3,4,4;4;4,sat,sat,1,other solutions exist,,1,1,z3-cnf
+6-constraint-BoO,10,z3-cnf,3,6,6;7;6,sat,sat,1,other solutions exist,,1,1,z3-cnf
+6-constraint-BoO,11,z3-cnf,3,10,10;10;10,sat,sat,1,other solutions exist,,1,1,z3-cnf
+6-constraint-BoO,12,z3-cnf,3,7,7;7;7,sat,sat,1,other solutions exist,,1,1,z3-cnf
+6-constraint-BoO,13,z3-cnf,3,9,9;8;9,sat,sat,1,other solutions exist,,1,1,z3-cnf
+6-constraint-BoO,14,z3-cnf,3,6,6;6;6,sat,sat,1,other solutions exist,,1,1,z3-cnf
+6-constraint-BoO,15,z3-cnf,3,6,6;7;6,sat,sat,1,other solutions exist,,1,1,z3-cnf
+6-constraint-BoO,16,z3-cnf,3,0,1;0;0,sat,sat,1,this is the only solution,,1,,z3-cnf
+6-constraint-BoO,17,z3-cnf,3,0,0;1;0,sat,sat,1,this is the only solution,,1,,z3-cnf
+6-constraint-BoO,18,z3-cnf,3,1,1;1;0,sat,sat,1,this is the only solution,,1,,z3-cnf
+6-constraint-BoO,19,z3-cnf,3,1,1;0;1,sat,sat,1,this is the only solution,,1,,z3-cnf
+examples,example1,cp-sat,3,4,5;3;4,sat,sat,1,other solutions exist,1,1,1,cp-sat
+examples,example2,cp-sat,3,0,1;0;0,unsat,unsat,1,,1,,,cp-sat
+examples,example3,cp-sat,3,2,2;1;2,sat,sat,1,this is the only solution,1,1,,cp-sat
+examples,example4,cp-sat,3,0,1;0;0,unsat,unsat,1,,1,,,cp-sat
+examples,example5,cp-sat,3,2,2;2;3,sat,sat,1,this is the only solution,1,1,,cp-sat
+examples,example6,cp-sat,3,0,0;1;0,unsat,unsat,1,,1,,,cp-sat
+examples,example7,cp-sat,3,2,2;2;2,sat,sat,1,this is the only solution,1,1,,cp-sat
+examples,example8,cp-sat,3,0,0;0;0,unsat,unsat,1,,1,,,cp-sat
+examples,example9,cp-sat,3,16,16;16;15,sat,sat,1,other solutions exist,1,1,1,cp-sat
+examples,example10,cp-sat,3,12,12;12;12,sat,sat,1,other solutions exist,1,1,1,cp-sat
+examples,example11,cp-sat,3,107,107;106;107,sat,sat,1,other solutions exist,1,1,1,cp-sat
+examples,example12,cp-sat,3,107,109;107;107,sat,sat,1,other solutions exist,1,1,1,cp-sat
+examples,example13,cp-sat,3,8,8;8;8,unsat,unsat,1,,1,,,cp-sat
+examples,example14,cp-sat,3,1,1;2;1,unsat,unsat,1,,1,,,cp-sat
+examples,example15,cp-sat,3,4,4;5;4,unsat,unsat,1,,1,,,cp-sat
+examples,example16,cp-sat,3,2032,2032;1953;2143,sat,sat,1,other solutions exist,1,1,1,cp-sat
+examples,example17,cp-sat,3,533,533;528;552,sat,sat,1,other solutions exist,1,1,1,cp-sat
+examples,example18,cp-sat,3,597,597;632;596,unsat,unsat,1,,1,,,cp-sat
+examples,example19,cp-sat,3,1494,1494;1440;1542,unsat,unsat,1,,1,,,cp-sat
+examples,example1,z3-bool,3,1,3;0;1,sat,sat,1,other solutions exist,1,1,1,z3-bool
+examples,example2,z3-bool,3,0,1;0;0,unsat,unsat,1,,1,,,z3-bool
+examples,example3,z3-bool,3,1,1;1;0,sat,sat,1,this is the only solution,1,1,,z3-bool
+examples,example4,z3-bool,3,0,1;0;0,unsat,unsat,1,,1,,,z3-bool
+examples,example5,z3-bool,3,3,3;3;3,sat,sat,1,this is the only solution,1,1,,z3-bool
+examples,example6,z3-bool,3,2,2;3;2,unsat,unsat,1,,1,,,z3-bool
+examples,example7,z3-bool,3,1,1;1;0,sat,sat,1,this is the only solution,1,1,,z3-bool
+examples,example8,z3-bool,3,0,0;1;0,unsat,unsat,1,,1,,,z3-bool
+examples,example9,z3-bool,3,28,29;28;28,sat,sat,1,other solutions exist,1,1,1,z3-bool
+examples,example10,z3-bool,3,19,19;20;19,sat,sat,1,other solutions exist,1,1,1,z3-bool
+examples,example11,z3-bool,3,276,272;297;276,sat,sat,1,other solutions exist,1,1,1,z3-bool
+examples,example12,z3-bool,3,280,296;275;280,sat,sat,1,other solutions exist,1,1,1,z3-bool
+examples,example13,z3-bool,3,73,73;72;77,unsat,unsat,1,,1,,,z3-bool
+examples,example14,z3-bool,3,11,12;11;11,unsat,unsat,1,,1,,,z3-bool
+examples,example15,z3-bool,3,40,40;41;38,unsat,unsat,1,,1,,,z3-bool
+examples,example16,z3-bool,3,13542,33778;6319;13542,sat,sat,1,other solutions exist,1,1,1,z3-bool
+examples,example17,z3-bool,3,964,964;944;977,sat,sat,1,other solutions exist,1,1,1,z3-bool
+examples,example18,z3-bool,3,2564,2559;2564;2598,unsat,unsat,1,,1,,,z3-bool
+examples,example19,z3-bool,3,3760,3643;3760;3840,unsat,unsat,1,,1,,,z3-bool
+examples,example1,z3-int,3,3,5;3;3,sat,sat,1,other solutions exist,1,1,1,z3-int
+examples,example2,z3-int,3,1,1;1;0,unsat,unsat,1,,1,,,z3-int
+examples,example3,z3-int,3,3,3;3;3,sat,sat,1,this is the only solution,1,1,,z3-int
+examples,example4,z3-int,3,1,2;1;1,unsat,unsat,1,,1,,,z3-int
+examples,example5,z3-int,3,3,3;4;2,sat,sat,1,this is the only solution,1,1,,z3-int
+examples,example6,z3-int,3,2,2;2;2,unsat,unsat,1,,1,,,z3-int
+examples,example7,z3-int,3,3,3;3;3,sat,sat,1,this is the only solution,1,1,,z3-int
+examples,example8,z3-int,3,2,2;2;2,unsat,unsat,1,,1,,,z3-int
+examples,example9,z3-int,3,9,10;9;9,sat,sat,1,other solutions exist,1,1,1,z3-int
+examples,example10,z3-int,3,8,7;8;8,sat,sat,1,other solutions exist,1,1,1,z3-int
+examples,example11,z3-int,3,61,60;61;68,sat,sat,1,other solutions exist,1,1,1,z3-int
+examples,example12,z3-int,3,75,62;82;75,sat,sat,1,other solutions exist,1,1,1,z3-int
+examples,example13,z3-int,3,13,13;11;13,unsat,unsat,1,,1,,,z3-int
+examples,example14,z3-int,3,3,3;2;3,unsat,unsat,1,,1,,,z3-int
+examples,example15,z3-int,3,6,6;5;6,unsat,unsat,1,,1,,,z3-int
+examples,example16,z3-int,3,9184,6261;10418;9184,sat,sat,1,other solutions exist,1,1,1,z3-int
+examples,example17,z3-int,3,30058,30058;30055;30058,unknown,sat,,,1,,,z3-int
+examples,example18,z3-int,3,6888,6625;6888;30151,unsat,unsat,1,,1,,,z3-int
+examples,example19,z3-int,3,30088,30088;30091;30087,unknown,unsat,,,1,,,z3-int
+examples,example1,portfolio,3,4,3;4;4,sat,sat,1,other solutions exist,1,1,1,cp-sat
+examples,example2,portfolio,3,0,1;0;0,unsat,unsat,1,,1,,,cp-sat
+examples,example3,portfolio,3,2,2;2;2,sat,sat,1,this is the only solution,1,1,,cp-sat
+examples,example4,portfolio,3,0,0;0;1,unsat,unsat,1,,1,,,cp-sat
+examples,example5,portfolio,3,2,2;2;2,sat,sat,1,this is the only solution,1,1,,cp-sat
+examples,example6,portfolio,3,1,1;0;1,unsat,unsat,1,,1,,,cp-sat
+examples,example7,portfolio,3,2,2;2;2,sat,sat,1,this is the only solution,1,1,,cp-sat
+examples,example8,portfolio,3,0,0;0;0,unsat,unsat,1,,1,,,cp-sat
+examples,example9,portfolio,3,16,16;16;15,sat,sat,1,other solutions exist,1,1,1,cp-sat
+examples,example10,portfolio,3,12,13;12;12,sat,sat,1,other solutions exist,1,1,1,cp-sat
+examples,example11,portfolio,3,108,108;109;107,sat,sat,1,other solutions exist,1,1,1,cp-sat
+examples,example12,portfolio,3,108,108;106;108,sat,sat,1,other solutions exist,1,1,1,cp-sat
+examples,example13,portfolio,3,8,8;8;8,unsat,unsat,1,,1,,,cp-sat
+examples,example14,portfolio,3,1,1;2;1,unsat,unsat,1,,1,,,cp-sat
+examples,example15,portfolio,3,4,4;5;4,unsat,unsat,1,,1,,,cp-sat
+examples,example16,portfolio,3,2028,1995;2052;2028,sat,sat,1,other solutions exist,1,1,1,cp-sat
+examples,example17,portfolio,3,497,493;500;497,sat,sat,1,other solutions exist,1,1,1,cp-sat
+examples,example18,portfolio,3,553,556;553;550,unsat,unsat,1,,1,,,cp-sat
+examples,example19,portfolio,3,1346,1455;1346;1316,unsat,unsat,1,,1,,,cp-sat
+examples,example1,cp-sat-users,3,4,4;4;4,sat,sat,1,other solutions exist,1,1,1,cp-sat-users
+examples,example2,cp-sat-users,3,0,0;0;0,unsat,unsat,1,,1,,,cp-sat-users
+examples,example3,cp-sat-users,3,2,2;2;2,sat,sat,1,this is the only solution,1,1,,cp-sat-users
+examples,example4,cp-sat-users,3,0,0;1;0,unsat,unsat,1,,1,,,cp-sat-users
+examples,example5,cp-sat-users,3,2,2;2;2,sat,sat,1,this is the only solution,1,1,,cp-sat-users
+examples,example6,cp-sat-users,3,0,0;0;0,unsat,unsat,1,,1,,,cp-sat-users
+examples,example7,cp-sat-users,3,2,2;2;2,sat,sat,1,this is the only solution,1,1,,cp-sat-users
+examples,example8,cp-sat-users,3,0,0;1;0,unsat,unsat,1,,1,,,cp-sat-users
+examples,example9,cp-sat-users,3,14,14;13;14,sat,sat,1,other solutions exist,1,1,1,cp-sat-users
+examples,example10,cp-sat-users,3,8,8;8;7,sat,sat,1,other solutions exist,1,1,1,cp-sat-users
+examples,example11,cp-sat-users,3,85,84;88;85,sat,sat,1,other solutions exist,1,1,1,cp-sat-users
+examples,example12,cp-sat-users,3,85,85;85;86,sat,sat,1,other solutions exist,1,1,1,cp-sat-users
+examples,example13,cp-sat-users,3,7,7;7;7,unsat,unsat,1,,1,,,cp-sat-users
+examples,example14,cp-sat-users,3,1,2;1;1,unsat,unsat,1,,1,,,cp-sat-users
+examples,example15,cp-sat-users,3,4,5;4;4,unsat,unsat,1,,1,,,cp-sat-users
+examples,example16,cp-sat-users,3,30172,30294;28527;30172,sat,sat,1,other solutions exist,1,1,1,cp-sat-users
+examples,example17,cp-sat-users,3,36984,36984;43377;30788,sat,sat,1,other solutions exist,1,1,1,cp-sat-users
+examples,example18,cp-sat-users,3,16368,21902;13184;16368,unsat,unsat,1,,1,,,cp-sat-users
+examples,example19,cp-sat-users,3,30116,30116;30121;30107,unknown,unsat,,,1,,,cp-sat-users
+examples,example1,z3-cnf,3,1,1;2;1,sat,sat,1,other solutions exist,1,1,1,z3-cnf
+examples,example2,z3-cnf,3,0,0;1;0,unsat,unsat,1,,1,,,z3-cnf
+examples,example3,z3-cnf,3,1,1;1;2,sat,sat,1,this is the only solution,1,1,,z3-cnf
+examples,example4,z3-cnf,3,1,1;1;0,unsat,unsat,1,,1,,,z3-cnf
+examples,example5,z3-cnf,3,4,4;4;4,sat,sat,1,this is the only solution,1,1,,z3-cnf
+examples,example6,z3-cnf,3,3,3;3;3,unsat,unsat,1,,1,,,z3-cnf
+examples,example7,z3-cnf,3,1,1;1;1,sat,sat,1,this is the only solution,1,1,,z3-cnf
+examples,example8,z3-cnf,3,0,0;1;0,unsat,unsat,1,,1,,,z3-cnf
+examples,example9,z3-cnf,3,38,38;39;38,sat,sat,1,other solutions exist,1,1,1,z3-cnf
+examples,example10,z3-cnf,3,25,25;25;25,sat,sat,1,other solutions exist,1,1,1,z3-cnf
+examples,example11,z3-cnf,3,305,310;305;302,sat,sat,1,other solutions exist,1,1,1,z3-cnf
+examples,example12,z3-cnf,3,302,307;302;301,sat,sat,1,other solutions exist,1,1,1,z3-cnf
+examples,example13,z3-cnf,3,90,90;90;92,unsat,unsat,1,,1,,,z3-cnf
+examples,example14,z3-cnf,3,19,19;19;19,unsat,unsat,1,,1,,,z3-cnf
+examples,example15,z3-cnf,3,65,65;65;65,unsat,unsat,1,,1,,,z3-cnf
+examples,example16,z3-cnf,3,12322,12322;16326;10982,sat,sat,1,other solutions exist,1,1,1,z3-cnf
+examples,example17,z3-cnf,3,1181,1158;1181;1204,sat,sat,1,other solutions exist,1,1,1,z3-cnf
+examples,example18,z3-cnf,3,3192,3218;3192;3164,unsat,unsat,1,,1,,,z3-cnf
+examples,example19,z3-cnf,3,3893,3414;3893;4057,unsat,unsat,1,,1,,,z3-cnf
