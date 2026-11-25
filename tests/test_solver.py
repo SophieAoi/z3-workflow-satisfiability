@@ -45,6 +45,19 @@ TOO_SLOW = {
 }
 
 
+LARGE = ("4-constraint-hard/", "examples/example16", "examples/example17",
+         "examples/example18", "examples/example19")
+
+
+def slow_if_large(paths):
+    """Tag the large instances with the 'slow' marker (see pytest.ini)."""
+    return [
+        pytest.param(p, marks=pytest.mark.slow)
+        if str(p.relative_to(INSTANCES)).startswith(LARGE) else p
+        for p in paths
+    ]
+
+
 def skip_if_too_slow(method, path):
     rel = str(path.relative_to(INSTANCES))
     if rel.startswith(TOO_SLOW.get(method, ())):
@@ -82,7 +95,14 @@ def count_solutions_brute_force(inst, stop_at=2):
     return count
 
 
-@pytest.mark.parametrize("name", sorted(EXPECTED))
+@pytest.mark.parametrize(
+    "name",
+    [
+        pytest.param(n, marks=pytest.mark.slow)
+        if f"examples/{n}".startswith(LARGE) else n
+        for n in sorted(EXPECTED)
+    ],
+)
 def test_examples_sat_and_uniqueness(name, method):
     path = EXAMPLES / f"{name}.txt"
     skip_if_too_slow(method, path)
@@ -105,7 +125,9 @@ def test_small_instances_agree_with_brute_force(path, method):
         assert d["mul_sol"] == (MULTIPLE if n > 1 else UNIQUE)
 
 
-@pytest.mark.parametrize("path", FAMILY_INSTANCES, ids=lambda p: str(p.relative_to(INSTANCES)))
+@pytest.mark.parametrize(
+    "path", slow_if_large(FAMILY_INSTANCES), ids=lambda p: str(p.relative_to(INSTANCES))
+)
 def test_family_sat_status_matches_reference(path, method):
     skip_if_too_slow(method, path)
     reference = path.with_name(path.stem + "-solution.txt").read_text().split()[0]

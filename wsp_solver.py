@@ -19,6 +19,7 @@ import re
 import sys
 from dataclasses import dataclass, field
 from time import time as currenttime
+from typing import Protocol
 
 from ortools.sat.python import cp_model
 
@@ -36,6 +37,7 @@ def _require_z3() -> None:
             "this method needs the z3 solver: pip install z3-solver "
             "(the default method 'cp-sat' only needs ortools)"
         )
+
 
 # --------------------------------------------------------------------------- #
 # Instance model
@@ -190,7 +192,7 @@ def check_plan(inst: Instance, plan: list[int]) -> list[str]:
 # --------------------------------------------------------------------------- #
 
 
-def prune_users(inst: Instance):
+def prune_users(inst: Instance) -> tuple[Instance, list[int] | None]:
     """Remove users with an explicit empty authorisation (no step they may do).
 
     Such users appear in no plan, so the reduced instance is equivalent:
@@ -230,9 +232,24 @@ def prune_users(inst: Instance):
 # --------------------------------------------------------------------------- #
 
 
+class Model(Protocol):
+    """Interface every solution method implements (see METHODS).
+
+    ``solve`` returns ("sat", plan) with a 0-based plan, or ("unsat", None),
+    or ("unknown", None) when a time limit was hit. ``block_plan`` forbids
+    exactly one plan, so a second ``solve`` decides uniqueness.
+    """
+
+    def __init__(self, inst: Instance, **kwargs) -> None: ...
+
+    def solve(self) -> tuple[str, list[int] | None]: ...
+
+    def block_plan(self, plan: list[int]) -> None: ...
+
+
 class BooleanEncoding:
     """One-hot (Boolean) encoding of the WSP, written once and shared by the
-    CP-SAT backend (approach 1) and the z3 backend (approach 3).
+    cp-sat, z3-bool, cp-sat-users and z3-cnf methods.
 
     Decision variables: x[s, u] <=> pi(s) = u. A variable is only created for
     authorised pairs, so the Authorisations constraint is enforced by omission
@@ -413,7 +430,12 @@ class BooleanEncoding:
                 self._clause([self._neg(self.x[s, u]), y[u]])
         self._at_most(list(y.values()), k)
 
-    def _add_one_team(self, idx, scope, teams) -> None:
+    def _add_one_team(
+        self,
+        idx: int,
+        scope: tuple[int, ...],
+        teams: tuple[tuple[int, ...], ...],
+    ) -> None:
         z = [self._new_bool(f"team{idx}_{i}") for i in range(len(teams))]
         self._exactly_one(z)
         team_of = {u: i for i, team in enumerate(teams) for u in team}
@@ -664,7 +686,7 @@ class Z3IntegerModel:
         self.solver.add(z3.Or([p != u for p, u in zip(self.pi, plan)]))
 
 
-METHODS = {
+METHODS: dict[str, type[Model]] = {
     "cp-sat": CpSatBooleanModel,
     "z3-int": Z3IntegerModel,
     "z3-bool": Z3BooleanModel,
@@ -678,7 +700,18 @@ MULTIPLE = "other solutions exist"
 UNIQUE = "this is the only solution"
 
 
-def _attempt(inst, method, kwargs):
+class EncodingError(RuntimeError):
+    """A method returned a plan that the independent checker rejects.
+
+    This would mean a bug in an encoding, so we fail loudly instead of
+    printing a wrong answer. Raised explicitly (not ``assert``) so the check
+    also runs under ``python -O``.
+    """
+
+
+def _attempt(
+    inst: Instance, method: str, kwargs: dict
+) -> tuple[str, list[int] | None, list[int] | None, str]:
     """Run one method end to end: solve, then settle uniqueness.
 
     Returns (status, plan, other_plan, mul_sol). ``mul_sol`` is '' when the
@@ -690,11 +723,16 @@ def _attempt(inst, method, kwargs):
         return status, None, None, ""
     # Defensive: never keep a plan the independent checker rejects.
     violations = check_plan(inst, plan)
-    assert not violations, f"encoding bug ({method}): {violations}"
+    if violations:
+        raise EncodingError(f"{method} returned an invalid plan: {violations}")
     enc.block_plan(plan)
     status2, other = enc.solve()
     if status2 == "sat":
-        assert other != plan and not check_plan(inst, other), f"blocking bug ({method})"
+        if other == plan:
+            raise EncodingError(f"{method} returned the blocked plan again")
+        violations = check_plan(inst, other)
+        if violations:
+            raise EncodingError(f"{method} returned an invalid second plan: {violations}")
         return "sat", plan, other, MULTIPLE
     if status2 == "unsat":
         return "sat", plan, None, UNIQUE
@@ -710,9 +748,17 @@ def Solver(filename, **kwargs):
     SAT on the second call means another plan exists; UNSAT proves uniqueness.
 
     Optional kwargs:
-      method      'cp-sat' (default), 'z3-int', 'z3-bool' or 'portfolio'
-      time_limit  seconds per solver call (default: none)
+      method      'cp-sat' (default)  one-hot encoding, OR-Tools CP-SAT
+                  'z3-bool'           one-hot encoding, z3 (pseudo-Boolean)
+                  'z3-int'            integer encoding, z3 (SMT)
+                  'cp-sat-users'      cp-sat with per-user at-most-k
+                  'z3-cnf'            one-hot encoding in pure CNF, z3
+                  'portfolio'         try cp-sat, z3-bool, z3-int in turn
+      time_limit  seconds per solver call (default: none, so every call
+                  runs to a definite answer)
       workers     CP-SAT search workers (default: 8)
+      logic       z3 solver for z3-bool / z3-cnf (default 'QF_FD';
+                  None for z3's general solver)
 
     'portfolio' runs the methods in PORTFOLIO_ORDER and keeps the first
     verdict that settles the instance (unsat, or sat with a proven uniqueness

@@ -1,4 +1,4 @@
-"""Formal pytest coverage for the Phase 5 speed-ups."""
+"""Tests for preprocessing (prune_users) and the portfolio method."""
 from pathlib import Path
 
 import pytest

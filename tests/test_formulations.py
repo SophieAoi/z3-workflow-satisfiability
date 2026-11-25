@@ -1,7 +1,7 @@
 """Unit tests for the building blocks of the two alternative formulations.
 
 The end-to-end behaviour of cp-sat-users and z3-cnf is covered by the
-method-parametrised tests in test_solver.py / test_bo2.py; these tests check
+method-parametrised tests in test_solver.py / test_binding_of_order.py; these tests check
 the clause-level encodings exhaustively on small inputs.
 """
 import itertools
