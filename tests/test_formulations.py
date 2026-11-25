@@ -1,8 +1,7 @@
-"""Unit tests for the building blocks of the two alternative formulations.
+"""Tests for the parts of the cp-sat-users and z3-cnf formulations.
 
-The end-to-end behaviour of cp-sat-users and z3-cnf is covered by the
-method-parametrised tests in test_solver.py / test_binding_of_order.py; these tests check
-the clause-level encodings exhaustively on small inputs.
+test_solver.py and test_binding_of_order.py already run both methods on
+the instances. Here we check the clause encodings on every small input.
 """
 import itertools
 
@@ -13,7 +12,7 @@ from wsp_solver import CpSatUserAmkModel, Z3CnfModel, check_plan, parse_instance
 
 
 class _ClauseProbe(Z3CnfModel):
-    """Z3CnfModel with an empty solver and no instance, to test primitives."""
+    """A Z3CnfModel with no instance, so we can test _at_most etc. on their own."""
 
     def __init__(self):
         self.solver = z3.SolverFor("QF_FD")
@@ -30,7 +29,7 @@ def _accepts(build, bits):
 
 @pytest.mark.parametrize("n", range(0, 7))
 def test_sequential_counter_is_exact(n):
-    """AtMost_k via clauses accepts exactly the assignments with sum <= k."""
+    """The clauses for at-most-k allow exactly the assignments with sum <= k."""
     for k in range(0, n + 2):
         for bits in itertools.product([False, True], repeat=n):
             assert _accepts(lambda p, xs: p._at_most(xs, k), bits) == (sum(bits) <= k), (n, k, bits)
@@ -48,8 +47,7 @@ def test_cnf_equal_is_exact():
 
 
 def test_cnf_model_contains_no_cardinality_atoms():
-    """Every assertion z3-cnf sends to the solver must be a clause (Or of
-    literals) or a single literal - no PbEq / AtMost / arithmetic."""
+    """z3-cnf should only give z3 clauses or single literals, no PbEq/AtMost."""
     inst = parse_instance(
         "#Steps: 4\n#Users: 4\n#Constraints: 5\n"
         "Authorisations u1 s1 s2\n"
@@ -70,7 +68,7 @@ def test_cnf_model_contains_no_cardinality_atoms():
 
 
 def test_user_amk_matches_pairwise_on_every_plan():
-    """Both at-most-k formulations admit exactly the plans check_plan accepts."""
+    """The per-user at-most-k finds exactly the plans check_plan accepts."""
     inst = parse_instance(
         "#Steps: 4\n#Users: 4\n#Constraints: 1\nAt-most-k 2 s1 s2 s3 s4\n"
     )

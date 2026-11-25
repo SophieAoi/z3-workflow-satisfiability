@@ -30,8 +30,8 @@ FAMILY_INSTANCES = sorted(
 # Every test below runs once per solution method.
 pytestmark = pytest.mark.parametrize("method", sorted(METHODS))
 
-# Instances a method cannot finish in reasonable time (performance, not
-# correctness - documented in the README benchmark notes).
+# Instances a method is too slow on (see results/benchmark.csv). These
+# are skipped for that method only.
 TOO_SLOW = {
     "z3-int": ("4-constraint-hard/", "examples/example17.txt", "examples/example19.txt"),
     # per-user at-most-k: times out on the hard family and example19, and
@@ -81,7 +81,7 @@ def assert_valid(path, d):
 
 
 def count_solutions_brute_force(inst, stop_at=2):
-    """Enumerate every authorised plan; independent of any solver."""
+    """Count solutions by trying every plan (no solver), stopping at stop_at."""
     choices = [
         [u for u in range(inst.n_users) if inst.authorised(u, s)]
         for s in range(inst.n_steps)

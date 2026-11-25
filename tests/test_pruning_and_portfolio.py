@@ -65,8 +65,8 @@ def test_portfolio_agrees_with_plain_method(method):
 
 
 def test_portfolio_falls_through_on_timeout(monkeypatch):
-    """With z3-int first and a 2s limit, example17 must fall through to cp-sat
-    (README: z3-int cannot finish it; cp-sat solves in ~0.3s)."""
+    """If z3-int goes first with a 2 s limit, it can't solve example17, so
+    the portfolio should move on and get the answer from cp-sat."""
     import wsp_solver
     from wsp_solver import Solver
     monkeypatch.setattr(wsp_solver, "PORTFOLIO_ORDER", ("z3-int", "cp-sat"))

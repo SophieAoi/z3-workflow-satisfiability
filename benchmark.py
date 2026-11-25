@@ -1,16 +1,13 @@
-"""Benchmark: every instance x every approach -> results/benchmark.csv.
+"""Run every method on every instance and save the results to
+results/benchmark.csv.
 
-Runs Solver over the provided instance families (and the appendix examples)
-with every approach (cp-sat, z3-bool, z3-int, portfolio, and the two
-alternative formulations cp-sat-users and z3-cnf), a fixed
-time limit per solver call, repeated runs (median) except for the hard
-family, which is too slow for repetition. Each row records the verdict, the
-uniqueness answer, the end-to-end time reported by Solver, and two
-independent checks: agreement with the shipped reference answer, and a
-re-validation of the returned plan with check_plan (no solver involved).
+Each instance is run 3 times per method and we keep the median time (only
+once for 4-constraint-hard, since it's slow). For each run we save the
+answer, whether it matches the reference answer, and whether the plan
+passes check_plan.
 
-Resumable: completed rows are appended to results/benchmark_partial.csv and
-skipped on the next start; results/benchmark.csv is the merged final table.
+Rows are also written to results/benchmark_partial.csv as we go, so if it
+stops you can run it again and it carries on where it left off.
 
 Usage:
     python benchmark.py                 # everything
@@ -48,7 +45,7 @@ def families():
 
 
 def load_reference(family: str, stem: str, path: Path) -> tuple[str, str]:
-    """(expected sat, expected unique) for one instance, '' where unknown."""
+    """Expected (sat, unique) for an instance, or '' if we don't know."""
     if family == "examples":
         exp = ROOT / "instances/examples/expected.csv"
         with open(exp, newline="") as f:
@@ -111,7 +108,7 @@ def main() -> int:
         fam = fam_dir.name
         if args.families and fam not in args.families:
             continue
-        # "N.txt" in the families, "exampleN.txt" in examples/; skip solutions
+        # instance files are N.txt, or exampleN.txt in examples/
         stems = sorted((p.stem for p in fam_dir.glob("*.txt")
                         if re.fullmatch(r"(example)?\d+", p.stem)),
                        key=lambda st: int(re.sub(r"\D", "", st)))
@@ -140,8 +137,8 @@ def main() -> int:
                     "ms_median": round(statistics.median(s["ms"] for s in samples), 2),
                     "ms_all": ";".join(str(s["ms"]) for s in samples),
                     "sat": last["sat"], "ref_sat": ref_sat,
-                    # '' when there is no reference or no verdict (timeout):
-                    # a timeout is not a wrong answer
+                    # leave blank if there's no reference answer or it timed out
+                    # (a timeout isn't a wrong answer)
                     "agree_sat": ("" if not ref_sat or last["sat"] == "unknown" else
                                   ("1" if last["sat"] == ref_sat else "0")),
                     "mul_sol": last["mul_sol"],
@@ -162,7 +159,7 @@ def main() -> int:
 
     out.close()
 
-    # merge to final csv, deduped on (family, instance, method)
+    # write the final csv, one row per (family, instance, method)
     rows = {}
     if partial.exists():
         with open(partial, newline="") as f:

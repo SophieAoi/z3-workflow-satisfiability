@@ -56,7 +56,7 @@ def test_format_tolerance():
 
 
 def test_tabs_and_irregular_whitespace():
-    """Appendix: extra whitespace must be ignored - including tabs."""
+    """The appendix says extra whitespace should be ignored, so tabs too."""
     text = (
         "#Steps:3\n#users: 4\n#Constraints: 4\n\n"
         "authorisations\tu1\ts1 s2.\n"
@@ -98,8 +98,8 @@ def test_example_constraint_types_match_appendix_table(name, row):
 
 @pytest.mark.parametrize("path", SOLUTION_FILES, ids=lambda p: str(p.relative_to(INSTANCES)))
 def test_reference_solutions_pass_checker(path):
-    """Every provided sat solution must be accepted by check_plan.
-    Validates the checker before we trust it to validate our solver."""
+    """check_plan should accept every sat solution from Moodle.
+    (So we know check_plan is right before using it on our own answers.)"""
     plan = read_solution(path)
     if plan is None:
         pytest.skip("unsat instance")

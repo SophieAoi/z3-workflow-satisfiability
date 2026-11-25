@@ -1,9 +1,9 @@
-"""Generate instances/6-constraint-BoO: our own binding-of-order family.
+"""Make the instances in instances/6-constraint-BoO (our own, for testing
+binding of order).
 
-Each instance mixes all six constraint types. sat instances ship an N-solution.txt
-reference plan; unsat instances ship N-solution.txt containing "unsat", following
-the repo's existing convention. Truth comes from brute-force enumeration via
-check_plan only.
+Each instance uses all six constraint types. The answer is found by brute
+force with check_plan, and N-solution.txt holds a plan, or "unsat", in the
+same format as the Moodle solution files.
 """
 import itertools
 import random
@@ -37,7 +37,7 @@ def gen(rng, small):
         steps = [s for s in range(1, n_steps + 1) if rng.random() < 0.55]
         if steps:
             cons.append(f"Authorisations u{u} " + " ".join(f"s{s}" for s in steps))
-    # Binding-of-order: the constraint that gives the family its name
+    # binding of order
     for _ in range(2 if small else 3):
         a, b = rng.sample(range(1, n_steps + 1), 2)
         cons.append(f"Binding-of-order s{a} s{b}")
@@ -60,16 +60,15 @@ def gen(rng, small):
     scope = sorted(rng.sample(range(1, n_steps + 1), min(2, n_steps)))
     fmt = lambda team: "(" + " ".join(f"u{u}" for u in team) + ")"
     cons.append("One-team " + " ".join(f"s{x}" for x in scope) + f" {fmt(t1)} {fmt(t2)}")
-    # some duplicate lines / mixed case to test robustness, counted in #Constraints
+    # Windows line endings, like the Moodle files
     text = (f"#Steps: {n_steps}\r\n#Users: {n_users}\r\n#Constraints: {len(cons)}\r\n"
             + "\r\n".join(cons) + "\r\n")
     return text
 
 
 def gen_unique(rng):
-    """All-authorised-tight instance: each step has exactly one eligible user
-    and the assigned users are non-decreasing, so any binding-of-order line
-    (earlier step <= later step) holds and the plan is unique."""
+    """Instance with exactly one solution: each step has one allowed user,
+    and those users go up in order, so the binding of order holds."""
     n_steps = rng.randint(3, 4)
     n_users = rng.randint(4, 6)
     perm = sorted(rng.randrange(n_users) for _ in range(n_steps))
